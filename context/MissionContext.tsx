@@ -1,4 +1,5 @@
-import { createContext } from "react"
+"use client"
+import { createContext, useReducer, ReactNode } from "react"
 
 // Defines the structure of a mission - Can add to this for tags, statuses, etc.
 interface  Mission {
@@ -29,7 +30,7 @@ interface MissionContextType {
 }
 
 // Declares context for the application
-export const missionContext = createContext<MissionContextType | null>(null);
+export const MissionContext = createContext<MissionContextType | null>(null);
 
 // Declares the reducer for the application
 // Parameters:
