@@ -5,8 +5,10 @@ import { MissionProvider } from "@/context/MissionContext";
 
 export default function Page() {
   return (
-    <MissionProvider>
-      <MissionControl />
-    </MissionProvider>
+    <main className="min-h-screen p-8">
+      <MissionProvider>
+          <MissionControl/>
+      </MissionProvider>
+    </main>
   );
 }
