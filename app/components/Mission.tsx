@@ -1,7 +1,7 @@
-export default function Mission() {
+export default function Mission({ title }: { title: string }) {
   return (
     <>
-      <p><strong> Mission Template </strong></p>
+      <p><strong>{title}</strong></p>
     </>
   );
 }
