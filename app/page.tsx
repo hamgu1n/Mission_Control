@@ -5,10 +5,12 @@ import { MissionProvider } from "@/context/MissionContext";
 
 export default function Page() {
   return (
-    <main className="min-h-screen p-8">
-      <MissionProvider>
+    <main className="flex justify-center items-center min-h-screen p-8">
+      <div className="transform w-full -translate-y-12">
+        <MissionProvider>
           <MissionControl/>
-      </MissionProvider>
+        </MissionProvider>
+      </div>
     </main>
   );
 }

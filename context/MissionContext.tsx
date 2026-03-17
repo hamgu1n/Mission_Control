@@ -7,13 +7,13 @@ interface  Mission {
 }
 
 // Defines the structure of a mission action - this will contain add, delete, completions etc.
-type MissionAction = 
+type MissionAction =
   | { type: "SET_MISSIONS"; payload: Mission[] } // replaces the full mission list, used when loading saved missions
   | { type: "ADD_MISSION"; payload: Mission }    // add a single new mission
 
 // Defines the state structure for the application
 interface MissionStateType {
-  currentTasks: Mission[] // all missions the user currently has 
+  currentMissions: Mission[] // all missions the user currently has
 }
 
 // Defines the structure of the context of the application
@@ -27,7 +27,7 @@ export const MissionContext = createContext<MissionContextType | null>(null);
 
 // Declares the default initial state of the application before saved missions are loaded
 export const initialState : MissionStateType  = {
-  currentTasks: []
+  currentMissions: []
 }
 
 // Declares the reducer for the application
@@ -40,13 +40,13 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
     case "ADD_MISSION":
       return {
         ...state,
-        currentTasks: [...state.currentTasks, action.payload]
+        currentMissions: [...state.currentMissions, action.payload]
       }
 
     case "SET_MISSIONS":
       return {
         ...state,
-        currentTasks: action.payload
+        currentMissions: action.payload
       }
 
     default:
@@ -60,9 +60,9 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
 export function MissionProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(missionReducer, initialState)
 
-  // flag for whether startups missions have been loaded 
+  // flag for whether startups missions have been loaded
   // prevents weird race conditions between loading and saving missions at startup
-  const [hasLoaded, setHasLoaded] = useState(false); 
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => { // runs once at startup
     const savedMissions = localStorage.getItem("missions")
@@ -77,12 +77,12 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     setHasLoaded(true);
   }, [])
 
-  useEffect(() => { // runs whenever state.currentTasks is updated
+  useEffect(() => { // runs whenever state.currentMissions is updated
 
-    if (!hasLoaded) return;  // prevents running on first render, before the startup missions are loaded. 
+    if (!hasLoaded) return;  // prevents running on first render, before the startup missions are loaded.
 
-    localStorage.setItem("missions", JSON.stringify(state.currentTasks))
-  }, [state.currentTasks, hasLoaded])
+    localStorage.setItem("missions", JSON.stringify(state.currentMissions))
+  }, [state.currentMissions, hasLoaded])
 
   return (
     <MissionContext.Provider value={{ state, dispatch }}>
