@@ -1,14 +1,16 @@
 "use client"
 import { createContext, useReducer, useState, useEffect, ReactNode } from "react"
 
-interface Tag {
+// Defines the structure of tag
+// A tag can be a label (just some grouping), status ("todo, in progress", etc) or a date.
+export interface Tag {
   name: string,
   color?: string,
   type?: "label" | "status" | "date",
 }
 
-// Defines the structure of a mission - Can add to this for tags, statuses, etc.
-interface  Mission {
+// Defines the structure of a mission
+export interface Mission {
   title: string
   tags?: Tag[]
 }
