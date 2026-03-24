@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useContext } from "react";
-import { MissionContext } from "@/context/MissionContext";
+import { MissionContext , Tag} from "@/context/MissionContext";
 
 const tagColors = [
   "bg-red-400",
@@ -32,18 +32,19 @@ export default function MissionInput() {
 
     if (!newTitle.trim()) return; // use local state
 
-    const tagsArray = newTags.split(",")
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0)
-      .map(tag => ({
-        name: tag,
-        color: tagColors[Math.floor(Math.random() * tagColors.length)],
-        type: "label" as const
-      }));
+    const tagsArray: Tag[] = [
+      { name: "New", color: "bg-blue-400", type: "status" as const },
+      ...newTags
+        .split(",")
+        .map(tag => tag.trim())
+        .filter(Boolean)
+        .map(tag => ({
+          name: tag,
+          color: tagColors[Math.floor(Math.random() * tagColors.length)],
+          type: "label" as const
+        }))
+    ];
 
-
-
-    console.log(tagsArray)
 
     dispatch({
       type: "ADD_MISSION",
