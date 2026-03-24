@@ -45,7 +45,6 @@ export default function MissionInput() {
         }))
     ];
 
-
     dispatch({
       type: "ADD_MISSION",
       payload: {
