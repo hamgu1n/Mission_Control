@@ -22,8 +22,9 @@ export default function MissionInput() {
   const [newTitle, setNewTitle] = useState("");
   const [showTags, setShowTags] = useState(false);
   const [newTags, setNewTags] = useState("");
-  const [showDate, setShowDate] = useState(false);
+  const [showDateTime, setShowDateTime] = useState(false);
   const [newDate, setNewDate] = useState("");
+  const [newTime, setNewTime] = useState("");
 
   if (!context) return null; // component outside MissionProvider
 
@@ -36,6 +37,9 @@ export default function MissionInput() {
 
     const tagsArray: Tag[] = [
       { name: "New", color: "bg-blue-400", type: "status" as const },
+      ...(newDate ? [{ name: newDate, color: "bg-slate-400", type: "date" as const }] : []),
+      // Conditionally add time tag
+      ...(newTime ? [{ name: newTime, color: "bg-slate-400", type: "time" as const }] : []),
       ...newTags
         .split(",")
         .map(tag => tag.trim())
@@ -113,7 +117,7 @@ export default function MissionInput() {
 
         <button
           type="button"
-          onClick={() => setShowDate(prev => !prev)}
+          onClick={() => setShowDateTime(prev => !prev)}
           className="w-12 h-12 flex items-center justify-center rounded-xl border border-black bg-black text-white transition hover:bg-white hover:text-black p-0"
         >
           <svg
@@ -141,17 +145,25 @@ export default function MissionInput() {
             value={newTags}
             onChange={(e) => setNewTags(e.target.value)}
             placeholder="Add tags separated by a comma..."
-            className="w-full rounded-xl border border-black px-4 py-3 text-black outline-none placeholder:text-black/50"
+            className="w-full rounded-xl border border-black px-4 py-3 mb-1 text-black outline-none placeholder:text-black/50"
           />
         )}
-        {showDate && (
-          <input
-            type="datetime-local"
-            value={newDate}
-            onChange={(e) => setNewDate(e.target.value)}
-            className="w-full rounded-xl border border-black px-4 py-3 text-black outline-none placeholder:text-black/50 mt-2"
-            placeholder="Select date and time"
-          />
+
+        {showDateTime && (
+          <div
+            className="w-full flex justify-around rounded-xl border border-black px-4 py-3 mt-1 text-black outline-none">
+            <input
+              type="date"
+              value={newDate}
+              onChange={(e) => setNewDate(e.target.value)}
+            />
+
+            <input
+              type="time"
+              value={newTime}
+              onChange={(e) => setNewTime(e.target.value)}
+            />
+          </div>
         )}
       </div>
     </form>

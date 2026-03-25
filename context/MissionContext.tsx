@@ -6,7 +6,7 @@ import { createContext, useReducer, useState, useEffect, ReactNode } from "react
 export interface Tag {
   name: string,
   color?: string,
-  type?: "label" | "status" | "date",
+  type?: "label" | "status" | "date" | "time",
 }
 
 // Defines the structure of a mission
