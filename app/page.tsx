@@ -1,14 +1,17 @@
-"use client"
+"use client";
 
+import Header from "./components/Header";
 import MissionControl from "./components/MissionControl";
 import { MissionProvider } from "@/context/MissionContext";
 
 export default function Page() {
   return (
-    <main className="flex justify-center items-center min-h-screen p-8">
-      <div className="transform w-full translate-y-8">
+    <main className="min-h-screen bg-white">
+      <Header title="Mission Control" />
+
+     <div className="w-full max-w-xl border border-black bg-white p-6 shadow-sm">
         <MissionProvider>
-          <MissionControl/>
+          <MissionControl />
         </MissionProvider>
       </div>
     </main>
