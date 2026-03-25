@@ -21,7 +21,9 @@ export default function MissionInput() {
   const context = useContext(MissionContext);
   const [newTitle, setNewTitle] = useState("");
   const [showTags, setShowTags] = useState(false);
-  const [newTags, setNewTags] = useState("")
+  const [newTags, setNewTags] = useState("");
+  const [showDate, setShowDate] = useState(false);
+  const [newDate, setNewDate] = useState("");
 
   if (!context) return null; // component outside MissionProvider
 
@@ -56,7 +58,7 @@ export default function MissionInput() {
     setNewTitle("");
     setNewTags("");
   }
-  
+
 
   return (
     <form onSubmit={handleAddMission} className="mb-4 flex flex-col gap-2">
@@ -108,16 +110,50 @@ export default function MissionInput() {
             <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
           </svg>
         </button>
+
+        <button
+          type="button"
+          onClick={() => setShowDate(prev => !prev)}
+          className="w-12 h-12 flex items-center justify-center rounded-xl border border-black bg-black text-white transition hover:bg-white hover:text-black p-0"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-[50%] h-[50%]"
+          >
+            <path d="M8 2v4" />
+            <path d="M16 2v4" />
+            <rect width="18" height="18" x="3" y="4" rx="2" />
+            <path d="M3 10h18" />
+          </svg>
+        </button>
       </div>
-      {showTags && (
-        <input
-          type="text"
-          value={newTags}
-          onChange={(e) => setNewTags(e.target.value)}
-          placeholder="Add tags separated by a comma..."
-          className="w-full rounded-xl border border-black px-4 py-3 text-black outline-none placeholder:text-black/50"
-        />
-      )}
+
+      <div>
+        {showTags && (
+          <input
+            type="text"
+            value={newTags}
+            onChange={(e) => setNewTags(e.target.value)}
+            placeholder="Add tags separated by a comma..."
+            className="w-full rounded-xl border border-black px-4 py-3 text-black outline-none placeholder:text-black/50"
+          />
+        )}
+        {showDate && (
+          <input
+            type="datetime-local"
+            value={newDate}
+            onChange={(e) => setNewDate(e.target.value)}
+            className="w-full rounded-xl border border-black px-4 py-3 text-black outline-none placeholder:text-black/50 mt-2"
+            placeholder="Select date and time"
+          />
+        )}
+      </div>
     </form>
   );
 }
