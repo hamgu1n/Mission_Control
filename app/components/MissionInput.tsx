@@ -151,7 +151,7 @@ export default function MissionInput() {
 
         {showDateTime && (
           <div
-            className="w-full flex justify-around rounded-xl border border-black px-4 py-3 mt-1 text-black outline-none">
+            className="w-full flex justify-start gap-6 rounded-xl border border-black px-4 py-3 mt-1 text-black outline-none">
             <input
               type="date"
               value={newDate}
