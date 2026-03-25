@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
-import { Mission as MissionType } from "@/context/MissionContext";
+import { Mission as MissionType, MissionContext } from "@/context/MissionContext";
+import { useContext } from "react";
 import Tag from "./Tag";
 
 interface MissionProps {
@@ -10,8 +11,20 @@ interface MissionProps {
 export default function Mission({ mission }: MissionProps) {
   const [showTags, setShowTags] = useState(false);
   const [done, setDone] = useState(false);
+    
+    //later will add a fullcontext function that removed new tag and add Done tag
 
-  //later will add a fullcontext function that removed new tag and add Done tag
+    const delContext = useContext(MissionContext);
+    if (!delContext) return null;
+    
+    const { dispatch } = delContext;
+
+    function deleteMission() {
+      dispatch({
+        type: "DELETE_MISSION",
+        payload: mission
+      });
+    }
 
   return (
     <div className={`flex justify-center items-center w-full ${done ? "hidden" : ""}`}>
@@ -46,6 +59,24 @@ export default function Mission({ mission }: MissionProps) {
                 <line x1="12" y1="16" x2="12.01" y2="16" />
               </svg>
             </button>
+
+            <button
+          onClick={deleteMission}
+          className="
+               ml-80
+               w-6 h-8
+               flex items-center justify-center
+              rounded-full
+              bg-red-700
+              text-white
+              font-bold
+              text-sm
+              hover:bg-red-500
+              transition
+               "
+              >
+              ✕
+        </button>
 
             <button
               type="button"

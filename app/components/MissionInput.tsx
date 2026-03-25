@@ -56,12 +56,7 @@ export default function MissionInput() {
     setNewTitle("");
     setNewTags("");
   }
-  /*function deleteMission (e: React.ChangeEvent<HTMLFormElement> ){
-    dispatch({
-      type: "DELETE_MISSION",
-      payload: 
-    })
-  }*/
+  
 
   return (
     <form onSubmit={handleAddMission} className="mb-4 flex flex-col gap-2">
