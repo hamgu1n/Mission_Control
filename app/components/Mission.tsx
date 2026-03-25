@@ -11,12 +11,12 @@ interface MissionProps {
 export default function Mission({ mission }: MissionProps) {
   const [showTags, setShowTags] = useState(false);
   const [done, setDone] = useState(false);
-    
-    //later will add a fullcontext function that removed new tag and add Done tag
+
+    //later will add a full context function that removed new tag and add Done tag
 
     const delContext = useContext(MissionContext);
     if (!delContext) return null;
-    
+
     const { dispatch } = delContext;
 
     function deleteMission() {
@@ -60,22 +60,26 @@ export default function Mission({ mission }: MissionProps) {
               </svg>
             </button>
 
-            <button
+        <button
           onClick={deleteMission}
-          className="
-               ml-80
-               w-6 h-8
-               flex items-center justify-center
-              rounded-full
-              bg-red-700
-              text-white
-              font-bold
-              text-sm
-              hover:bg-red-500
-              transition
-               "
-              >
-              ✕
+          className="text-gray-500 hover:text-gray-400"
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-circle-x-icon lucide-circle-x"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="m15 9-6 6" />
+            <path d="m9 9 6 6" />
+          </svg>
         </button>
 
             <button
