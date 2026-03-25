@@ -19,7 +19,8 @@ export interface Mission {
 type MissionAction =
   | { type: "SET_MISSIONS"; payload: Mission[] } // replaces the full mission list, used when loading saved missions
   | { type: "ADD_MISSION"; payload: Mission }    // add a single new mission
-  |  { type: "DELETE_MISSION"; payload: Mission}  //deletes mission
+  | { type: "DELETE_MISSION"; payload: Mission }  //deletes mission
+  | { type: "TOGGLE_DONE";  payload: Mission}
 
 // Defines the state structure for the application
 interface MissionStateType {
@@ -58,14 +59,33 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
         ...state,
         currentMissions: action.payload
       }
-    
-     case "DELETE_MISSION":
+
+    case "DELETE_MISSION":
       return {
         ...state,
         currentMissions: state.currentMissions.filter(
           (mission) => mission !== action.payload
         )
       }
+
+    case "TOGGLE_DONE":
+      return {
+        ...state,
+        currentMissions: state.currentMissions.map(m => {
+          if (m !== action.payload) return m;
+
+          const filteredTags = (m.tags || []).filter(tag => tag.type !== "status");
+
+          return {
+            ...m,
+            tags: [
+              ...filteredTags,
+              { name: "Done", color: "bg-green-400", type: "status" as const }
+            ]
+          };
+        })
+      };
+
     default:
       return state
   }

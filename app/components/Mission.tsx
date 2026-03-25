@@ -10,9 +10,7 @@ interface MissionProps {
 
 export default function Mission({ mission }: MissionProps) {
   const [showTags, setShowTags] = useState(false);
-  const [done, setDone] = useState(false);
-
-    //later will add a full context function that removed new tag and add Done tag
+  const done = mission.tags?.some(tag => tag.name === "Done");
 
     const delContext = useContext(MissionContext);
     if (!delContext) return null;
@@ -84,7 +82,10 @@ export default function Mission({ mission }: MissionProps) {
 
             <button
               type="button"
-              onClick={() => setDone(prev => !prev)}
+              onClick={() => dispatch({
+                type: "TOGGLE_DONE",
+                payload: mission
+              })}
               className="text-gray-500 hover:text-gray-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
