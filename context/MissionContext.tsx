@@ -1,12 +1,13 @@
 "use client"
 import { createContext, useReducer, useState, useEffect, ReactNode } from "react"
+import { missionSweeper } from "@/app/helpers/missionSweeper"
 
 // Defines the structure of tag
 // A tag can be a label (just some grouping), status ("todo, in progress", etc) or a date.
 export interface Tag {
   name: string,
   color?: string,
-  type?: "label" | "status" | "date" | "time",
+  type?: "label" | "status" | "date" | "time" | "metadata",
 }
 
 // Defines the structure of a mission
@@ -20,7 +21,8 @@ type MissionAction =
   | { type: "SET_MISSIONS"; payload: Mission[] } // replaces the full mission list, used when loading saved missions
   | { type: "ADD_MISSION"; payload: Mission }    // add a single new mission
   | { type: "DELETE_MISSION"; payload: Mission }  //deletes mission
-  | { type: "TOGGLE_DONE";  payload: Mission}
+  | { type: "MARK_DONE"; payload: Mission; timestamp?: { date: string, time: string } }
+  | { type: "CLEAN_DONE" }
 
 // Defines the state structure for the application
 interface MissionStateType {
@@ -68,23 +70,33 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
         )
       }
 
-    case "TOGGLE_DONE":
+    case "MARK_DONE":
       return {
         ...state,
-        currentMissions: state.currentMissions.map(m => {
-          if (m !== action.payload) return m;
+        currentMissions: state.currentMissions.map(mission => {
+          if (mission !== action.payload) return mission;
 
-          const filteredTags = (m.tags || []).filter(tag => tag.type !== "status");
+          const filteredTags = (mission.tags || []).filter(tag => tag.type !== "status");
 
           return {
-            ...m,
+            ...mission,
             tags: [
               ...filteredTags,
-              { name: "Done", color: "bg-green-400", type: "status" as const }
+              { name: "Done", color: "bg-green-400", type: "status" as const },
+              { name: `${action.timestamp?.date} ${action.timestamp?.time}`, color: "bg-black", type: "metadata" as const}
             ]
           };
         })
-      };
+      }
+
+    case "CLEAN_DONE":
+      return {
+        ...state,
+        currentMissions: state.currentMissions.filter(
+          (mission) => !missionSweeper(mission, 7)
+      )
+    };
+
 
     default:
       return state
@@ -120,6 +132,17 @@ export function MissionProvider({ children }: { children: ReactNode }) {
 
     localStorage.setItem("missions", JSON.stringify(state.currentMissions))
   }, [state.currentMissions, hasLoaded])
+
+  // Periodically clean old DONE missions
+    useEffect(() => {
+      if (!hasLoaded) return;
+
+      const interval = setInterval(() => {
+        dispatch({ type: "CLEAN_DONE" });
+      }, 1000 * 60 * 60); // every hour
+
+      return () => clearInterval(interval); // cleanup on unmount
+    }, [hasLoaded]);
 
   return (
     <MissionContext.Provider value={{ state, dispatch }}>

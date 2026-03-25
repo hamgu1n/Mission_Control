@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { Mission as MissionType, MissionContext } from "@/context/MissionContext";
+import { getCurrentDateTime } from "@/app/helpers/getCurrentTime";
 import { useContext } from "react";
 import Tag from "./Tag";
 
@@ -83,8 +84,9 @@ export default function Mission({ mission }: MissionProps) {
             <button
               type="button"
               onClick={() => dispatch({
-                type: "TOGGLE_DONE",
-                payload: mission
+                type: "MARK_DONE",
+                payload: mission,
+                timestamp: getCurrentDateTime()
               })}
               className="text-gray-500 hover:text-gray-400">
               <svg
