@@ -16,8 +16,12 @@ const tagColors = [
   "bg-violet-400",
 ]
 
+interface MissionInputProps {
+  onSuccess?: () => void;
+  onClose?: () => void;
+}
 
-export default function MissionInput() {
+export default function MissionInput({ onSuccess, onClose }: MissionInputProps) {
   const context = useContext(MissionContext);
   const [newTitle, setNewTitle] = useState("");
   const [showTags, setShowTags] = useState(false);
@@ -30,7 +34,7 @@ export default function MissionInput() {
 
   const { dispatch } = context;
 
-  function handleAddMission(e: React.FormEvent<HTMLFormElement>) {
+  function handleAddMission(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!newTitle.trim()) return; // use local state
@@ -61,6 +65,10 @@ export default function MissionInput() {
 
     setNewTitle("");
     setNewTags("");
+    setNewDate("");
+    setNewTime("");
+
+    onSuccess?.();
   }
 
 
@@ -74,26 +82,6 @@ export default function MissionInput() {
           placeholder="Add a new mission"
           className="flex-1 rounded-xl border border-black px-4 py-3 text-black outline-none placeholder:text-black/50"
         />
-
-        <button
-          type="submit"
-          className="w-12 h-12 flex items-center justify-center rounded-xl border border-black bg-black text-white transition hover:bg-white hover:text-black p-0"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-[50%] h-[50%]"
-          >
-            <rect width="18" height="18" x="3" y="3" rx="2" />
-            <path d="M8 12h8" />
-            <path d="M12 8v8" />
-          </svg>
-        </button>
 
         <button
           type="button"
@@ -150,8 +138,7 @@ export default function MissionInput() {
         )}
 
         {showDateTime && (
-          <div
-            className="w-full flex justify-start gap-6 rounded-xl border border-black px-4 py-3 mt-1 text-black outline-none">
+          <div className="w-full flex justify-start gap-6 rounded-xl border border-black px-4 py-3 mt-1 text-black outline-none">
             <input
               type="date"
               value={newDate}
@@ -165,6 +152,23 @@ export default function MissionInput() {
             />
           </div>
         )}
+      </div>
+
+      <div className="mt-3 flex justify-end gap-2">
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-xl border border-black px-4 py-2 text-black transition hover:bg-black hover:text-white"
+        >
+          Close
+        </button>
+
+        <button
+          type="submit"
+          className="rounded-xl border border-black bg-black px-4 py-2 text-white transition hover:bg-white hover:text-black"
+        >
+          Done
+        </button>
       </div>
     </form>
   );

@@ -3,12 +3,13 @@
 import { useContext, useState } from "react";
 import { MissionContext } from "@/context/MissionContext";
 import Mission from "./Mission";
-import MissionInput from "./MissionInput";
 import SearchBar from "./SearchBar";
+import AddMissionPopup from "./AddMissionPopup";
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
   const [searchText, setSearchText] = useState("");
+  const [showMissionPopup, setShowMissionPopup] = useState(false); // true if popup is visible
 
   if (!context) return null; // ensures component is inside MissionProvider
 
@@ -20,17 +21,35 @@ export default function MissionControl() {
   );
 
   return (
-    <div className="w-full max-w-xl mx-auto rounded-2xl border border-black bg-white p-6 shadow-sm">
+    <>
+      <div className="w-full max-w-xl mx-auto rounded-2xl border border-black bg-white p-6 shadow-sm">
 
-      <SearchBar searchText={searchText} setSearchText={setSearchText} />
+        <div className="mb-4 flex gap-2">
+          <SearchBar searchText={searchText} setSearchText={setSearchText} />
 
-      <MissionInput/>
+          <button
+            type="button"
+            onClick={() => setShowMissionPopup(true)}
+            className="w-12 h-12 flex items-center justify-center rounded-xl border border-black bg-black text-white transition hover:bg-white hover:text-black p-0 shrink-0"
+          >
+            +
+          </button>
+        </div>
 
-      <div className="flex flex-col gap-3">
-        {filteredMissions.map((mission, index) => (
-          <Mission key={index} mission={mission} />
-        ))}
+        <div className="max-h-[70vh] overflow-y-auto pr-1 flex flex-col gap-3">
+          {filteredMissions.map((mission, index) => (
+            <Mission key={index} mission={mission} />
+          ))}
+        </div>
       </div>
-    </div>
+
+      <>
+        <AddMissionPopup
+          isOpen={showMissionPopup}
+          onClose={() => setShowMissionPopup(false)}
+        />
+      </>
+
+    </>
   );
 }
