@@ -6,14 +6,18 @@ import { MissionProvider } from "@/context/MissionContext";
 
 export default function Page() {
   return (
-    <main className="min-h-screen">
-      <Header title="Mission Control" />
+    <MissionProvider>
+      <main className="min-h-screen flex flex-col">
+        <Header title="Mission Control" />
 
-      <div className="px-8 py-8">
-        <MissionProvider>
+        <div className="flex flex-1 overflow-hidden">
           <MissionControl />
-        </MissionProvider>
-      </div>
-    </main>
+
+          {/* Main content area */}
+          <div className="flex-1 px-8 py-8">
+          </div>
+        </div>
+      </main>
+    </MissionProvider>
   );
 }
