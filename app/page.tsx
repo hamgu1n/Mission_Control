@@ -6,10 +6,10 @@ import { MissionProvider } from "@/context/MissionContext";
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen">
       <Header title="Mission Control" />
 
-     <div className="w-full max-w-xl border border-black bg-white p-6 shadow-sm">
+      <div className="px-8 py-8">
         <MissionProvider>
           <MissionControl />
         </MissionProvider>

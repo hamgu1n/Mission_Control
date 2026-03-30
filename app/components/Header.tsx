@@ -8,15 +8,15 @@ interface HeaderProps {
 
 export default function Header({ title = "Mission Control" }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black bg-white px-4 py-3">
-      <div className="relative flex items-center justify-center">
-        <h1 className="text-lg font-semibold text-black">{title}</h1>
+    <header className="sticky top-0 z-50 w-full border-b border-stone-400 bg-white/80 backdrop-blur-xl px-6 py-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold tracking-tight text-slate-800">{title}</h1>
 
         <button
           type="button"
-          className="absolute right-0 w-10 h-10 flex items-center justify-center rounded-xl border border-black bg-white text-black hover:bg-black hover:text-white transition"
+          className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-stone-100 hover:text-slate-600"
         >
-          <Settings className="w-5 h-5" />
+          <Settings className="h-4 w-4" />
         </button>
       </div>
     </header>

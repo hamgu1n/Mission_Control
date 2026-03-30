@@ -12,7 +12,7 @@ export default function Tag({ tag }: TagProps) {
 
   return (
     <span
-      className={`px-2 py-1 text-xs rounded-full ${colorClass} text-white opacity-55`}
+      className={`px-2.5 py-1 text-xs font-medium rounded-full ${colorClass} text-white/90`}
     >
       {tag.name}
     </span>

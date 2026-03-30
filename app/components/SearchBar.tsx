@@ -12,7 +12,7 @@ export default function SearchBar({ searchText, setSearchText }: SearchBarProps)
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
       placeholder="Search missions"
-      className="w-full rounded-xl border border-black px-4 py-3 mb-4 text-black outline-none placeholder:text-black/50"
+      className="w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
     />
   );
 }

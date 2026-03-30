@@ -26,12 +26,12 @@ export default function Mission({ mission }: MissionProps) {
     }
 
   return (
-    <div className={`flex justify-center items-center w-full ${done ? "hidden" : ""}`}>
-      <div className="flex flex-col w-full px-5 py-4 rounded-lg bg-gray-300 hover:bg-gray-300 shadow-sm">
+    <div className={`flex items-center w-full ${done ? "hidden" : ""}`}>
+      <div className="flex flex-col w-full px-4 py-3.5 rounded-xl bg-white shadow-sm ring-1 ring-stone-900/[0.04] hover:shadow-md transition">
 
         {/* Top row: title + toggle button */}
         <div className="flex justify-between items-center">
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-slate-700">
             {mission.title}
           </p>
 
@@ -39,7 +39,7 @@ export default function Mission({ mission }: MissionProps) {
             <button
               type="button"
               onClick={() => setShowTags(prev => !prev)}
-              className="text-gray-500 hover:text-gray-400"
+              className="text-slate-400 hover:text-slate-600 transition"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ export default function Mission({ mission }: MissionProps) {
 
             <button
               onClick={deleteMission}
-              className="text-gray-500 hover:text-gray-400"
+              className="text-slate-400 hover:text-slate-600 transition"
               >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +88,7 @@ export default function Mission({ mission }: MissionProps) {
                 payload: mission,
                 timestamp: getCurrentDateTime()
               })}
-              className="text-gray-500 hover:text-gray-400">
+              className="text-slate-400 hover:text-slate-600 transition">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
