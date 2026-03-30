@@ -27,7 +27,7 @@ export default function Mission({ mission }: MissionProps) {
 
   return (
     <div className={`flex items-center w-full ${done ? "hidden" : ""}`}>
-      <div className="flex flex-col w-full px-4 py-3.5 rounded-xl bg-white shadow-sm ring-1 ring-stone-900/[0.04] hover:shadow-md transition">
+      <div className="flex flex-col w-full px-4 py-3.5 rounded-xl bg-white shadow-sm border border-stone-300 hover:shadow-md transition">
 
         {/* Top row: title + toggle button */}
         <div className="flex justify-between items-center">

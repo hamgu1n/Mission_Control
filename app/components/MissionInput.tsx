@@ -80,13 +80,13 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           placeholder="Add a new mission"
-          className="flex-1 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
+          className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
         />
 
         <button
           type="button"
           onClick={() => setShowTags(prev => !prev)}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm ring-1 ring-stone-900/[0.04] transition hover:bg-stone-50 hover:text-slate-600"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,7 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
         <button
           type="button"
           onClick={() => setShowDateTime(prev => !prev)}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm ring-1 ring-stone-900/[0.04] transition hover:bg-stone-50 hover:text-slate-600"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -133,12 +133,12 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
             value={newTags}
             onChange={(e) => setNewTags(e.target.value)}
             placeholder="Add tags separated by a comma..."
-            className="w-full rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
+            className="w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
           />
         )}
 
         {showDateTime && (
-          <div className="w-full flex justify-start gap-6 rounded-xl border border-stone-200 bg-white px-4 py-2.5 mt-1 text-sm text-slate-800 shadow-sm outline-none">
+          <div className="w-full flex justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 mt-1 text-sm text-slate-800 shadow-sm outline-none">
             <input
               type="date"
               value={newDate}
@@ -158,7 +158,7 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
         <button
           type="button"
           onClick={onClose}
-          className="rounded-xl border border-stone-200 px-4 py-2 text-slate-500 transition hover:bg-stone-50 hover:text-slate-700"
+          className="rounded-xl border border-stone-300 px-4 py-2 text-slate-500 transition hover:bg-stone-50 hover:text-slate-700"
         >
           Close
         </button>
