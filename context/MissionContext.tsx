@@ -14,6 +14,9 @@ export interface Tag {
 export interface Mission {
   title: string
   description?: string
+  priority?: "high" | "medium" | "low"
+  goals?: string[]
+  resources?: string[]
   tags?: Tag[]
 }
 
@@ -118,9 +121,14 @@ export function MissionProvider({ children }: { children: ReactNode }) {
     const savedMissions = localStorage.getItem("missions")
 
     if (savedMissions) {
+      const parsed: Mission[] = JSON.parse(savedMissions);
+      const stripped = parsed.map(m => ({
+        ...m,
+        tags: m.tags?.filter(t => !(t.type === "status" && t.name === "New"))
+      }));
       dispatch({             // overwrite with loaded list
         type: "SET_MISSIONS",
-        payload: JSON.parse(savedMissions)
+        payload: stripped
       })
     }
 

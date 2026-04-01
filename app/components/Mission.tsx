@@ -4,7 +4,7 @@ import { Mission as MissionType, MissionContext } from "@/context/MissionContext
 import { getCurrentDateTime } from "@/app/helpers/getCurrentTime";
 import { useContext } from "react";
 import Tag from "./Tag";
-import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
+import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp, Target, Link, Flag } from "lucide-react";
 
 interface MissionProps {
   mission: MissionType;
@@ -26,11 +26,16 @@ export default function Mission({ mission }: MissionProps) {
     });
   }
 
-  // Extract date and time tags for display
   const dateTag = mission.tags?.find(tag => tag.type === "date");
   const timeTag = mission.tags?.find(tag => tag.type === "time");
   const statusTag = mission.tags?.find(tag => tag.type === "status");
   const labelTags = mission.tags?.filter(tag => tag.type === "label") || [];
+
+  const priorityConfig = {
+    high: { color: "text-red-500", label: "High" },
+    medium: { color: "text-yellow-500", label: "Med" },
+    low: { color: "text-green-500", label: "Low" },
+  };
 
   return (
     <div className={`flex items-center w-full ${done ? "hidden" : ""}`}>
@@ -78,8 +83,8 @@ export default function Mission({ mission }: MissionProps) {
           </div>
         </div>
 
-        {/* Date/time row - always visible if present */}
-        {(dateTag || timeTag) && (
+        {/* Date/time/priority row - always visible if present */}
+        {(dateTag || timeTag || mission.priority) && (
           <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
             {dateTag && (
               <span className="flex items-center gap-1">
@@ -91,6 +96,12 @@ export default function Mission({ mission }: MissionProps) {
               <span className="flex items-center gap-1">
                 <Clock className="h-3 w-3" />
                 {timeTag.name}
+              </span>
+            )}
+            {mission.priority && (
+              <span className={`flex items-center gap-1 ${priorityConfig[mission.priority].color}`}>
+                <Flag className="h-3 w-3" />
+                {priorityConfig[mission.priority].label}
               </span>
             )}
           </div>
@@ -113,6 +124,36 @@ export default function Mission({ mission }: MissionProps) {
               </p>
             ) : (
               <p className="text-xs text-slate-400 italic">No description</p>
+            )}
+
+            {mission.goals && mission.goals.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 flex items-center gap-1 mb-1">
+                  <Target className="h-3 w-3" /> Goals
+                </p>
+                <ul className="list-disc list-inside text-xs text-slate-600 space-y-0.5">
+                  {mission.goals.map((goal, i) => (
+                    <li key={i}>{goal}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {mission.resources && mission.resources.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-slate-500 flex items-center gap-1 mb-1">
+                  <Link className="h-3 w-3" /> Resources
+                </p>
+                <ul className="text-xs text-violet-500 space-y-0.5">
+                  {mission.resources.map((url, i) => (
+                    <li key={i}>
+                      <a href={url} target="_blank" rel="noopener noreferrer" className="hover:underline break-all">
+                        {url}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         )}
