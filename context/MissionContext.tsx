@@ -13,6 +13,7 @@ export interface Tag {
 // Defines the structure of a mission
 export interface Mission {
   title: string
+  description?: string
   tags?: Tag[]
 }
 

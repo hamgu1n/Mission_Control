@@ -24,9 +24,9 @@ interface MissionInputProps {
 export default function MissionInput({ onSuccess, onClose }: MissionInputProps) {
   const context = useContext(MissionContext);
   const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [showTags, setShowTags] = useState(false);
   const [newTags, setNewTags] = useState("");
-  const [showDateTime, setShowDateTime] = useState(false);
   const [newDate, setNewDate] = useState("");
   const [newTime, setNewTime] = useState("");
 
@@ -59,11 +59,13 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
       type: "ADD_MISSION",
       payload: {
         title: newTitle.trim(),
+        description: newDescription.trim() || undefined,
         tags: tagsArray
       }
     });
 
     setNewTitle("");
+    setNewDescription("");
     setNewTags("");
     setNewDate("");
     setNewTime("");
@@ -73,61 +75,43 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
 
 
   return (
-    <form onSubmit={handleAddMission} className="mb-4 flex flex-col gap-2">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="Add a new mission"
-          className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
-        />
+    <form onSubmit={handleAddMission} className="mb-4 flex flex-col gap-4">
+      <div>
+        <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="Add a new mission"
+            className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
+          />
 
-        <button
-          type="button"
-          onClick={() => setShowTags(prev => !prev)}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-[50%] h-[50%]"
+          <button
+            type="button"
+            onClick={() => setShowTags(prev => !prev)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
           >
-            <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
-            <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
-          </svg>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setShowDateTime(prev => !prev)}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-[50%] h-[50%]"
-          >
-            <path d="M8 2v4" />
-            <path d="M16 2v4" />
-            <rect width="18" height="18" x="3" y="4" rx="2" />
-            <path d="M3 10h18" />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-[50%] h-[50%]"
+            >
+              <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+              <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <div>
-        {showTags && (
+      {showTags && (
+        <div className="mb-2">
+          <label className="block text-xs font-medium text-slate-500 mb-1">Tags</label>
           <input
             type="text"
             value={newTags}
@@ -135,23 +119,37 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
             placeholder="Add tags separated by a comma..."
             className="w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
           />
-        )}
+        </div>
+      )}
 
-        {showDateTime && (
-          <div className="w-full flex justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 mt-1 text-sm text-slate-800 shadow-sm outline-none">
-            <input
-              type="date"
-              value={newDate}
-              onChange={(e) => setNewDate(e.target.value)}
-            />
+      <div>
+        <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
+        <textarea
+          value={newDescription}
+          onChange={(e) => setNewDescription(e.target.value)}
+          placeholder="What is this mission about?"
+          rows={3}
+          className="w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100 resize-none"
+        />
+      </div>
 
-            <input
-              type="time"
-              value={newTime}
-              onChange={(e) => setNewTime(e.target.value)}
-            />
-          </div>
-        )}
+      <div>
+
+
+        <label className="block text-xs font-medium text-slate-500 mb-1">Due Date & Time</label>
+        <div className="w-full flex justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
+          <input
+            type="date"
+            value={newDate}
+            onChange={(e) => setNewDate(e.target.value)}
+          />
+
+          <input
+            type="time"
+            value={newTime}
+            onChange={(e) => setNewTime(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="mt-3 flex justify-end gap-2">
