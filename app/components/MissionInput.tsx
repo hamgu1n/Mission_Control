@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useContext } from "react";
-import { MissionContext , Tag} from "@/context/MissionContext";
+import { MissionContext, Mission, Tag } from "@/context/MissionContext";
 
 const tagColors = [
   "bg-red-400",
@@ -19,19 +19,26 @@ const tagColors = [
 interface MissionInputProps {
   onSuccess?: () => void;
   onClose?: () => void;
+  editMission?: Mission;
 }
 
-export default function MissionInput({ onSuccess, onClose }: MissionInputProps) {
+export default function MissionInput({ onSuccess, onClose, editMission }: MissionInputProps) {
   const context = useContext(MissionContext);
-  const [newTitle, setNewTitle] = useState("");
-  const [newDescription, setNewDescription] = useState("");
-  const [newPriority, setNewPriority] = useState<"high" | "medium" | "low" | "">("");
-  const [newGoals, setNewGoals] = useState<string[]>([]);
-  const [newResources, setNewResources] = useState<string[]>([]);
-  const [showTags, setShowTags] = useState(false);
-  const [newTags, setNewTags] = useState("");
-  const [newDate, setNewDate] = useState("");
-  const [newTime, setNewTime] = useState("");
+  const [newTitle, setNewTitle] = useState(editMission?.title || "");
+  const [newDescription, setNewDescription] = useState(editMission?.description || "");
+  const [newPriority, setNewPriority] = useState<"high" | "medium" | "low" | "">(editMission?.priority || "");
+  const [newGoals, setNewGoals] = useState<string[]>(editMission?.goals || []);
+  const [newResources, setNewResources] = useState<string[]>(editMission?.resources || []);
+  const [showTags, setShowTags] = useState(() => {
+    const labels = editMission?.tags?.filter(t => t.type === "label") || [];
+    return labels.length > 0;
+  });
+  const [newTags, setNewTags] = useState(() => {
+    const labels = editMission?.tags?.filter(t => t.type === "label") || [];
+    return labels.map(t => t.name).join(", ");
+  });
+  const [newDate, setNewDate] = useState(() => editMission?.tags?.find(t => t.type === "date")?.name || "");
+  const [newTime, setNewTime] = useState(() => editMission?.tags?.find(t => t.type === "time")?.name || "");
   const [titleError, setTitleError] = useState(false);
 
   if (!context) return null; // component outside MissionProvider
@@ -50,8 +57,9 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
     const goalsArray = newGoals.map(g => g.trim()).filter(Boolean);
     const resourcesArray = newResources.map(r => r.trim()).filter(Boolean);
 
+    const existingStatus = editMission?.tags?.find(t => t.type === "status");
     const tagsArray: Tag[] = [
-      { name: "New", color: "bg-blue-400", type: "status" as const },
+      existingStatus || { name: "New", color: "bg-blue-400", type: "status" as const },
       ...(newDate ? [{ name: newDate, color: "bg-slate-400", type: "date" as const }] : []),
       // Conditionally add time tag
       ...(newTime ? [{ name: newTime, color: "bg-slate-400", type: "time" as const }] : []),
@@ -66,17 +74,26 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
         }))
     ];
 
-    dispatch({
-      type: "ADD_MISSION",
-      payload: {
-        title: newTitle.trim(),
-        description: newDescription.trim() || undefined,
-        priority: newPriority || undefined,
-        goals: goalsArray.length > 0 ? goalsArray : undefined,
-        resources: resourcesArray.length > 0 ? resourcesArray : undefined,
-        tags: tagsArray
-      }
-    });
+    const newMission: Mission = {
+      title: newTitle.trim(),
+      description: newDescription.trim() || undefined,
+      priority: newPriority || undefined,
+      goals: goalsArray.length > 0 ? goalsArray : undefined,
+      resources: resourcesArray.length > 0 ? resourcesArray : undefined,
+      tags: tagsArray
+    };
+
+    if (editMission) {
+      dispatch({
+        type: "EDIT_MISSION",
+        payload: { original: editMission, updated: newMission }
+      });
+    } else {
+      dispatch({
+        type: "ADD_MISSION",
+        payload: newMission
+      });
+    }
 
     setNewTitle("");
     setNewDescription("");
@@ -333,7 +350,7 @@ export default function MissionInput({ onSuccess, onClose }: MissionInputProps) 
           type="submit"
           className="rounded-xl bg-violet-500 px-4 py-2 text-white shadow-sm transition hover:bg-violet-600"
         >
-          Done
+          {editMission ? "Save" : "Done"}
         </button>
       </div>
     </form>

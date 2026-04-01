@@ -4,7 +4,8 @@ import { Mission as MissionType, MissionContext } from "@/context/MissionContext
 import { getCurrentDateTime } from "@/app/helpers/getCurrentTime";
 import { useContext } from "react";
 import Tag from "./Tag";
-import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp, Target, Link, Flag } from "lucide-react";
+import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp, Target, Link, Flag, Pencil } from "lucide-react";
+import AddMissionPopup from "./AddMissionPopup";
 
 interface MissionProps {
   mission: MissionType;
@@ -12,6 +13,7 @@ interface MissionProps {
 
 export default function Mission({ mission }: MissionProps) {
   const [expanded, setExpanded] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const done = mission.tags?.some(tag => tag.name === "Done");
 
   const delContext = useContext(MissionContext);
@@ -72,6 +74,14 @@ export default function Mission({ mission }: MissionProps) {
               className="p-1.5 rounded-lg text-slate-400 hover:text-green-500 hover:bg-green-50 transition"
             >
               <CheckCircle2 className="h-4 w-4" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowEdit(true)}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-violet-500 hover:bg-violet-50 transition"
+            >
+              <Pencil className="h-4 w-4" />
             </button>
 
             <button
@@ -159,6 +169,12 @@ export default function Mission({ mission }: MissionProps) {
         )}
 
       </div>
+
+      <AddMissionPopup
+        isOpen={showEdit}
+        onClose={() => setShowEdit(false)}
+        editMission={mission}
+      />
     </div>
   )
 }

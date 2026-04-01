@@ -25,6 +25,7 @@ type MissionAction =
   | { type: "SET_MISSIONS"; payload: Mission[] } // replaces the full mission list, used when loading saved missions
   | { type: "ADD_MISSION"; payload: Mission }    // add a single new mission
   | { type: "DELETE_MISSION"; payload: Mission }  //deletes mission
+  | { type: "EDIT_MISSION"; payload: { original: Mission; updated: Mission } }
   | { type: "MARK_DONE"; payload: Mission; timestamp?: { date: string, time: string } }
   | { type: "CLEAN_DONE" }
 
@@ -64,6 +65,14 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
       return {
         ...state,
         currentMissions: action.payload
+      }
+
+    case "EDIT_MISSION":
+      return {
+        ...state,
+        currentMissions: state.currentMissions.map(mission =>
+          mission === action.payload.original ? action.payload.updated : mission
+        )
       }
 
     case "DELETE_MISSION":
