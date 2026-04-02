@@ -2,6 +2,7 @@
 
 import { useState, useContext } from "react";
 import { MissionContext, Mission, Tag } from "@/context/MissionContext";
+import ListInput from "./ListInput";
 
 const tagColors = [
   "bg-red-400",
@@ -200,124 +201,12 @@ export default function MissionInput({ onSuccess, onClose, editMission }: Missio
 
       <div>
         <label className="block text-xs font-medium text-slate-500 mb-1">Goals</label>
-        <div className="flex flex-col gap-1.5">
-          {newGoals.map((goal, i) => (
-            <div key={i} className="flex items-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2.5 shadow-sm focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100 transition">
-              <span className="text-sm text-slate-400 select-none">-</span>
-              <input
-                type="text"
-                value={goal}
-                onChange={(e) => {
-                  const updated = [...newGoals];
-                  updated[i] = e.target.value;
-                  setNewGoals(updated);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    const updated = [...newGoals];
-                    updated.splice(i + 1, 0, "");
-                    setNewGoals(updated);
-                    setTimeout(() => {
-                      const inputs = (e.target as HTMLInputElement).closest("div.flex.flex-col")?.querySelectorAll("input");
-                      inputs?.[i + 1]?.focus();
-                    }, 0);
-                  }
-                  if (e.key === "Backspace" && goal === "" && newGoals.length > 1) {
-                    e.preventDefault();
-                    const updated = [...newGoals];
-                    updated.splice(i, 1);
-                    setNewGoals(updated);
-                    setTimeout(() => {
-                      const inputs = (e.target as HTMLInputElement).closest("div.flex.flex-col")?.querySelectorAll("input");
-                      inputs?.[Math.max(0, i - 1)]?.focus();
-                    }, 0);
-                  }
-                }}
-                placeholder={i === 0 ? "List your goals here..." : ""}
-                className="flex-1 text-sm text-slate-800 outline-none placeholder:text-slate-400 bg-transparent"
-              />
-            </div>
-          ))}
-          {newGoals.length === 0 ? (
-            <button
-              type="button"
-              onClick={() => setNewGoals([""])}
-              className="w-full rounded-xl border border-dashed border-stone-300 px-4 py-2.5 text-sm text-slate-400 transition hover:border-violet-300 hover:text-violet-400"
-            >
-              + Add a goal
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setNewGoals([...newGoals, ""])}
-              className="w-full rounded-xl border border-dashed border-stone-300 px-4 py-1.5 text-xs text-slate-400 transition hover:border-violet-300 hover:text-violet-400"
-            >
-              + Add another goal
-            </button>
-          )}
-        </div>
+        <ListInput items={newGoals} setItems={setNewGoals} icon="-" addLabel="goal" placeholder="List your goals here..." />
       </div>
 
       <div>
         <label className="block text-xs font-medium text-slate-500 mb-1">Resources & Links</label>
-        <div className="flex flex-col gap-1.5">
-          {newResources.map((resource, i) => (
-            <div key={i} className="flex items-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2.5 shadow-sm focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100 transition">
-              <span className="text-sm text-slate-400 select-none">{">"}</span>
-              <input
-                type="text"
-                value={resource}
-                onChange={(e) => {
-                  const updated = [...newResources];
-                  updated[i] = e.target.value;
-                  setNewResources(updated);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    const updated = [...newResources];
-                    updated.splice(i + 1, 0, "");
-                    setNewResources(updated);
-                    setTimeout(() => {
-                      const inputs = (e.target as HTMLInputElement).closest("div.flex.flex-col")?.querySelectorAll("input");
-                      inputs?.[i + 1]?.focus();
-                    }, 0);
-                  }
-                  if (e.key === "Backspace" && resource === "" && newResources.length > 1) {
-                    e.preventDefault();
-                    const updated = [...newResources];
-                    updated.splice(i, 1);
-                    setNewResources(updated);
-                    setTimeout(() => {
-                      const inputs = (e.target as HTMLInputElement).closest("div.flex.flex-col")?.querySelectorAll("input");
-                      inputs?.[Math.max(0, i - 1)]?.focus();
-                    }, 0);
-                  }
-                }}
-                placeholder={i === 0 ? "Drop your links here..." : ""}
-                className="flex-1 text-sm text-slate-800 outline-none placeholder:text-slate-400 bg-transparent"
-              />
-            </div>
-          ))}
-          {newResources.length === 0 ? (
-            <button
-              type="button"
-              onClick={() => setNewResources([""])}
-              className="w-full rounded-xl border border-dashed border-stone-300 px-4 py-2.5 text-sm text-slate-400 transition hover:border-violet-300 hover:text-violet-400"
-            >
-              + Add a link
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setNewResources([...newResources, ""])}
-              className="w-full rounded-xl border border-dashed border-stone-300 px-4 py-1.5 text-xs text-slate-400 transition hover:border-violet-300 hover:text-violet-400"
-            >
-              + Add another link
-            </button>
-          )}
-        </div>
+        <ListInput items={newResources} setItems={setNewResources} icon=">" addLabel="link" placeholder="Drop your links here..." />
       </div>
 
       <div>
