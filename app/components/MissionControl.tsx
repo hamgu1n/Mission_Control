@@ -40,7 +40,7 @@ export default function MissionControl() {
   );
 
   const searchBarAndAddButtonRow = ( // row with search bar and add button
-    <div className={`mb-4 flex items-center gap-2 ${!showSearchBar ? "justify-center" : ""}`}>
+    <div className={`mb-4 flex min-h-10.5 items-center gap-2 ${!showSearchBar ? "justify-center" : ""}`}>
       <button
         type="button"
         onClick={() => setShowMissionPopup(true)}
@@ -70,7 +70,7 @@ export default function MissionControl() {
       type="button"
       onClick={() => setCollapsed(!collapsed)}
       className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 bg-white text-slate-400 shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
-        collapsed ? "left-16" : "left-80"
+        collapsed ? "left-17" : "left-80"
       }`}
     >
       {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -82,7 +82,7 @@ export default function MissionControl() {
       <div className="relative flex">
         <div
           className={`relative h-[calc(100vh-57px)] bg-white border-r border-stone-300 shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
-            collapsed ? "w-16" : "w-80"
+            collapsed ? "w-17" : "w-80"
           }`}
         >
           <div className="flex h-full flex-col p-4">
