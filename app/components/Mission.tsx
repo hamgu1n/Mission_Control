@@ -6,6 +6,7 @@ import { useContext } from "react";
 import Tag from "./Tag";
 import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp, Target, Link, Flag, Pencil } from "lucide-react";
 import AddMissionPopup from "./AddMissionPopup";
+import IconButton from "./IconButton";
 
 interface MissionProps {
   mission: MissionType;
@@ -56,40 +57,10 @@ export default function Mission({ mission }: MissionProps) {
 
           {/* Action buttons */}
           <div className="flex items-center gap-1 shrink-0">
-            <button
-              type="button"
-              onClick={() => setExpanded(prev => !prev)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-stone-100 transition"
-            >
-              {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => dispatch({
-                type: "MARK_DONE",
-                payload: mission,
-                timestamp: getCurrentDateTime()
-              })}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-green-500 hover:bg-green-50 transition"
-            >
-              <CheckCircle2 className="h-4 w-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setShowEdit(true)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-violet-500 hover:bg-violet-50 transition"
-            >
-              <Pencil className="h-4 w-4" />
-            </button>
-
-            <button
-              onClick={deleteMission}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
+            <IconButton icon={expanded ? ChevronUp : ChevronDown} onClick={() => setExpanded(prev => !prev)} />
+            <IconButton icon={CheckCircle2} onClick={() => dispatch({ type: "MARK_DONE", payload: mission, timestamp: getCurrentDateTime() })} hoverColor="green" />
+            <IconButton icon={Pencil} onClick={() => setShowEdit(true)} hoverColor="violet" />
+            <IconButton icon={Trash2} onClick={deleteMission} hoverColor="red" />
           </div>
         </div>
 
@@ -154,14 +125,21 @@ export default function Mission({ mission }: MissionProps) {
                 <p className="text-xs font-medium text-slate-500 flex items-center gap-1 mb-1">
                   <Link className="h-3 w-3" /> Resources
                 </p>
-                <ul className="text-xs text-violet-500 space-y-0.5">
-                  {mission.resources.map((url, i) => (
-                    <li key={i}>
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="hover:underline break-all">
-                        {url}
-                      </a>
-                    </li>
-                  ))}
+                <ul className="text-xs space-y-0.5">
+                  {mission.resources.map((resource, i) => {
+                    const isUrl = /^(https?:\/\/)?[\w.-]+\.\w{2,}(\/\S*)?$/i.test(resource);
+                    return (
+                      <li key={i} className={isUrl ? "text-violet-500" : "text-slate-600"}>
+                        {isUrl ? (
+                          <a href={resource.match(/^https?:\/\//) ? resource : `https://${resource}`} target="_blank" rel="noopener noreferrer" className="hover:underline break-all">
+                            {resource}
+                          </a>
+                        ) : (
+                          <span className="break-all">{resource}</span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}

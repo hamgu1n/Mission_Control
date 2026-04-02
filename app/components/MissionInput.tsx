@@ -3,6 +3,8 @@
 import { useState, useContext } from "react";
 import { MissionContext, Mission, Tag } from "@/context/MissionContext";
 import ListInput from "./ListInput";
+import { Tag as TagIcon } from "lucide-react";
+import ButtonRow from "./ButtonRow";
 
 const tagColors = [
   "bg-red-400",
@@ -134,19 +136,7 @@ export default function MissionInput({ onSuccess, onClose, editMission }: Missio
             onClick={() => setShowTags(prev => !prev)}
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-[50%] h-[50%]"
-            >
-              <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
-              <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
-            </svg>
+            <TagIcon className="w-[50%] h-[50%]" />
           </button>
         </div>
       </div>
@@ -177,26 +167,15 @@ export default function MissionInput({ onSuccess, onClose, editMission }: Missio
 
       <div>
         <label className="block text-xs font-medium text-slate-500 mb-1">Priority</label>
-        <div className="flex gap-2">
-          {(["low", "medium", "high"] as const).map((level) => (
-            <button
-              key={level}
-              type="button"
-              onClick={() => setNewPriority(prev => prev === level ? "" : level)}
-              className={`flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition ${
-                newPriority === level
-                  ? level === "high"
-                    ? "border-red-400 bg-red-50 text-red-600"
-                    : level === "medium"
-                    ? "border-yellow-400 bg-yellow-50 text-yellow-600"
-                    : "border-green-400 bg-green-50 text-green-600"
-                  : "border-stone-300 bg-white text-slate-400 hover:bg-stone-50"
-              }`}
-            >
-              {level.charAt(0).toUpperCase() + level.slice(1)}
-            </button>
-          ))}
-        </div>
+        <ButtonRow
+          options={[
+            { label: "Low", color: "green" },
+            { label: "Medium", color: "yellow" },
+            { label: "High", color: "red" },
+          ]}
+          selected={newPriority}
+          onSelect={(v) => setNewPriority(v as "high" | "medium" | "low" | "")}
+        />
       </div>
 
       <div>

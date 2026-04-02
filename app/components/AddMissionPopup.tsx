@@ -2,6 +2,7 @@
 
 import MissionInput from "./MissionInput";
 import { Mission } from "@/context/MissionContext";
+import { X } from "lucide-react";
 
 interface AddMissionPopupProps {
   isOpen: boolean;
@@ -22,10 +23,7 @@ export default function AddMissionPopup({ isOpen, onClose, editMission }: AddMis
             onClick={onClose}
             className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-stone-100 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
+            <X className="h-4.5 w-4.5" />
           </button>
         </div>
 
