@@ -5,12 +5,14 @@ import { MissionContext } from "@/context/MissionContext";
 import Mission from "./Mission";
 import SearchBar from "./SearchBar";
 import AddMissionPopup from "./AddMissionPopup";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import FilterMenu from "./FilterMenu";
+import { ChevronLeft, ChevronRight, Funnel } from "lucide-react";
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
   const [searchText, setSearchText] = useState("");
   const [showMissionPopup, setShowMissionPopup] = useState(false);
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
 
   const [collapsed, setCollapsed] = useState(false); // state for whether the sidebar is collapsed or not
 
@@ -39,7 +41,7 @@ export default function MissionControl() {
     mission.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const searchBarAndAddButtonRow = ( // row with search bar and add button
+  const searchBarAndAddButtonRow = ( // row with search bar and add button and filter button
     <div className={`mb-4 flex min-h-10.5 items-center gap-2 ${!showSearchBar ? "justify-center" : ""}`}>
       <button
         type="button"
@@ -54,6 +56,14 @@ export default function MissionControl() {
           <SearchBar searchText={searchText} setSearchText={setSearchText} />
         </div>
       )}
+
+      <button
+        type="button"
+        onClick={() => setShowFilterMenu(true)}
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500 text-white text-base font-light shadow-sm transition hover:bg-blue-600"
+        title="Filter Missions"
+      > <Funnel className="h-5, w-5"></Funnel>
+      </button>
     </div>
   );
 
@@ -98,6 +108,9 @@ export default function MissionControl() {
         isOpen={showMissionPopup}
         onClose={() => setShowMissionPopup(false)}
       />
+      {showFilterMenu && ( // ADD THIS CONDITIONAL RENDERING
+              <FilterMenu onClose={() => setShowFilterMenu(false)} />
+            )}
     </>
   );
 }

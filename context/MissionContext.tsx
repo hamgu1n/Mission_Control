@@ -24,14 +24,18 @@ export interface Mission {
 type MissionAction =
   | { type: "SET_MISSIONS"; payload: Mission[] } // replaces the full mission list, used when loading saved missions
   | { type: "ADD_MISSION"; payload: Mission }    // add a single new mission
-  | { type: "DELETE_MISSION"; payload: Mission }  //deletes mission
+  | { type: "DELETE_MISSION"; payload: Mission }  // deletes mission
   | { type: "EDIT_MISSION"; payload: { original: Mission; updated: Mission } }
   | { type: "MARK_DONE"; payload: Mission; timestamp?: { date: string, time: string } }
   | { type: "CLEAN_DONE" }
+  | { type: "SET_FILTERS"; payload: Tag[] } // takes an array of tags to filter by intersection or union
+  | { type: "SET_FILTER_LOGIC"; payload: "AND" | "OR" }; // allows the user to pick to filter by intersection or union of filters
 
 // Defines the state structure for the application
 interface MissionStateType {
-  currentMissions: Mission[] // all missions the user currently has
+  currentMissions: Mission[], // all missions the user currently has
+  currentFilters: Tag[],
+  currentFilterLogic: "AND" | "OR"
 }
 
 // Defines the structure of the context of the application
@@ -45,7 +49,9 @@ export const MissionContext = createContext<MissionContextType | null>(null);
 
 // Declares the default initial state of the application before saved missions are loaded
 export const initialState : MissionStateType  = {
-  currentMissions: []
+  currentMissions: [],
+  currentFilters: [],
+  currentFilterLogic: "AND"
 }
 
 // Declares the reducer for the application
@@ -107,9 +113,20 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
         ...state,
         currentMissions: state.currentMissions.filter(
           (mission) => !missionSweeper(mission, 7)
-      )
-    };
+        )
+      };
 
+    case "SET_FILTERS":
+      return {
+        ...state,
+        currentFilters: action.payload
+      };
+
+    case "SET_FILTER_LOGIC":
+      return {
+        ...state,
+        currentFilterLogic: action.payload
+      }
 
     default:
       return state
