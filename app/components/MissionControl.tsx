@@ -5,7 +5,8 @@ import { MissionContext } from "@/context/MissionContext";
 import Mission from "./Mission";
 import FilterMenu from "./FilterMenu";
 import AddMissionPopup from "./AddMissionPopup";
-import { ChevronLeft, ChevronRight} from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import IconButton from "./IconButton";
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
@@ -63,26 +64,28 @@ export default function MissionControl() {
 
 
   const inputTextAndAddButtonRow = ( // row with search bar and add button and filter button
-    <div className={`mb-4 flex gap-1 min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}>
+    <div className={`mb-4 flex gap-2 min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}>
       <input
-          type="text"
-          value={quickAddTitle}
-          onChange={(e) => setQuickAddTitle(e.target.value)}
-          onKeyDown={(e) => { // Allows quick add on Enter
-            if (e.key === "Enter" && quickAddTitle.trim() !== "") {
-              setShowMissionPopup(true);
-            }
-          }}
-          placeholder="New mission..."
-          className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
+        type="text"
+        value={quickAddTitle}
+        onChange={(e) => setQuickAddTitle(e.target.value)}
+        onKeyDown={(e) => { // Allows quick add on Enter
+          if (e.key === "Enter" && quickAddTitle.trim() !== "") {
+            setShowMissionPopup(true);
+          }
+        }}
+        placeholder="New mission..."
+        className={`app-input transition-all duration-300 ease-in-out ${
+            collapsed ? "w-0 opacity-0 overflow-hidden" : "w-full opacity-100"
+          }`}
         />
 
           <button
             type="button"
             onClick={() => setShowMissionPopup(true)}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-500 text-white text-base font-light shadow-sm transition hover:bg-violet-600"
+            className="btn-primary"
           >
-            +
+            <Plus className="w-5 h-5"></Plus>
           </button>
         </div>
   );
@@ -100,7 +103,7 @@ export default function MissionControl() {
       type="button"
       onClick={() => setCollapsed(!collapsed)}
       className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 bg-white text-slate-400 shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
-        collapsed ? "left-17" : "left-80"
+        collapsed ? "left-17" : "left-100"
       }`}
     >
       {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -112,7 +115,7 @@ export default function MissionControl() {
       <div className="relative flex">
         <div
           className={`relative h-[calc(100vh-57px)] bg-white border-r border-stone-300 shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
-            collapsed ? "w-17" : "w-80"
+            collapsed ? "w-17" : "w-100"
           }`}
         >
           <div className="flex h-full flex-col p-4">

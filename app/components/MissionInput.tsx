@@ -7,16 +7,16 @@ import { Tag as TagIcon } from "lucide-react";
 import ButtonRow from "./ButtonRow";
 
 const tagColors = [
-  "bg-red-400",
-  "bg-yellow-400",
-  "bg-green-400",
-  "bg-blue-400",
-  "bg-purple-400",
-  "bg-pink-400",
-  "bg-amber-400",
-  "bg-teal-400",
-  "bg-orange-400",
-  "bg-violet-400",
+  "bg-red",
+  "bg-yellow",
+  "bg-green",
+  "bg-blue",
+  "bg-purple",
+  "bg-pink",
+  "bg-amber",
+  "bg-teal",
+  "bg-orange",
+  "bg-violet",
 ]
 
 interface MissionInputProps {
@@ -63,9 +63,8 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
 
     const existingStatus = editMission?.tags?.find(t => t.type === "status");
     const tagsArray: Tag[] = [
-      existingStatus || { name: "New", color: "bg-blue-400", type: "status" as const },
+      existingStatus || { name: "New", color: "bg-blue", type: "status" as const },
       ...(newDate ? [{ name: newDate, color: "bg-slate-400", type: "date" as const }] : []),
-      // Conditionally add time tag
       ...(newTime ? [{ name: newTime, color: "bg-slate-400", type: "time" as const }] : []),
       ...newTags
         .split(",")
@@ -125,19 +124,15 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
             value={newTitle}
             onChange={(e) => { setNewTitle(e.target.value); if (titleError) setTitleError(false); }}
             placeholder="Add a new mission"
-            className={`flex-1 rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition ${
-              titleError
-                ? "border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                : "border-stone-300 focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
-            }`}
-          />
+            className={`flex-1 app-input ${titleError ? "border-red-400 focus:border-red-400 focus:ring-red-100" : ""}`}
+                     />
 
           <button
             type="button"
             onClick={() => setShowTags(prev => !prev)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm border border-stone-300 transition hover:bg-stone-50 hover:text-slate-600"
+            className="btn-primary"
           >
-            <TagIcon className="w-[50%] h-[50%]" />
+            <TagIcon className="w-6 h-5" />
           </button>
         </div>
       </div>
@@ -150,7 +145,7 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
             value={newTags}
             onChange={(e) => setNewTags(e.target.value)}
             placeholder="Add tags separated by a comma..."
-            className="w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
+            className="w-full app-input"
           />
         </div>
       )}
@@ -162,7 +157,7 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
           onChange={(e) => setNewDescription(e.target.value)}
           placeholder="What is this mission about?"
           rows={3}
-          className="w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100 resize-none"
+          className="w-full app-input resize-none"
         />
       </div>
 
@@ -210,14 +205,14 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
         <button
           type="button"
           onClick={onClose}
-          className="rounded-xl border border-stone-300 px-4 py-2 text-slate-500 transition hover:bg-stone-50 hover:text-slate-700"
+          className="btn-secondary"
         >
           Close
         </button>
 
         <button
           type="submit"
-          className="rounded-xl bg-violet-500 px-4 py-2 text-white shadow-sm transition hover:bg-violet-600"
+          className="btn-primary"
         >
           {editMission ? "Save" : "Done"}
         </button>

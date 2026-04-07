@@ -47,7 +47,7 @@ export default function Mission({ mission }: MissionProps) {
         {/* Top row: status + title */}
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center align-middle gap-2">
               {statusTag && <Tag tag={statusTag} />}
               <p className="text-sm font-semibold text-slate-800 truncate">
                 {mission.title}
@@ -59,7 +59,7 @@ export default function Mission({ mission }: MissionProps) {
           <div className="flex items-center gap-1 shrink-0">
             <IconButton icon={expanded ? ChevronUp : ChevronDown} onClick={() => setExpanded(prev => !prev)} />
             <IconButton icon={CheckCircle2} onClick={() => dispatch({ type: "MARK_DONE", payload: mission, timestamp: getCurrentDateTime() })} hoverColor="green" />
-            <IconButton icon={Pencil} onClick={() => setShowEdit(true)} hoverColor="violet" />
+            <IconButton icon={Pencil} onClick={() => setShowEdit(true)} hoverColor="blue" />
             <IconButton icon={Trash2} onClick={deleteMission} hoverColor="red" />
           </div>
         </div>

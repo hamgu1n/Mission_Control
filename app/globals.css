@@ -6,6 +6,37 @@
   }
 }
 
+/* Below are custom values to be used across the project to enforce the palette */
+@layer components {
+  /* Layout Defaults */
+  .app-bg { @apply bg-stone-50; }
+  .app-card { @apply bg-white border border-stone-200 shadow-sm rounded-xl; }
+
+  /* Text Defaults */
+  .text-primary { @apply text-slate-800; }
+  .text-secondary { @apply text-slate-500; }
+  .text-muted { @apply text-slate-400; }
+
+  /* Input Fields */
+  .app-input {
+    @apply rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800
+           shadow-sm outline-none transition focus:border-stone-400 focus:ring-2 focus:ring-stone-100;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply  bg-black text-white border border-stone-300 transition hover:bg-gray-200 hover:text-black shadow-sm rounded-xl px-2 py-2 text-sm font-medium;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-black border border-stone-300 transition hover:bg-black hover:text-white shadow-sm rounded-xl px-2 py-2 text-sm font-medium;
+  }
+
+  .btn-icon {
+    @apply p-1.5 rounded-lg text-slate-400 transition hover:bg-stone-100 hover:text-slate-600;
+  }
+}
+
 input, button {
   @apply font-sans;
 }

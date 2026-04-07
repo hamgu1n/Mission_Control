@@ -103,10 +103,10 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
           <label className="block text-xs font-medium text-slate-500 mb-1">
             Filter Logic:
           </label>
-          <div className="flex gap-2 p-1.5 rounded-xl border border-stone-300 bg-white shadow-sm"> {/* Grouping for radio buttons */}
+          <div className="flex gap-2 p-1.5 rounded-xl border border-stone-300 bg-white shadow-sm">
             <label className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
               currentFilterLogic === "AND"
-                ? "bg-violet-500 text-white"
+                ? "bg-black text-white"
                 : "text-slate-500 hover:bg-stone-100"
             }`}>
               <input
@@ -117,11 +117,11 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
                 onChange={() => setLogic("AND")}
                 className="sr-only" // Hide native radio button visually
               />
-              <span className="py-2 px-3">AND (Intersect)</span>
+              <span className="py-2 px-3">∩ AND</span>
             </label>
             <label className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
               currentFilterLogic === "OR"
-                ? "bg-violet-500 text-white"
+                ? "bg-black text-white"
                 : "text-slate-500 hover:bg-stone-100"
             }`}>
               <input
@@ -132,7 +132,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
                 onChange={() => setLogic("OR")}
                 className="sr-only" // Hide native radio button visually
               />
-              <span className="py-2 px-3">OR (Union)</span>
+              <span className="py-2 px-3">OR U </span>
             </label>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
             Status Tags:
           </label>
           <select
-            className="w-full rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100 appearance-none pr-8" // Added appearance-none and pr-8
+            className="w-full app-input appearance-none" // Added appearance-none and pr-8
             value={selectedStatusTag?.name || ""}
             onChange={(e) => {
               const selectedName = e.target.value;
