@@ -3,6 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import { MissionContext } from "@/context/MissionContext";
 import Mission from "./Mission";
+import FilterMenu from "./FilterMenu";
 import AddMissionPopup from "./AddMissionPopup";
 import { ChevronLeft, ChevronRight} from "lucide-react";
 
@@ -32,7 +33,7 @@ export default function MissionControl() {
   if (!context) return null; // ensures component is inside MissionProvider
 
   const { state, dispatch } = context;
-  const { currentFilterLogic, currentFilters, searchText } = state;
+  const { currentFilterLogic, currentFilters, searchText, showFilterMenu} = state;
 
   // filter out missions depending on the searchText and on currentFilters by currentFilterLogic
   const filteredMissions = state.currentMissions.filter((mission) => {
@@ -113,6 +114,11 @@ export default function MissionControl() {
         isOpen={showMissionPopup}
         onClose={() => setShowMissionPopup(false)}
       />
+
+      {/* Conditional rendering for FilterMenu and AddMissionPopup */}
+      {showFilterMenu && (
+        <FilterMenu onClose={() => dispatch({type: "TOGGLE_FILTER_MENU", payload: false})} />
+      )}
     </>
   );
 }
