@@ -108,7 +108,7 @@ export default function MissionControl() {
         isOpen={showMissionPopup}
         onClose={() => setShowMissionPopup(false)}
       />
-      {showFilterMenu && ( // ADD THIS CONDITIONAL RENDERING
+      {showFilterMenu && (
               <FilterMenu onClose={() => setShowFilterMenu(false)} />
             )}
     </>
