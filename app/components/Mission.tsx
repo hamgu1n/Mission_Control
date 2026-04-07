@@ -7,6 +7,7 @@ import Tag from "./Tag";
 import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp, Target, Link, Flag, Pencil } from "lucide-react";
 import AddMissionPopup from "./AddMissionPopup";
 import IconButton from "./IconButton";
+import isPastDue from "../helpers/isPastDue";
 
 interface MissionProps {
   mission: MissionType;
@@ -40,6 +41,12 @@ export default function Mission({ mission }: MissionProps) {
     low: { color: "text-green-500", label: "Low" },
   };
 
+  const pastDue = isPastDue({
+    date: dateTag?.name,
+    time: timeTag?.name
+  });
+
+
   return (
     <div className={`flex items-center w-full ${done ? "hidden" : ""}`}>
       <div className="flex flex-col w-full px-4 py-3.5 rounded-xl bg-white shadow-sm border border-stone-300 hover:shadow-md transition">
@@ -68,13 +75,13 @@ export default function Mission({ mission }: MissionProps) {
         {(dateTag || timeTag || mission.priority) && (
           <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
             {dateTag && (
-              <span className="flex items-center gap-1">
+              <span className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}>
                 <Calendar className="h-3 w-3" />
                 {dateTag.name}
               </span>
             )}
             {timeTag && (
-              <span className="flex items-center gap-1">
+              <span className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}>
                 <Clock className="h-3 w-3" />
                 {timeTag.name}
               </span>
