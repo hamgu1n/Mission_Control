@@ -1,17 +1,21 @@
 "use client"
 
 import MissionInput from "./MissionInput";
-import { Mission } from "@/context/MissionContext";
+import { Mission, MissionContext } from "@/context/MissionContext";
 import { X } from "lucide-react";
+import { useContext } from "react";
 
 interface AddMissionPopupProps {
   isOpen: boolean;
   onClose: () => void;
   editMission?: Mission;
+  quickAddTitle?: string;
 }
 
-export default function AddMissionPopup({ isOpen, onClose, editMission }: AddMissionPopupProps) {
+export default function AddMissionPopup({ isOpen, onClose, editMission, quickAddTitle }: AddMissionPopupProps) {
   if (!isOpen) return null;
+
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 backdrop-blur-sm px-4">
@@ -27,7 +31,7 @@ export default function AddMissionPopup({ isOpen, onClose, editMission }: AddMis
           </button>
         </div>
 
-        <MissionInput onSuccess={onClose} onClose={onClose} editMission={editMission} />
+        <MissionInput onSuccess={onClose} onClose={onClose} editMission={editMission} quickAddTitle={quickAddTitle} />
       </div>
     </div>
   );

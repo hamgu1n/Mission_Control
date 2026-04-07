@@ -23,11 +23,12 @@ interface MissionInputProps {
   onSuccess?: () => void;
   onClose?: () => void;
   editMission?: Mission;
+  quickAddTitle?: string;
 }
 
-export default function MissionInput({ onSuccess, onClose, editMission }: MissionInputProps) {
+export default function MissionInput({ onSuccess, onClose, editMission, quickAddTitle }: MissionInputProps) {
   const context = useContext(MissionContext);
-  const [newTitle, setNewTitle] = useState(editMission?.title || "");
+  const [newTitle, setNewTitle] = useState(editMission?.title || quickAddTitle || "");
   const [newDescription, setNewDescription] = useState(editMission?.description || "");
   const [newPriority, setNewPriority] = useState<"high" | "medium" | "low" | "">(editMission?.priority || "");
   const [newGoals, setNewGoals] = useState<string[]>(editMission?.goals || []);

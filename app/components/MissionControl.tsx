@@ -11,6 +11,7 @@ export default function MissionControl() {
   const context = useContext(MissionContext);
 
   const [showMissionPopup, setShowMissionPopup] = useState(false);
+  const [quickAddTitle, setQuickAddTitle] = useState("");
 
   const [collapsed, setCollapsed] = useState(false); // state for whether the sidebar is collapsed or not
 
@@ -62,7 +63,20 @@ export default function MissionControl() {
 
 
   const inputTextAndAddButtonRow = ( // row with search bar and add button and filter button
-    <div className={`mb-4 flex min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}>
+    <div className={`mb-4 flex gap-1 min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}>
+      <input
+          type="text"
+          value={quickAddTitle}
+          onChange={(e) => setQuickAddTitle(e.target.value)}
+          onKeyDown={(e) => { // Allows quick add on Enter
+            if (e.key === "Enter" && quickAddTitle.trim() !== "") {
+              setShowMissionPopup(true);
+            }
+          }}
+          placeholder="New mission..."
+          className="flex-1 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100"
+        />
+
           <button
             type="button"
             onClick={() => setShowMissionPopup(true)}
@@ -112,7 +126,11 @@ export default function MissionControl() {
 
       <AddMissionPopup
         isOpen={showMissionPopup}
-        onClose={() => setShowMissionPopup(false)}
+        onClose={() => {
+          setShowMissionPopup(false);
+          setQuickAddTitle("");
+        }}
+        quickAddTitle={quickAddTitle}
       />
 
       {/* Conditional rendering for FilterMenu and AddMissionPopup */}
