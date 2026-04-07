@@ -29,13 +29,15 @@ type MissionAction =
   | { type: "MARK_DONE"; payload: Mission; timestamp?: { date: string, time: string } }
   | { type: "CLEAN_DONE" }
   | { type: "SET_FILTERS"; payload: Tag[] } // takes an array of tags to filter by intersection or union
-  | { type: "SET_FILTER_LOGIC"; payload: "AND" | "OR" }; // allows the user to pick to filter by intersection or union of filters
+  | { type: "SET_FILTER_LOGIC"; payload: "AND" | "OR" } // allows the user to pick to filter by intersection or union of filters
+  | { type: "SET_SEARCH_TEXT";  payload: string}
 
 // Defines the state structure for the application
 interface MissionStateType {
   currentMissions: Mission[], // all missions the user currently has
   currentFilters: Tag[],
-  currentFilterLogic: "AND" | "OR"
+  currentFilterLogic: "AND" | "OR",
+  searchText: string;
 }
 
 // Defines the structure of the context of the application
@@ -51,7 +53,8 @@ export const MissionContext = createContext<MissionContextType | null>(null);
 export const initialState : MissionStateType  = {
   currentMissions: [],
   currentFilters: [],
-  currentFilterLogic: "AND"
+  currentFilterLogic: "AND",
+  searchText: ""
 }
 
 // Declares the reducer for the application
@@ -126,6 +129,12 @@ export const missionReducer = (state: MissionStateType, action: MissionAction) =
       return {
         ...state,
         currentFilterLogic: action.payload
+      }
+
+    case "SET_SEARCH_TEXT":
+      return {
+        ...state,
+        searchText: action.payload
       }
 
     default:

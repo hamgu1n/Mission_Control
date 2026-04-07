@@ -3,16 +3,13 @@
 import { useContext, useEffect, useState } from "react";
 import { MissionContext } from "@/context/MissionContext";
 import Mission from "./Mission";
-import SearchBar from "./SearchBar";
 import AddMissionPopup from "./AddMissionPopup";
-import FilterMenu from "./FilterMenu";
-import { ChevronLeft, ChevronRight, Funnel } from "lucide-react";
+import { ChevronLeft, ChevronRight} from "lucide-react";
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
-  const [searchText, setSearchText] = useState("");
+
   const [showMissionPopup, setShowMissionPopup] = useState(false);
-  const [showFilterMenu, setShowFilterMenu] = useState(false);
 
   const [collapsed, setCollapsed] = useState(false); // state for whether the sidebar is collapsed or not
 
@@ -35,36 +32,44 @@ export default function MissionControl() {
   if (!context) return null; // ensures component is inside MissionProvider
 
   const { state, dispatch } = context;
+  const { currentFilterLogic, currentFilters, searchText } = state;
 
-  // filter out missions depending on the searchText
-  const filteredMissions = state.currentMissions.filter((mission) =>
-    mission.title.toLowerCase().includes(searchText.toLowerCase())
-  );
+  // filter out missions depending on the searchText and on currentFilters by currentFilterLogic
+  const filteredMissions = state.currentMissions.filter((mission) => {
+      // 1. Filter by search text (always applied)
+      const matchesSearchText = mission.title.toLowerCase().includes(searchText.toLowerCase());
+      if (!matchesSearchText) {
+        return false;
+      }
 
-  const searchBarAndAddButtonRow = ( // row with search bar and add button and filter button
-    <div className={`mb-4 flex min-h-10.5 items-center gap-2 ${!showSearchBar ? "justify-center" : ""}`}>
-      <button
-        type="button"
-        onClick={() => setShowMissionPopup(true)}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-500 text-white text-base font-light shadow-sm transition hover:bg-violet-600"
-      >
-        +
-      </button>
+      // 2. If no tags are selected in the filter, then all missions matching search text are included.
+      if (currentFilters.length === 0) {
+        return true;
+      }
 
-      {showSearchBar && (
-        <div className="flex-1 min-w-0">
-          <SearchBar searchText={searchText} setSearchText={setSearchText} />
+      // 3. Check for tag matches based on filterLogic (AND/OR)
+      const missionTagNames = new Set(mission.tags?.map(tag => tag.name) || []);
+
+      if (currentFilterLogic === "AND") {
+        // For "AND" logic, the mission must have ALL selected filter tags.
+        return currentFilters.every(filterTag => missionTagNames.has(filterTag.name));
+      } else { // filterLogic === "OR"
+        // For "OR" logic, the mission must have AT LEAST ONE selected filter tag.
+        return currentFilters.some(filterTag => missionTagNames.has(filterTag.name));
+      }
+    });
+
+
+  const inputTextAndAddButtonRow = ( // row with search bar and add button and filter button
+    <div className={`mb-4 flex min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}>
+          <button
+            type="button"
+            onClick={() => setShowMissionPopup(true)}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-500 text-white text-base font-light shadow-sm transition hover:bg-violet-600"
+          >
+            +
+          </button>
         </div>
-      )}
-
-      <button
-        type="button"
-        onClick={() => setShowFilterMenu(true)}
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500 text-white text-base font-light shadow-sm transition hover:bg-blue-600"
-        title="Filter Missions"
-      > <Funnel className="h-5, w-5"></Funnel>
-      </button>
-    </div>
   );
 
   const missionList = (
@@ -96,7 +101,7 @@ export default function MissionControl() {
           }`}
         >
           <div className="flex h-full flex-col p-4">
-            {searchBarAndAddButtonRow}
+            {inputTextAndAddButtonRow}
             {missionList}
           </div>
         </div>
@@ -108,9 +113,6 @@ export default function MissionControl() {
         isOpen={showMissionPopup}
         onClose={() => setShowMissionPopup(false)}
       />
-      {showFilterMenu && (
-              <FilterMenu onClose={() => setShowFilterMenu(false)} />
-            )}
     </>
   );
 }
