@@ -1,8 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Header from "./components/Header";
 import MissionControl from "./components/MissionControl";
 import { MissionProvider } from "@/context/MissionContext";
+
+const Calender = dynamic(() => import("./components/Calender"), {
+  ssr: false,
+  loading: () => (
+    <div className="app-card min-h-[calc(100vh-121px)] animate-pulse" />
+  ),
+});
 
 export default function Page() {
   return (
@@ -14,7 +22,8 @@ export default function Page() {
           <MissionControl />
 
           {/* Main content area */}
-          <div className="flex-1 px-8 py-8">
+          <div className="flex-1 min-w-0 px-8 py-8">
+            <Calender />
           </div>
         </div>
       </main>
