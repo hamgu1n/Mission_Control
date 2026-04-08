@@ -21,9 +21,11 @@ const colorMap: Record<string, { bg: string; text: string }> = {
 }
 
 export default function Tag({ tag }: TagProps) {
+  const tagColor = tag.color ?? "";
+
   // Status tags render as small colored circles
   if (tag.type === "status") {
-    const circleColor = colorMap[tag.color]?.bg || "bg-stone-400";
+    const circleColor = colorMap[tagColor]?.bg || "bg-stone-400";
     return (
       <div
         className={`w-3 h-3 rounded-full shadow-sm ${circleColor}`}
@@ -33,7 +35,7 @@ export default function Tag({ tag }: TagProps) {
   }
 
   // For other tag types, render pill with background + text color
-  const colors = colorMap[tag.color] || { bg: "bg-stone-200", text: "text-stone-700" };
+  const colors = colorMap[tagColor] || { bg: "bg-stone-200", text: "text-stone-700" };
 
   return (
     <span
