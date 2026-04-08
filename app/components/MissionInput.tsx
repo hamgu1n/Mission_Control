@@ -165,9 +165,9 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
         <label className="block text-xs font-medium text-slate-500 mb-1">Priority</label>
         <ButtonRow
           options={[
-            { label: "Low", color: "green" },
-            { label: "Medium", color: "yellow" },
-            { label: "High", color: "red" },
+            { label: "Low", color: "bg-green" },
+            { label: "Medium", color: "bg-yellow" },
+            { label: "High", color: "bg-red" },
           ]}
           selected={newPriority}
           onSelect={(v) => setNewPriority(v as "high" | "medium" | "low" | "")}
