@@ -63,9 +63,9 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
 
     const existingStatus = editMission?.tags?.find(t => t.type === "status");
     const tagsArray: Tag[] = [
-      existingStatus || { name: "New", color: "bg-blue-400", type: "status" as const },
-      ...(newDate ? [{ name: newDate, color: "bg-slate-400", type: "date" as const }] : []),
-      ...(newTime ? [{ name: newTime, color: "bg-slate-400", type: "time" as const }] : []),
+      existingStatus || { name: "New", color: "bg-blue", type: "status" as const },
+      ...(newDate ? [{ name: newDate, color: "bg-slate", type: "date" as const }] : []),
+      ...(newTime ? [{ name: newTime, color: "bg-slate", type: "time" as const }] : []),
       ...newTags
         .split(",")
         .map(tag => tag.trim())
@@ -165,9 +165,9 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
         <label className="block text-xs font-medium text-slate-500 mb-1">Priority</label>
         <ButtonRow
           options={[
-            { label: "Low", color: "bg-green" },
-            { label: "Medium", color: "bg-yellow" },
-            { label: "High", color: "bg-red" },
+            { label: "Low", color: "green" },
+            { label: "Medium", color: "yellow" },
+            { label: "High", color: "red" },
           ]}
           selected={newPriority}
           onSelect={(v) => setNewPriority(v as "high" | "medium" | "low" | "")}
