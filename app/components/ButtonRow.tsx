@@ -23,7 +23,7 @@ export default function ButtonRow({ options, selected, onSelect }: ButtonRowProp
             onClick={() => onSelect(isSelected ? "" : label.toLowerCase())}
             className={`flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition ${
               isSelected
-                ? `border-${color}-400 bg-${color}-500 text-${color}-600`
+                ? `border-${color}-400 bg-${color}-00 text-${color}-600`
                 : "border-stone-300 bg-white text-slate-400 hover:bg-stone-50"
             }`}
           >

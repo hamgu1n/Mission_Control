@@ -63,7 +63,7 @@ export default function MissionInput({ onSuccess, onClose, editMission, quickAdd
 
     const existingStatus = editMission?.tags?.find(t => t.type === "status");
     const tagsArray: Tag[] = [
-      existingStatus || { name: "New", color: "bg-blue", type: "status" as const },
+      existingStatus || { name: "New", color: "bg-blue-400", type: "status" as const },
       ...(newDate ? [{ name: newDate, color: "bg-slate-400", type: "date" as const }] : []),
       ...(newTime ? [{ name: newTime, color: "bg-slate-400", type: "time" as const }] : []),
       ...newTags
