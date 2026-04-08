@@ -3,8 +3,18 @@
 import { useContext, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import type { EventInput } from "@fullcalendar/core";
+import type { EventContentArg, EventInput } from "@fullcalendar/core";
 import { MissionContext } from "@/context/MissionContext";
+
+function formatMissionTime(date: Date | null) {
+  if (!date) return "";
+
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
 
 export default function Calender() {
   const context = useContext(MissionContext);
@@ -28,6 +38,24 @@ export default function Calender() {
     });
   }, [missions]);
 
+  function renderMissionEventContent(eventInfo: EventContentArg) {
+    const isWeeklyView = eventInfo.view.type === "dayGridWeek";
+    const showWeeklyTime = isWeeklyView && !eventInfo.event.allDay;
+
+    return (
+      <div className="flex w-full flex-col items-center text-center leading-tight">
+        {showWeeklyTime && (
+          <div className="w-full text-[11px] font-medium">
+            {formatMissionTime(eventInfo.event.start)}
+          </div>
+        )}
+        <div className="w-full truncate text-[11px] font-medium">
+          {eventInfo.event.title}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section className="app-card flex h-full min-h-[calc(100vh-121px)] flex-col overflow-hidden">
       <div className="flex-1 px-4 py-4">
@@ -44,6 +72,9 @@ export default function Calender() {
             week: "Weekly",
           }}
           events={datedMissions}
+          eventDisplay="block"
+          eventContent={renderMissionEventContent}
+          defaultTimedEventDuration="00:01"
           fixedWeekCount={false}
           dayMaxEventRows={2}
           height="100%"
