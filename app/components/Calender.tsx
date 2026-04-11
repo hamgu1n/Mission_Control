@@ -4,7 +4,36 @@ import { useContext, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import type { EventContentArg, EventInput } from "@fullcalendar/core";
-import { MissionContext } from "@/context/MissionContext";
+import { MissionContext, type Mission } from "@/context/MissionContext";
+
+type Priority = NonNullable<Mission["priority"]>;
+
+const priorityEventColors: Record<Priority | "none", {
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+}> = {
+  high: {
+    backgroundColor: "#fecaca",
+    borderColor: "#f87171",
+    textColor: "#991b1b",
+  },
+  medium: {
+    backgroundColor: "#fef08a",
+    borderColor: "#facc15",
+    textColor: "#a16207",
+  },
+  low: {
+    backgroundColor: "#bbf7d0",
+    borderColor: "#4ade80",
+    textColor: "#15803d",
+  },
+  none: {
+    backgroundColor: "#e7e5e4",
+    borderColor: "#d6d3d1",
+    textColor: "#334155",
+  },
+};
 
 function formatMissionTime(date: Date | null) {
   if (!date) return "";
@@ -18,10 +47,10 @@ function formatMissionTime(date: Date | null) {
 
 export default function Calender() {
   const context = useContext(MissionContext);
-  const missions = context?.state.currentMissions ?? [];
+  const missions = context?.state.currentMissions;
 
   const datedMissions = useMemo<EventInput[]>(() => {
-    return missions.flatMap((mission) => {
+    return (missions ?? []).flatMap((mission) => {
       const dateTag = mission.tags?.find((tag) => tag.type === "date");
       const timeTag = mission.tags?.find((tag) => tag.type === "time");
       const isDone = mission.tags?.some((tag) => tag.type === "status" && tag.name === "Done");
@@ -33,6 +62,7 @@ export default function Calender() {
           title: mission.title,
           start: timeTag?.name ? `${dateTag.name}T${timeTag.name}` : dateTag.name,
           allDay: !timeTag?.name,
+          ...priorityEventColors[mission.priority ?? "none"],
         },
       ];
     });
