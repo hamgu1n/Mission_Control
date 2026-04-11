@@ -1,10 +1,11 @@
 "use client";
 
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import type { EventContentArg, EventInput } from "@fullcalendar/core";
+import type { EventClickArg, EventContentArg, EventInput } from "@fullcalendar/core";
 import { MissionContext, type Mission } from "@/context/MissionContext";
+import AddMissionPopup from "./AddMissionPopup";
 
 type Priority = NonNullable<Mission["priority"]>;
 
@@ -48,6 +49,7 @@ function formatMissionTime(date: Date | null) {
 export default function Calender() {
   const context = useContext(MissionContext);
   const missions = context?.state.currentMissions;
+  const [editingMission, setEditingMission] = useState<Mission | null>(null);
 
   const datedMissions = useMemo<EventInput[]>(() => {
     return (missions ?? []).flatMap((mission) => {
@@ -62,6 +64,10 @@ export default function Calender() {
           title: mission.title,
           start: timeTag?.name ? `${dateTag.name}T${timeTag.name}` : dateTag.name,
           allDay: !timeTag?.name,
+          extendedProps: {
+            mission,
+          },
+          classNames: ["cursor-pointer"],
           ...priorityEventColors[mission.priority ?? "none"],
         },
       ];
@@ -86,30 +92,47 @@ export default function Calender() {
     );
   }
 
+  function handleMissionEventClick(eventInfo: EventClickArg) {
+    const mission = eventInfo.event.extendedProps.mission as Mission | undefined;
+
+    if (mission) {
+      setEditingMission(mission);
+    }
+  }
+
   return (
-    <section className="app-card flex h-full min-h-[calc(100vh-121px)] flex-col overflow-hidden">
-      <div className="flex-1 px-4 py-4">
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            left: "prev,next",
-            center: "title",
-            right: "dayGridMonth,dayGridWeek",
-          }}
-          buttonText={{
-            month: "Monthly",
-            week: "Weekly",
-          }}
-          events={datedMissions}
-          eventDisplay="block"
-          eventContent={renderMissionEventContent}
-          defaultTimedEventDuration="00:01"
-          fixedWeekCount={false}
-          dayMaxEventRows={2}
-          height="100%"
-        />
-      </div>
-    </section>
+    <>
+      <section className="app-card flex h-full min-h-[calc(100vh-121px)] flex-col overflow-hidden">
+        <div className="flex-1 px-4 py-4">
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: "prev,next",
+              center: "title",
+              right: "dayGridMonth,dayGridWeek",
+            }}
+            buttonText={{
+              month: "Monthly",
+              week: "Weekly",
+            }}
+            events={datedMissions}
+            eventDisplay="block"
+            eventContent={renderMissionEventContent}
+            eventClick={handleMissionEventClick}
+            defaultTimedEventDuration="00:01"
+            fixedWeekCount={false}
+            dayMaxEventRows={2}
+            height="100%"
+          />
+        </div>
+      </section>
+
+      <AddMissionPopup
+        isOpen={editingMission !== null}
+        onClose={() => setEditingMission(null)}
+        editMission={editingMission ?? undefined}
+      />
+    </>
   );
 }
