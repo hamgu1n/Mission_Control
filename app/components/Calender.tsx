@@ -54,35 +54,14 @@ function formatMissionTime(date: Date | null) {
 }
 
 export default function Calender() {
-  const context = useContext(MissionContext);
-  const missions = context?.state.currentMissions;
+  const missions = useContext(MissionContext)?.state.currentMissions;
+
   const [editingMission, setEditingMission] = useState<Mission | null>(null);
 
   const datedMissions = useMemo<EventInput[]>(() => {
-    return (missions ?? []).flatMap((mission) => {
-      const dateTag = mission.tags?.find((tag) => tag.type === 'date');
-      const timeTag = mission.tags?.find((tag) => tag.type === 'time');
-      const isDone = mission.tags?.some(
-        (tag) => tag.type === 'status' && tag.name === 'Done'
-      );
-
-      if (!dateTag || isDone) return [];
-
-      return [
-        {
-          title: mission.title,
-          start: timeTag?.name
-            ? `${dateTag.name}T${timeTag.name}`
-            : dateTag.name,
-          allDay: !timeTag?.name,
-          extendedProps: {
-            mission,
-          },
-          classNames: ['cursor-pointer'],
-          ...priorityEventColors[mission.priority ?? 'none'],
-        },
-      ];
-    });
+    return (missions ?? [])
+      .map((m) => missionToEvent(m, priorityEventColors))
+      .filter(Boolean) as EventInput[];
   }, [missions]);
 
   function renderMissionEventContent(eventInfo: EventContentArg) {
@@ -148,4 +127,29 @@ export default function Calender() {
       />
     </>
   );
+}
+
+function missionToEvent(
+  mission: Mission,
+  priorityColors: typeof priorityEventColors
+): EventInput | null {
+  const dateTag = mission.tags?.find((tag) => tag.type === 'date');
+  const timeTag = mission.tags?.find((tag) => tag.type === 'time');
+
+  const isDone = mission.tags?.some(
+    (tag) => tag.type === 'status' && tag.name === 'Done'
+  );
+
+  if (!dateTag || isDone) return null;
+
+  const hasTime = !!timeTag?.name;
+
+  return {
+    title: mission.title,
+    start: hasTime ? `${dateTag.name}T${timeTag.name}` : dateTag.name,
+    allDay: !hasTime,
+    extendedProps: { mission },
+    classNames: ['cursor-pointer'],
+    ...priorityColors[mission.priority ?? 'none'],
+  };
 }
