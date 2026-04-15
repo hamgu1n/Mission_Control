@@ -7,7 +7,7 @@ interface TagProps {
 }
 
 // Mapping from your tag.color values to actual Tailwind classes
-const colorMap: Record<string, { bg: string; text: string }> = {
+export const colorMap: Record<string, { bg: string; text: string }> = {
   'bg-red': { bg: 'bg-red-200', text: 'text-red-700' },
   'bg-yellow': { bg: 'bg-yellow-200', text: 'text-yellow-700' },
   'bg-green': { bg: 'bg-green-200', text: 'text-green-700' },
