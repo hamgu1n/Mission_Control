@@ -3,17 +3,24 @@
 import { useContext, useMemo, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import type { EventClickArg, EventContentArg, EventInput } from "@fullcalendar/core";
+import type {
+  EventClickArg,
+  EventContentArg,
+  EventInput,
+} from "@fullcalendar/core";
 import { MissionContext, type Mission } from "@/context/MissionContext";
 import AddMissionPopup from "./AddMissionPopup";
 
 type Priority = NonNullable<Mission["priority"]>;
 
-const priorityEventColors: Record<Priority | "none", {
-  backgroundColor: string;
-  borderColor: string;
-  textColor: string;
-}> = {
+const priorityEventColors: Record<
+  Priority | "none",
+  {
+    backgroundColor: string;
+    borderColor: string;
+    textColor: string;
+  }
+> = {
   high: {
     backgroundColor: "#fecaca",
     borderColor: "#f87171",
@@ -55,14 +62,18 @@ export default function Calender() {
     return (missions ?? []).flatMap((mission) => {
       const dateTag = mission.tags?.find((tag) => tag.type === "date");
       const timeTag = mission.tags?.find((tag) => tag.type === "time");
-      const isDone = mission.tags?.some((tag) => tag.type === "status" && tag.name === "Done");
+      const isDone = mission.tags?.some(
+        (tag) => tag.type === "status" && tag.name === "Done",
+      );
 
       if (!dateTag || isDone) return [];
 
       return [
         {
           title: mission.title,
-          start: timeTag?.name ? `${dateTag.name}T${timeTag.name}` : dateTag.name,
+          start: timeTag?.name
+            ? `${dateTag.name}T${timeTag.name}`
+            : dateTag.name,
           allDay: !timeTag?.name,
           extendedProps: {
             mission,
@@ -93,7 +104,9 @@ export default function Calender() {
   }
 
   function handleMissionEventClick(eventInfo: EventClickArg) {
-    const mission = eventInfo.event.extendedProps.mission as Mission | undefined;
+    const mission = eventInfo.event.extendedProps.mission as
+      | Mission
+      | undefined;
 
     if (mission) {
       setEditingMission(mission);

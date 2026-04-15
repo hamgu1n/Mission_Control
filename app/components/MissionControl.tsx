@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useContext, useEffect, useState } from "react";
 import { MissionContext } from "@/context/MissionContext";
@@ -35,63 +35,76 @@ export default function MissionControl() {
   if (!context) return null; // ensures component is inside MissionProvider
 
   const { state, dispatch } = context;
-  const { currentFilterLogic, currentFilters, searchText, showFilterMenu} = state;
+  const { currentFilterLogic, currentFilters, searchText, showFilterMenu } =
+    state;
 
   // filter out missions depending on the searchText and on currentFilters by currentFilterLogic
   const filteredMissions = state.currentMissions.filter((mission) => {
-      // 1. Filter by search text (always applied)
-      const matchesSearchText = mission.title.toLowerCase().includes(searchText.toLowerCase());
-      if (!matchesSearchText) {
-        return false;
-      }
+    // 1. Filter by search text (always applied)
+    const matchesSearchText = mission.title
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+    if (!matchesSearchText) {
+      return false;
+    }
 
-      // 2. If no tags are selected in the filter, then all missions matching search text are included.
-      if (currentFilters.length === 0) {
-        return true;
-      }
+    // 2. If no tags are selected in the filter, then all missions matching search text are included.
+    if (currentFilters.length === 0) {
+      return true;
+    }
 
-      // 3. Check for tag matches based on filterLogic (AND/OR)
-      const missionTagNames = new Set(mission.tags?.map(tag => tag.name) || []);
+    // 3. Check for tag matches based on filterLogic (AND/OR)
+    const missionTagNames = new Set(mission.tags?.map((tag) => tag.name) || []);
 
-      if (currentFilterLogic === "AND") {
-        // For "AND" logic, the mission must have ALL selected filter tags.
-        return currentFilters.every(filterTag => missionTagNames.has(filterTag.name));
-      } else { // filterLogic === "OR"
-        // For "OR" logic, the mission must have AT LEAST ONE selected filter tag.
-        return currentFilters.some(filterTag => missionTagNames.has(filterTag.name));
-      }
-    });
+    if (currentFilterLogic === "AND") {
+      // For "AND" logic, the mission must have ALL selected filter tags.
+      return currentFilters.every((filterTag) =>
+        missionTagNames.has(filterTag.name),
+      );
+    } else {
+      // filterLogic === "OR"
+      // For "OR" logic, the mission must have AT LEAST ONE selected filter tag.
+      return currentFilters.some((filterTag) =>
+        missionTagNames.has(filterTag.name),
+      );
+    }
+  });
 
-
-  const inputTextAndAddButtonRow = ( // row with search bar and add button and filter button
-    <div className={`mb-4 flex gap-2 min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}>
-      <input
-        type="text"
-        value={quickAddTitle}
-        onChange={(e) => setQuickAddTitle(e.target.value)}
-        onKeyDown={(e) => { // Allows quick add on Enter
-          if (e.key === "Enter" && quickAddTitle.trim() !== "") {
-            setShowMissionPopup(true);
-          }
-        }}
-        placeholder="New mission..."
-        className={`app-input transition-all duration-300 ease-in-out ${
+  const inputTextAndAddButtonRow = // row with search bar and add button and filter button
+    (
+      <div
+        className={`mb-4 flex gap-2 min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}
+      >
+        <input
+          type="text"
+          value={quickAddTitle}
+          onChange={(e) => setQuickAddTitle(e.target.value)}
+          onKeyDown={(e) => {
+            // Allows quick add on Enter
+            if (e.key === "Enter" && quickAddTitle.trim() !== "") {
+              setShowMissionPopup(true);
+            }
+          }}
+          placeholder="New mission..."
+          className={`app-input transition-all duration-300 ease-in-out ${
             collapsed ? "w-0 opacity-0 overflow-hidden" : "w-full opacity-100"
           }`}
         />
 
-          <button
-            type="button"
-            onClick={() => setShowMissionPopup(true)}
-            className="btn-primary"
-          >
-            <Plus className="w-5 h-5"></Plus>
-          </button>
-        </div>
-  );
+        <button
+          type="button"
+          onClick={() => setShowMissionPopup(true)}
+          className="btn-primary"
+        >
+          <Plus className="w-5 h-5"></Plus>
+        </button>
+      </div>
+    );
 
   const missionList = (
-    <div className={`flex-1 overflow-y-auto p-1 flex flex-col gap-2 ${!showMissions ? "hidden" : ""}`}>
+    <div
+      className={`flex-1 overflow-y-auto p-1 flex flex-col gap-2 ${!showMissions ? "hidden" : ""}`}
+    >
       {filteredMissions.map((mission, index) => (
         <Mission key={index} mission={mission} />
       ))}
@@ -106,7 +119,11 @@ export default function MissionControl() {
         collapsed ? "left-17" : "left-100"
       }`}
     >
-      {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+      {collapsed ? (
+        <ChevronRight className="h-4 w-4" />
+      ) : (
+        <ChevronLeft className="h-4 w-4" />
+      )}
     </button>
   );
 
@@ -138,7 +155,11 @@ export default function MissionControl() {
 
       {/* Conditional rendering for FilterMenu and AddMissionPopup */}
       {showFilterMenu && (
-        <FilterMenu onClose={() => dispatch({type: "TOGGLE_FILTER_MENU", payload: false})} />
+        <FilterMenu
+          onClose={() =>
+            dispatch({ type: "TOGGLE_FILTER_MENU", payload: false })
+          }
+        />
       )}
     </>
   );

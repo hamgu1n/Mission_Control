@@ -1,10 +1,24 @@
-"use client"
+"use client";
 import { useState } from "react";
-import { Mission as MissionType, MissionContext } from "@/context/MissionContext";
+import {
+  Mission as MissionType,
+  MissionContext,
+} from "@/context/MissionContext";
 import { getCurrentDateTime } from "@/app/helpers/getCurrentTime";
 import { useContext } from "react";
 import Tag from "./Tag";
-import { Calendar, Clock, Trash2, CheckCircle2, ChevronDown, ChevronUp, Target, Link, Flag, Pencil } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Trash2,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Target,
+  Link,
+  Flag,
+  Pencil,
+} from "lucide-react";
 import AddMissionPopup from "./AddMissionPopup";
 import IconButton from "./IconButton";
 import isPastDue from "../helpers/isPastDue";
@@ -16,7 +30,7 @@ interface MissionProps {
 export default function Mission({ mission }: MissionProps) {
   const [expanded, setExpanded] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const done = mission.tags?.some(tag => tag.name === "Done");
+  const done = mission.tags?.some((tag) => tag.name === "Done");
 
   const delContext = useContext(MissionContext);
   if (!delContext) return null;
@@ -26,14 +40,14 @@ export default function Mission({ mission }: MissionProps) {
   function deleteMission() {
     dispatch({
       type: "DELETE_MISSION",
-      payload: mission
+      payload: mission,
     });
   }
 
-  const dateTag = mission.tags?.find(tag => tag.type === "date");
-  const timeTag = mission.tags?.find(tag => tag.type === "time");
-  const statusTag = mission.tags?.find(tag => tag.type === "status");
-  const labelTags = mission.tags?.filter(tag => tag.type === "label") || [];
+  const dateTag = mission.tags?.find((tag) => tag.type === "date");
+  const timeTag = mission.tags?.find((tag) => tag.type === "time");
+  const statusTag = mission.tags?.find((tag) => tag.type === "status");
+  const labelTags = mission.tags?.filter((tag) => tag.type === "label") || [];
 
   const priorityConfig = {
     high: { color: "text-red-500", label: "High" },
@@ -43,14 +57,12 @@ export default function Mission({ mission }: MissionProps) {
 
   const pastDue = isPastDue({
     date: dateTag?.name,
-    time: timeTag?.name
+    time: timeTag?.name,
   });
-
 
   return (
     <div className={`flex items-center w-full ${done ? "hidden" : ""}`}>
       <div className="flex flex-col w-full px-4 py-3.5 rounded-xl bg-white shadow-sm border border-stone-300 hover:shadow-md transition">
-
         {/* Top row: status + title */}
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">
@@ -64,10 +76,31 @@ export default function Mission({ mission }: MissionProps) {
 
           {/* Action buttons */}
           <div className="flex items-center gap-1 shrink-0">
-            <IconButton icon={expanded ? ChevronUp : ChevronDown} onClick={() => setExpanded(prev => !prev)} />
-            <IconButton icon={CheckCircle2} onClick={() => dispatch({ type: "MARK_DONE", payload: mission, timestamp: getCurrentDateTime() })} hoverColor="green" />
-            <IconButton icon={Pencil} onClick={() => setShowEdit(true)} hoverColor="blue" />
-            <IconButton icon={Trash2} onClick={deleteMission} hoverColor="red" />
+            <IconButton
+              icon={expanded ? ChevronUp : ChevronDown}
+              onClick={() => setExpanded((prev) => !prev)}
+            />
+            <IconButton
+              icon={CheckCircle2}
+              onClick={() =>
+                dispatch({
+                  type: "MARK_DONE",
+                  payload: mission,
+                  timestamp: getCurrentDateTime(),
+                })
+              }
+              hoverColor="green"
+            />
+            <IconButton
+              icon={Pencil}
+              onClick={() => setShowEdit(true)}
+              hoverColor="blue"
+            />
+            <IconButton
+              icon={Trash2}
+              onClick={deleteMission}
+              hoverColor="red"
+            />
           </div>
         </div>
 
@@ -75,19 +108,25 @@ export default function Mission({ mission }: MissionProps) {
         {(dateTag || timeTag || mission.priority) && (
           <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
             {dateTag && (
-              <span className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}>
+              <span
+                className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}
+              >
                 <Calendar className="h-3 w-3" />
                 {dateTag.name}
               </span>
             )}
             {timeTag && (
-              <span className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}>
+              <span
+                className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}
+              >
                 <Clock className="h-3 w-3" />
                 {timeTag.name}
               </span>
             )}
             {mission.priority && (
-              <span className={`flex items-center gap-1 ${priorityConfig[mission.priority].color}`}>
+              <span
+                className={`flex items-center gap-1 ${priorityConfig[mission.priority].color}`}
+              >
                 <Flag className="h-3 w-3" />
                 {priorityConfig[mission.priority].label}
               </span>
@@ -134,11 +173,24 @@ export default function Mission({ mission }: MissionProps) {
                 </p>
                 <ul className="text-xs space-y-0.5">
                   {mission.resources.map((resource, i) => {
-                    const isUrl = /^(https?:\/\/)?[\w.-]+\.\w{2,}(\/\S*)?$/i.test(resource);
+                    const isUrl =
+                      /^(https?:\/\/)?[\w.-]+\.\w{2,}(\/\S*)?$/i.test(resource);
                     return (
-                      <li key={i} className={isUrl ? "text-violet-500" : "text-slate-600"}>
+                      <li
+                        key={i}
+                        className={isUrl ? "text-violet-500" : "text-slate-600"}
+                      >
                         {isUrl ? (
-                          <a href={resource.match(/^https?:\/\//) ? resource : `https://${resource}`} target="_blank" rel="noopener noreferrer" className="hover:underline break-all">
+                          <a
+                            href={
+                              resource.match(/^https?:\/\//)
+                                ? resource
+                                : `https://${resource}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline break-all"
+                          >
                             {resource}
                           </a>
                         ) : (
@@ -152,7 +204,6 @@ export default function Mission({ mission }: MissionProps) {
             )}
           </div>
         )}
-
       </div>
 
       <AddMissionPopup
@@ -161,5 +212,5 @@ export default function Mission({ mission }: MissionProps) {
         editMission={mission}
       />
     </div>
-  )
+  );
 }

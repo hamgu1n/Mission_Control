@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Tag as TagType } from "@/context/MissionContext"
+import { Tag as TagType } from "@/context/MissionContext";
 
 interface TagProps {
-  tag: TagType
+  tag: TagType;
 }
 
 // Mapping from your tag.color values to actual Tailwind classes
@@ -18,7 +18,7 @@ const colorMap: Record<string, { bg: string; text: string }> = {
   "bg-teal": { bg: "bg-teal-200", text: "text-teal-700" },
   "bg-orange": { bg: "bg-orange-200", text: "text-orange-700" },
   "bg-violet": { bg: "bg-violet-200", text: "text-violet-700" },
-}
+};
 
 export default function Tag({ tag }: TagProps) {
   const tagColor = tag.color ?? "";
@@ -31,11 +31,14 @@ export default function Tag({ tag }: TagProps) {
         className={`w-3 h-3 rounded-full shadow-sm ${circleColor}`}
         title={tag.name}
       />
-    )
+    );
   }
 
   // For other tag types, render pill with background + text color
-  const colors = colorMap[tagColor] || { bg: "bg-stone-200", text: "text-stone-700" };
+  const colors = colorMap[tagColor] || {
+    bg: "bg-stone-200",
+    text: "text-stone-700",
+  };
 
   return (
     <span
@@ -43,5 +46,5 @@ export default function Tag({ tag }: TagProps) {
     >
       {tag.name}
     </span>
-  )
+  );
 }

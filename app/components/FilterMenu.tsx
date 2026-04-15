@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useContext, useMemo, useState } from "react";
 import { MissionContext, Tag } from "@/context/MissionContext";
@@ -20,8 +20,11 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
   const { state, dispatch } = missionContext;
   // Destructuring using your preferred variable name: currentFilters
-  const { currentMissions, currentFilters: currentFilters, currentFilterLogic: currentFilterLogic } = state;
-
+  const {
+    currentMissions,
+    currentFilters: currentFilters,
+    currentFilterLogic: currentFilterLogic,
+  } = state;
 
   // creates arrays for each user-relevant tag type to later seperate in ui
   const { labelTags, statusTags, dateTags, timeTags } = useMemo(() => {
@@ -31,8 +34,8 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
         if (!allTags.has(tag.name)) {
           allTags.set(tag.name, tag);
         }
-      })
-    })
+      });
+    });
 
     const uniqueTags = Array.from(allTags.values());
 
@@ -54,25 +57,32 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
           dateTagsArray.push(tag);
           break;
         case "time":
-          timeTagsArray.push(tag)
+          timeTagsArray.push(tag);
           break;
         default:
           // Treat untyped tags as labels by default, matching typical use cases
           if (!tag.type) {
-             labelTagsArray.push(tag);
+            labelTagsArray.push(tag);
           }
           break;
       }
     });
 
-    return { labelTags: labelTagsArray, statusTags: statusTagsArray, dateTags: dateTagsArray, timeTags: timeTagsArray };
+    return {
+      labelTags: labelTagsArray,
+      statusTags: statusTagsArray,
+      dateTags: dateTagsArray,
+      timeTags: timeTagsArray,
+    };
   }, [currentMissions]);
 
   //adds or removes a tag from the filter array when changed
   const toggleTag = (tagToToggle: Tag) => {
     let newFilters: Tag[];
     if (isTagActive(tagToToggle, currentFilters)) {
-      newFilters = currentFilters.filter((tag) => !areTagsEqual(tag, tagToToggle));
+      newFilters = currentFilters.filter(
+        (tag) => !areTagsEqual(tag, tagToToggle),
+      );
     } else {
       newFilters = [...currentFilters, tagToToggle];
     }
@@ -80,7 +90,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
   };
 
   const setLogic = (logic: "AND" | "OR") => {
-    dispatch({ type: "SET_FILTER_LOGIC", payload: logic })
+    dispatch({ type: "SET_FILTER_LOGIC", payload: logic });
   };
 
   // Placeholder for internal state for the label text input for suggestions
@@ -94,8 +104,11 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 backdrop-blur-sm px-4">
       <div className="w-full max-w-xl rounded-2xl border border-stone-200/70 bg-white p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-800">Filter Missions</h2>
-          <IconButton icon={X} onClick={onClose} /> {/* Using your IconButton component */}
+          <h2 className="text-lg font-semibold text-slate-800">
+            Filter Missions
+          </h2>
+          <IconButton icon={X} onClick={onClose} />{" "}
+          {/* Using your IconButton component */}
         </div>
 
         {/* Filter Logic (AND/OR) */}
@@ -104,11 +117,13 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
             Filter Logic:
           </label>
           <div className="flex gap-2 p-1.5 rounded-xl border border-stone-300 bg-white shadow-sm">
-            <label className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
-              currentFilterLogic === "AND"
-                ? "bg-black text-white"
-                : "text-slate-500 hover:bg-stone-100"
-            }`}>
+            <label
+              className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
+                currentFilterLogic === "AND"
+                  ? "bg-black text-white"
+                  : "text-slate-500 hover:bg-stone-100"
+              }`}
+            >
               <input
                 type="radio"
                 name="filterLogic"
@@ -119,11 +134,13 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
               />
               <span className="py-2 px-3">∩ AND</span>
             </label>
-            <label className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
-              currentFilterLogic === "OR"
-                ? "bg-black text-white"
-                : "text-slate-500 hover:bg-stone-100"
-            }`}>
+            <label
+              className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
+                currentFilterLogic === "OR"
+                  ? "bg-black text-white"
+                  : "text-slate-500 hover:bg-stone-100"
+              }`}
+            >
               <input
                 type="radio"
                 name="filterLogic"
@@ -172,13 +189,17 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
             value={selectedStatusTag?.name || ""}
             onChange={(e) => {
               const selectedName = e.target.value;
-              const tag = statusTags.find(t => t.name === selectedName);
+              const tag = statusTags.find((t) => t.name === selectedName);
               if (selectedName === "") {
-                const nonStatusFilters = currentFilters.filter(f => f.type !== "status"); // Using currentFilters here
+                const nonStatusFilters = currentFilters.filter(
+                  (f) => f.type !== "status",
+                ); // Using currentFilters here
                 dispatch({ type: "SET_FILTERS", payload: nonStatusFilters });
                 setSelectedStatusTag(null);
               } else if (tag) {
-                const newFilters = currentFilters.filter(f => f.type !== "status"); // Remove any existing status filters. Using currentFilters here.
+                const newFilters = currentFilters.filter(
+                  (f) => f.type !== "status",
+                ); // Remove any existing status filters. Using currentFilters here.
                 newFilters.push(tag);
                 dispatch({ type: "SET_FILTERS", payload: newFilters });
                 setSelectedStatusTag(tag);
@@ -205,14 +226,18 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
               className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent
               placeholder="Start Date"
               value={dateRange.startDate}
-              onChange={(e) => setDateRange({ ...dateRange, startDate: e.target.value })}
+              onChange={(e) =>
+                setDateRange({ ...dateRange, startDate: e.target.value })
+              }
             />
             <input
               type="date"
               className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent
               placeholder="End Date"
               value={dateRange.endDate}
-              onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value })}
+              onChange={(e) =>
+                setDateRange({ ...dateRange, endDate: e.target.value })
+              }
             />
           </div>
           {/* Future: Add logic to process dateRange and dispatch appropriate date tags */}
