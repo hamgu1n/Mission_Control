@@ -1,12 +1,12 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 import {
   Mission as MissionType,
   MissionContext,
-} from "@/context/MissionContext";
-import { getCurrentDateTime } from "@/app/helpers/getCurrentTime";
-import { useContext } from "react";
-import Tag from "./Tag";
+} from '@/context/MissionContext';
+import { getCurrentDateTime } from '@/app/helpers/getCurrentTime';
+import { useContext } from 'react';
+import Tag from './Tag';
 import {
   Calendar,
   Clock,
@@ -18,10 +18,10 @@ import {
   Link,
   Flag,
   Pencil,
-} from "lucide-react";
-import AddMissionPopup from "./AddMissionPopup";
-import IconButton from "./IconButton";
-import isPastDue from "../helpers/isPastDue";
+} from 'lucide-react';
+import AddMissionPopup from './AddMissionPopup';
+import IconButton from './IconButton';
+import isPastDue from '../helpers/isPastDue';
 
 interface MissionProps {
   mission: MissionType;
@@ -30,7 +30,7 @@ interface MissionProps {
 export default function Mission({ mission }: MissionProps) {
   const [expanded, setExpanded] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const done = mission.tags?.some((tag) => tag.name === "Done");
+  const done = mission.tags?.some((tag) => tag.name === 'Done');
 
   const delContext = useContext(MissionContext);
   if (!delContext) return null;
@@ -39,20 +39,20 @@ export default function Mission({ mission }: MissionProps) {
 
   function deleteMission() {
     dispatch({
-      type: "DELETE_MISSION",
+      type: 'DELETE_MISSION',
       payload: mission,
     });
   }
 
-  const dateTag = mission.tags?.find((tag) => tag.type === "date");
-  const timeTag = mission.tags?.find((tag) => tag.type === "time");
-  const statusTag = mission.tags?.find((tag) => tag.type === "status");
-  const labelTags = mission.tags?.filter((tag) => tag.type === "label") || [];
+  const dateTag = mission.tags?.find((tag) => tag.type === 'date');
+  const timeTag = mission.tags?.find((tag) => tag.type === 'time');
+  const statusTag = mission.tags?.find((tag) => tag.type === 'status');
+  const labelTags = mission.tags?.filter((tag) => tag.type === 'label') || [];
 
   const priorityConfig = {
-    high: { color: "text-red-500", label: "High" },
-    medium: { color: "text-yellow-500", label: "Med" },
-    low: { color: "text-green-500", label: "Low" },
+    high: { color: 'text-red-500', label: 'High' },
+    medium: { color: 'text-yellow-500', label: 'Med' },
+    low: { color: 'text-green-500', label: 'Low' },
   };
 
   const pastDue = isPastDue({
@@ -61,21 +61,21 @@ export default function Mission({ mission }: MissionProps) {
   });
 
   return (
-    <div className={`flex items-center w-full ${done ? "hidden" : ""}`}>
-      <div className="flex flex-col w-full px-4 py-3.5 rounded-xl bg-white shadow-sm border border-stone-300 hover:shadow-md transition">
+    <div className={`flex w-full items-center ${done ? 'hidden' : ''}`}>
+      <div className="flex w-full flex-col rounded-xl border border-stone-300 bg-white px-4 py-3.5 shadow-sm transition hover:shadow-md">
         {/* Top row: status + title */}
-        <div className="flex justify-between items-start gap-2">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center align-middle gap-2">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 align-middle">
               {statusTag && <Tag tag={statusTag} />}
-              <p className="text-sm font-semibold text-slate-800 truncate">
+              <p className="truncate text-sm font-semibold text-slate-800">
                 {mission.title}
               </p>
             </div>
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex shrink-0 items-center gap-1">
             <IconButton
               icon={expanded ? ChevronUp : ChevronDown}
               onClick={() => setExpanded((prev) => !prev)}
@@ -84,7 +84,7 @@ export default function Mission({ mission }: MissionProps) {
               icon={CheckCircle2}
               onClick={() =>
                 dispatch({
-                  type: "MARK_DONE",
+                  type: 'MARK_DONE',
                   payload: mission,
                   timestamp: getCurrentDateTime(),
                 })
@@ -109,7 +109,7 @@ export default function Mission({ mission }: MissionProps) {
           <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
             {dateTag && (
               <span
-                className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}
+                className={`flex items-center gap-1 ${pastDue ? 'text-red-500' : ''}`}
               >
                 <Calendar className="h-3 w-3" />
                 {dateTag.name}
@@ -117,7 +117,7 @@ export default function Mission({ mission }: MissionProps) {
             )}
             {timeTag && (
               <span
-                className={`flex items-center gap-1 ${pastDue ? "text-red-500" : ""}`}
+                className={`flex items-center gap-1 ${pastDue ? 'text-red-500' : ''}`}
               >
                 <Clock className="h-3 w-3" />
                 {timeTag.name}
@@ -136,7 +136,7 @@ export default function Mission({ mission }: MissionProps) {
 
         {/* Expanded section: description + tags */}
         {expanded && (
-          <div className="mt-3 pt-3 border-t border-stone-200 flex flex-col gap-2">
+          <div className="mt-3 flex flex-col gap-2 border-t border-stone-200 pt-3">
             {labelTags.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {labelTags.map((tag, index) => (
@@ -146,7 +146,7 @@ export default function Mission({ mission }: MissionProps) {
             )}
 
             {mission.description ? (
-              <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap">
+              <p className="text-xs leading-relaxed whitespace-pre-wrap text-slate-600">
                 {mission.description}
               </p>
             ) : (
@@ -155,10 +155,10 @@ export default function Mission({ mission }: MissionProps) {
 
             {mission.goals && mission.goals.length > 0 && (
               <div>
-                <p className="text-xs font-medium text-slate-500 flex items-center gap-1 mb-1">
+                <p className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-500">
                   <Target className="h-3 w-3" /> Goals
                 </p>
-                <ul className="list-disc list-inside text-xs text-slate-600 space-y-0.5">
+                <ul className="list-inside list-disc space-y-0.5 text-xs text-slate-600">
                   {mission.goals.map((goal, i) => (
                     <li key={i}>{goal}</li>
                   ))}
@@ -168,17 +168,17 @@ export default function Mission({ mission }: MissionProps) {
 
             {mission.resources && mission.resources.length > 0 && (
               <div>
-                <p className="text-xs font-medium text-slate-500 flex items-center gap-1 mb-1">
+                <p className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-500">
                   <Link className="h-3 w-3" /> Resources
                 </p>
-                <ul className="text-xs space-y-0.5">
+                <ul className="space-y-0.5 text-xs">
                   {mission.resources.map((resource, i) => {
                     const isUrl =
                       /^(https?:\/\/)?[\w.-]+\.\w{2,}(\/\S*)?$/i.test(resource);
                     return (
                       <li
                         key={i}
-                        className={isUrl ? "text-violet-500" : "text-slate-600"}
+                        className={isUrl ? 'text-violet-500' : 'text-slate-600'}
                       >
                         {isUrl ? (
                           <a
@@ -189,7 +189,7 @@ export default function Mission({ mission }: MissionProps) {
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:underline break-all"
+                            className="break-all hover:underline"
                           >
                             {resource}
                           </a>

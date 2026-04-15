@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useContext, useMemo, useState } from "react";
-import { MissionContext, Tag } from "@/context/MissionContext";
-import isTagActive from "../helpers/isTagActive"; // Assuming you have these helpers
-import areTagsEqual from "../helpers/areTagsEqual"; // Assuming you have these helpers
-import IconButton from "./IconButton"; // Import IconButton
-import { X } from "lucide-react"; // Import X icon from lucide-react
+import React, { useContext, useMemo, useState } from 'react';
+import { MissionContext, Tag } from '@/context/MissionContext';
+import isTagActive from '../helpers/isTagActive'; // Assuming you have these helpers
+import areTagsEqual from '../helpers/areTagsEqual'; // Assuming you have these helpers
+import IconButton from './IconButton'; // Import IconButton
+import { X } from 'lucide-react'; // Import X icon from lucide-react
 
 interface FilterMenuProps {
   onClose: () => void; // Made onClose required, as discussed
@@ -15,7 +15,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
   const missionContext = useContext(MissionContext);
 
   if (!missionContext) {
-    throw new Error("FilterMenu must be used within a MissionProvider");
+    throw new Error('FilterMenu must be used within a MissionProvider');
   }
 
   const { state, dispatch } = missionContext;
@@ -47,16 +47,16 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
     // sorts unique tags into each tag type array
     uniqueTags.forEach((tag) => {
       switch (tag.type) {
-        case "label":
+        case 'label':
           labelTagsArray.push(tag);
           break;
-        case "status":
+        case 'status':
           statusTagsArray.push(tag);
           break;
-        case "date":
+        case 'date':
           dateTagsArray.push(tag);
           break;
-        case "time":
+        case 'time':
           timeTagsArray.push(tag);
           break;
         default:
@@ -81,82 +81,82 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
     let newFilters: Tag[];
     if (isTagActive(tagToToggle, currentFilters)) {
       newFilters = currentFilters.filter(
-        (tag) => !areTagsEqual(tag, tagToToggle),
+        (tag) => !areTagsEqual(tag, tagToToggle)
       );
     } else {
       newFilters = [...currentFilters, tagToToggle];
     }
-    dispatch({ type: "SET_FILTERS", payload: newFilters });
+    dispatch({ type: 'SET_FILTERS', payload: newFilters });
   };
 
-  const setLogic = (logic: "AND" | "OR") => {
-    dispatch({ type: "SET_FILTER_LOGIC", payload: logic });
+  const setLogic = (logic: 'AND' | 'OR') => {
+    dispatch({ type: 'SET_FILTER_LOGIC', payload: logic });
   };
 
   // Placeholder for internal state for the label text input for suggestions
-  const [labelSearchTerm, setLabelSearchTerm] = useState("");
+  const [labelSearchTerm, setLabelSearchTerm] = useState('');
   // Placeholder for internal state for selected status tag from dropdown
   const [selectedStatusTag, setSelectedStatusTag] = useState<Tag | null>(null);
   // Placeholder for internal state for date range
-  const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" });
+  const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 backdrop-blur-sm px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 px-4 backdrop-blur-sm">
       <div className="w-full max-w-xl rounded-2xl border border-stone-200/70 bg-white p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-800">
             Filter Missions
           </h2>
-          <IconButton icon={X} onClick={onClose} />{" "}
+          <IconButton icon={X} onClick={onClose} />{' '}
           {/* Using your IconButton component */}
         </div>
 
         {/* Filter Logic (AND/OR) */}
         <div className="mb-4">
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="mb-1 block text-xs font-medium text-slate-500">
             Filter Logic:
           </label>
-          <div className="flex gap-2 p-1.5 rounded-xl border border-stone-300 bg-white shadow-sm">
+          <div className="flex gap-2 rounded-xl border border-stone-300 bg-white p-1.5 shadow-sm">
             <label
-              className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
-                currentFilterLogic === "AND"
-                  ? "bg-black text-white"
-                  : "text-slate-500 hover:bg-stone-100"
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg text-sm transition-colors ${
+                currentFilterLogic === 'AND'
+                  ? 'bg-black text-white'
+                  : 'text-slate-500 hover:bg-stone-100'
               }`}
             >
               <input
                 type="radio"
                 name="filterLogic"
                 value="AND"
-                checked={currentFilterLogic === "AND"}
-                onChange={() => setLogic("AND")}
+                checked={currentFilterLogic === 'AND'}
+                onChange={() => setLogic('AND')}
                 className="sr-only" // Hide native radio button visually
               />
-              <span className="py-2 px-3">∩ AND</span>
+              <span className="px-3 py-2">∩ AND</span>
             </label>
             <label
-              className={`flex-1 flex items-center justify-center cursor-pointer rounded-lg text-sm transition-colors ${
-                currentFilterLogic === "OR"
-                  ? "bg-black text-white"
-                  : "text-slate-500 hover:bg-stone-100"
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg text-sm transition-colors ${
+                currentFilterLogic === 'OR'
+                  ? 'bg-black text-white'
+                  : 'text-slate-500 hover:bg-stone-100'
               }`}
             >
               <input
                 type="radio"
                 name="filterLogic"
                 value="OR"
-                checked={currentFilterLogic === "OR"}
-                onChange={() => setLogic("OR")}
+                checked={currentFilterLogic === 'OR'}
+                onChange={() => setLogic('OR')}
                 className="sr-only" // Hide native radio button visually
               />
-              <span className="py-2 px-3">OR U </span>
+              <span className="px-3 py-2">OR U </span>
             </label>
           </div>
         </div>
 
         {/* Label Tags (Text box with suggestions) - Placeholder */}
         <div className="mb-4">
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="mb-1 block text-xs font-medium text-slate-500">
             Label Tags:
           </label>
           {/* For now, let's just show clickable label tags with updated styling. */}
@@ -165,10 +165,10 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
               <button
                 key={tag.name}
                 onClick={() => toggleTag(tag)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors duration-200 ${
                   isTagActive(tag, currentFilters) // Using currentFilters here
-                    ? (tag.color || "bg-blue-500") + " text-white" // Keep tag's original color if active
-                    : "bg-stone-100 text-slate-600 hover:bg-stone-200" // New style for inactive
+                    ? (tag.color || 'bg-blue-500') + ' text-white' // Keep tag's original color if active
+                    : 'bg-stone-100 text-slate-600 hover:bg-stone-200' // New style for inactive
                 }`}
               >
                 {tag.name}
@@ -181,27 +181,27 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Status Tags (Dropdown) - Placeholder */}
         <div className="mb-4">
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="mb-1 block text-xs font-medium text-slate-500">
             Status Tags:
           </label>
           <select
-            className="w-full app-input appearance-none" // Added appearance-none and pr-8
-            value={selectedStatusTag?.name || ""}
+            className="app-input w-full appearance-none" // Added appearance-none and pr-8
+            value={selectedStatusTag?.name || ''}
             onChange={(e) => {
               const selectedName = e.target.value;
               const tag = statusTags.find((t) => t.name === selectedName);
-              if (selectedName === "") {
+              if (selectedName === '') {
                 const nonStatusFilters = currentFilters.filter(
-                  (f) => f.type !== "status",
+                  (f) => f.type !== 'status'
                 ); // Using currentFilters here
-                dispatch({ type: "SET_FILTERS", payload: nonStatusFilters });
+                dispatch({ type: 'SET_FILTERS', payload: nonStatusFilters });
                 setSelectedStatusTag(null);
               } else if (tag) {
                 const newFilters = currentFilters.filter(
-                  (f) => f.type !== "status",
+                  (f) => f.type !== 'status'
                 ); // Remove any existing status filters. Using currentFilters here.
                 newFilters.push(tag);
-                dispatch({ type: "SET_FILTERS", payload: newFilters });
+                dispatch({ type: 'SET_FILTERS', payload: newFilters });
                 setSelectedStatusTag(tag);
               }
             }}
@@ -217,10 +217,10 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Due Date Time Frame (Input) - Placeholder */}
         <div className="mb-4">
-          <label className="block text-xs font-medium text-slate-500 mb-1">
+          <label className="mb-1 block text-xs font-medium text-slate-500">
             Due Date Range:
           </label>
-          <div className="w-full flex justify-start gap-4 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
+          <div className="flex w-full justify-start gap-4 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
             <input
               type="date"
               className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent

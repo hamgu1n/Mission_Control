@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 interface ListInputProps {
   items: string[]; // current list of values
@@ -20,7 +20,7 @@ export default function ListInput({
       {items.map((item, i) => (
         <div
           key={i}
-          className="flex items-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2.5 shadow-sm focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100 transition"
+          className="flex items-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2.5 shadow-sm transition focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100"
         >
           <span className="text-sm text-slate-400 select-none">{icon}</span>
           <input
@@ -33,41 +33,41 @@ export default function ListInput({
             }}
             onKeyDown={(e) => {
               // Enter adds a new item below and focuses it
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 e.preventDefault();
                 const updated = [...items];
-                updated.splice(i + 1, 0, "");
+                updated.splice(i + 1, 0, '');
                 setItems(updated);
                 setTimeout(() => {
                   const inputs = (e.target as HTMLInputElement)
-                    .closest("div.flex.flex-col")
-                    ?.querySelectorAll("input");
+                    .closest('div.flex.flex-col')
+                    ?.querySelectorAll('input');
                   inputs?.[i + 1]?.focus();
                 }, 0);
               }
               // Backspace on empty item removes it and focuses the one above
-              if (e.key === "Backspace" && item === "" && items.length > 1) {
+              if (e.key === 'Backspace' && item === '' && items.length > 1) {
                 e.preventDefault();
                 const updated = [...items];
                 updated.splice(i, 1);
                 setItems(updated);
                 setTimeout(() => {
                   const inputs = (e.target as HTMLInputElement)
-                    .closest("div.flex.flex-col")
-                    ?.querySelectorAll("input");
+                    .closest('div.flex.flex-col')
+                    ?.querySelectorAll('input');
                   inputs?.[Math.max(0, i - 1)]?.focus();
                 }, 0);
               }
             }}
-            placeholder={i === 0 ? placeholder : ""}
-            className="flex-1 text-sm text-slate-800 outline-none placeholder:text-slate-400 bg-transparent"
+            placeholder={i === 0 ? placeholder : ''}
+            className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
           />
         </div>
       ))}
       <button
         type="button"
-        onClick={() => setItems(items.length === 0 ? [""] : [...items, ""])}
-        className={`w-full rounded-xl border border-dashed border-stone-300 px-4 ${items.length === 0 ? "py-2.5 text-sm" : "py-1.5 text-xs"} text-slate-400 transition hover:border-violet-300 hover:text-violet-400`}
+        onClick={() => setItems(items.length === 0 ? [''] : [...items, ''])}
+        className={`w-full rounded-xl border border-dashed border-stone-300 px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} text-slate-400 transition hover:border-violet-300 hover:text-violet-400`}
       >
         + {items.length === 0 ? `Add a ${addLabel}` : `Add another ${addLabel}`}
       </button>

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { type LucideIcon } from "lucide-react";
+import { type LucideIcon } from 'lucide-react';
 
 interface IconButtonProps {
   icon: LucideIcon; // lucide icon component to render
@@ -11,23 +11,23 @@ interface IconButtonProps {
 export default function IconButton({
   icon: Icon,
   onClick,
-  hoverColor = "slate",
+  hoverColor = 'slate',
 }: IconButtonProps) {
   const hoverBgClasses: Record<string, string> = {
-    none: "",
-    slate: "hover:bg-stone-100",
-    red: "hover:bg-red-50",
-    green: "hover:bg-green-50",
-    violet: "hover:bg-violet-100",
-    blue: "hover:bg-blue-100",
+    none: '',
+    slate: 'hover:bg-stone-100',
+    red: 'hover:bg-red-50',
+    green: 'hover:bg-green-50',
+    violet: 'hover:bg-violet-100',
+    blue: 'hover:bg-blue-100',
   };
 
   const hoverTextClasses: Record<string, string> = {
-    slate: "hover:text-slate-600",
-    red: "hover:text-red-500",
-    green: "hover:text-green-500",
-    violet: "hover:text-violet-600",
-    blue: "hover:text-blue-600",
+    slate: 'hover:text-slate-600',
+    red: 'hover:text-red-500',
+    green: 'hover:text-green-500',
+    violet: 'hover:text-violet-600',
+    blue: 'hover:text-blue-600',
   };
 
   const bg = hoverBgClasses[hoverColor] || hoverBgClasses.slate;

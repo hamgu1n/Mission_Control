@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useContext, useEffect, useState } from "react";
-import { MissionContext } from "@/context/MissionContext";
-import Mission from "./Mission";
-import FilterMenu from "./FilterMenu";
-import AddMissionPopup from "./AddMissionPopup";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import IconButton from "./IconButton";
+import { useContext, useEffect, useState } from 'react';
+import { MissionContext } from '@/context/MissionContext';
+import Mission from './Mission';
+import FilterMenu from './FilterMenu';
+import AddMissionPopup from './AddMissionPopup';
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import IconButton from './IconButton';
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
 
   const [showMissionPopup, setShowMissionPopup] = useState(false);
-  const [quickAddTitle, setQuickAddTitle] = useState("");
+  const [quickAddTitle, setQuickAddTitle] = useState('');
 
   const [collapsed, setCollapsed] = useState(false); // state for whether the sidebar is collapsed or not
 
@@ -56,16 +56,16 @@ export default function MissionControl() {
     // 3. Check for tag matches based on filterLogic (AND/OR)
     const missionTagNames = new Set(mission.tags?.map((tag) => tag.name) || []);
 
-    if (currentFilterLogic === "AND") {
+    if (currentFilterLogic === 'AND') {
       // For "AND" logic, the mission must have ALL selected filter tags.
       return currentFilters.every((filterTag) =>
-        missionTagNames.has(filterTag.name),
+        missionTagNames.has(filterTag.name)
       );
     } else {
       // filterLogic === "OR"
       // For "OR" logic, the mission must have AT LEAST ONE selected filter tag.
       return currentFilters.some((filterTag) =>
-        missionTagNames.has(filterTag.name),
+        missionTagNames.has(filterTag.name)
       );
     }
   });
@@ -73,7 +73,7 @@ export default function MissionControl() {
   const inputTextAndAddButtonRow = // row with search bar and add button and filter button
     (
       <div
-        className={`mb-4 flex gap-2 min-h-10.5 items-center justify-end ${!showSearchBar ? "justify-center" : ""}`}
+        className={`mb-4 flex min-h-10.5 items-center justify-end gap-2 ${!showSearchBar ? 'justify-center' : ''}`}
       >
         <input
           type="text"
@@ -81,13 +81,13 @@ export default function MissionControl() {
           onChange={(e) => setQuickAddTitle(e.target.value)}
           onKeyDown={(e) => {
             // Allows quick add on Enter
-            if (e.key === "Enter" && quickAddTitle.trim() !== "") {
+            if (e.key === 'Enter' && quickAddTitle.trim() !== '') {
               setShowMissionPopup(true);
             }
           }}
           placeholder="New mission..."
           className={`app-input transition-all duration-300 ease-in-out ${
-            collapsed ? "w-0 opacity-0 overflow-hidden" : "w-full opacity-100"
+            collapsed ? 'w-0 overflow-hidden opacity-0' : 'w-full opacity-100'
           }`}
         />
 
@@ -96,14 +96,14 @@ export default function MissionControl() {
           onClick={() => setShowMissionPopup(true)}
           className="btn-primary"
         >
-          <Plus className="w-5 h-5"></Plus>
+          <Plus className="h-5 w-5"></Plus>
         </button>
       </div>
     );
 
   const missionList = (
     <div
-      className={`flex-1 overflow-y-auto p-1 flex flex-col gap-2 ${!showMissions ? "hidden" : ""}`}
+      className={`flex flex-1 flex-col gap-2 overflow-y-auto p-1 ${!showMissions ? 'hidden' : ''}`}
     >
       {filteredMissions.map((mission, index) => (
         <Mission key={index} mission={mission} />
@@ -115,8 +115,8 @@ export default function MissionControl() {
     <button
       type="button"
       onClick={() => setCollapsed(!collapsed)}
-      className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 bg-white text-slate-400 shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
-        collapsed ? "left-17" : "left-100"
+      className={`absolute top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-stone-300 bg-white text-slate-400 shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
+        collapsed ? 'left-17' : 'left-100'
       }`}
     >
       {collapsed ? (
@@ -131,8 +131,8 @@ export default function MissionControl() {
     <>
       <div className="relative flex">
         <div
-          className={`relative h-[calc(100vh-57px)] bg-white border-r border-stone-300 shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
-            collapsed ? "w-17" : "w-100"
+          className={`relative h-[calc(100vh-57px)] overflow-hidden border-r border-stone-300 bg-white shadow-sm transition-all duration-300 ease-in-out ${
+            collapsed ? 'w-17' : 'w-100'
           }`}
         >
           <div className="flex h-full flex-col p-4">
@@ -148,7 +148,7 @@ export default function MissionControl() {
         isOpen={showMissionPopup}
         onClose={() => {
           setShowMissionPopup(false);
-          setQuickAddTitle("");
+          setQuickAddTitle('');
         }}
         quickAddTitle={quickAddTitle}
       />
@@ -157,7 +157,7 @@ export default function MissionControl() {
       {showFilterMenu && (
         <FilterMenu
           onClose={() =>
-            dispatch({ type: "TOGGLE_FILTER_MENU", payload: false })
+            dispatch({ type: 'TOGGLE_FILTER_MENU', payload: false })
           }
         />
       )}

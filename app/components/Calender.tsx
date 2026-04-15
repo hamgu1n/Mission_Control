@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useContext, useMemo, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
+import { useContext, useMemo, useState } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import type {
   EventClickArg,
   EventContentArg,
   EventInput,
-} from "@fullcalendar/core";
-import { MissionContext, type Mission } from "@/context/MissionContext";
-import AddMissionPopup from "./AddMissionPopup";
+} from '@fullcalendar/core';
+import { MissionContext, type Mission } from '@/context/MissionContext';
+import AddMissionPopup from './AddMissionPopup';
 
-type Priority = NonNullable<Mission["priority"]>;
+type Priority = NonNullable<Mission['priority']>;
 
 const priorityEventColors: Record<
-  Priority | "none",
+  Priority | 'none',
   {
     backgroundColor: string;
     borderColor: string;
@@ -22,33 +22,33 @@ const priorityEventColors: Record<
   }
 > = {
   high: {
-    backgroundColor: "#fecaca",
-    borderColor: "#f87171",
-    textColor: "#991b1b",
+    backgroundColor: '#fecaca',
+    borderColor: '#f87171',
+    textColor: '#991b1b',
   },
   medium: {
-    backgroundColor: "#fef08a",
-    borderColor: "#facc15",
-    textColor: "#a16207",
+    backgroundColor: '#fef08a',
+    borderColor: '#facc15',
+    textColor: '#a16207',
   },
   low: {
-    backgroundColor: "#bbf7d0",
-    borderColor: "#4ade80",
-    textColor: "#15803d",
+    backgroundColor: '#bbf7d0',
+    borderColor: '#4ade80',
+    textColor: '#15803d',
   },
   none: {
-    backgroundColor: "#e7e5e4",
-    borderColor: "#d6d3d1",
-    textColor: "#334155",
+    backgroundColor: '#e7e5e4',
+    borderColor: '#d6d3d1',
+    textColor: '#334155',
   },
 };
 
 function formatMissionTime(date: Date | null) {
-  if (!date) return "";
+  if (!date) return '';
 
-  return date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
     hour12: true,
   });
 }
@@ -60,10 +60,10 @@ export default function Calender() {
 
   const datedMissions = useMemo<EventInput[]>(() => {
     return (missions ?? []).flatMap((mission) => {
-      const dateTag = mission.tags?.find((tag) => tag.type === "date");
-      const timeTag = mission.tags?.find((tag) => tag.type === "time");
+      const dateTag = mission.tags?.find((tag) => tag.type === 'date');
+      const timeTag = mission.tags?.find((tag) => tag.type === 'time');
       const isDone = mission.tags?.some(
-        (tag) => tag.type === "status" && tag.name === "Done",
+        (tag) => tag.type === 'status' && tag.name === 'Done'
       );
 
       if (!dateTag || isDone) return [];
@@ -78,15 +78,15 @@ export default function Calender() {
           extendedProps: {
             mission,
           },
-          classNames: ["cursor-pointer"],
-          ...priorityEventColors[mission.priority ?? "none"],
+          classNames: ['cursor-pointer'],
+          ...priorityEventColors[mission.priority ?? 'none'],
         },
       ];
     });
   }, [missions]);
 
   function renderMissionEventContent(eventInfo: EventContentArg) {
-    const isWeeklyView = eventInfo.view.type === "dayGridWeek";
+    const isWeeklyView = eventInfo.view.type === 'dayGridWeek';
     const showWeeklyTime = isWeeklyView && !eventInfo.event.allDay;
 
     return (
@@ -121,13 +121,13 @@ export default function Calender() {
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
             headerToolbar={{
-              left: "prev,next",
-              center: "title",
-              right: "dayGridMonth,dayGridWeek",
+              left: 'prev,next',
+              center: 'title',
+              right: 'dayGridMonth,dayGridWeek',
             }}
             buttonText={{
-              month: "Monthly",
-              week: "Weekly",
+              month: 'Monthly',
+              week: 'Weekly',
             }}
             events={datedMissions}
             eventDisplay="block"
