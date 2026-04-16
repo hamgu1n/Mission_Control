@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import type {
@@ -56,7 +56,37 @@ function formatMissionTime(date: Date | null) {
 export default function Calender() {
   const context = useContext(MissionContext);
   const missions = context?.state.currentMissions;
+  const calendarRef = useRef<FullCalendar | null>(null);
+  const calendarFrameRef = useRef<HTMLDivElement | null>(null);
   const [editingMission, setEditingMission] = useState<Mission | null>(null);
+
+  useEffect(() => {
+    const frame = calendarFrameRef.current;
+
+    if (!frame) return;
+
+    let animationFrameId: number | null = null;
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = requestAnimationFrame(() => {
+        calendarRef.current?.getApi().updateSize();
+      });
+    });
+
+    resizeObserver.observe(frame);
+
+    return () => {
+      resizeObserver.disconnect();
+
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, []);
 
   const datedMissions = useMemo<EventInput[]>(() => {
     return (missions ?? []).flatMap((mission) => {
@@ -116,8 +146,9 @@ export default function Calender() {
   return (
     <>
       <section className="app-card flex h-full min-h-[calc(100vh-121px)] flex-col overflow-hidden">
-        <div className="flex-1 px-4 py-4">
+        <div ref={calendarFrameRef} className="flex-1 px-4 py-4">
           <FullCalendar
+            ref={calendarRef}
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
             headerToolbar={{
