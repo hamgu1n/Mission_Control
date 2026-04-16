@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useContext } from 'react';
-import { Settings, Funnel, PlusCircle } from 'lucide-react';
-import { MissionContext } from '@/context/MissionContext';
+import Image from 'next/image';
+import { Settings } from 'lucide-react';
 import SearchBar from './SearchBar';
-import FilterMenu from './FilterMenu';
 import IconButton from './IconButton';
 
 interface HeaderProps {
@@ -12,24 +10,21 @@ interface HeaderProps {
 }
 
 export default function Header({ title = 'Mission Control' }: HeaderProps) {
-  const missionContext = useContext(MissionContext);
-
-  if (!missionContext) {
-    throw new Error('Header must be used within a MissionProvider');
-  }
-
-  const { state, dispatch } = missionContext;
-
-  const { showFilterMenu } = state;
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-stone-400 bg-white/80 px-6 py-4 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-stone-400 bg-white/80 px-6 py-1 backdrop-blur-xl">
       <div className="flex items-center justify-between gap-4">
-        {' '}
-        {/* Added gap for spacing */}
-        <h1 className="text-lg font-semibold tracking-tight text-slate-800">
-          {title}
-        </h1>
+        <div className="flex shrink-0 items-center gap-2">
+          <Image
+            src="/logo.svg"
+            alt="Mission Control logo"
+            width={62}
+            height={62}
+            priority
+          />
+          <h1 className="text-lg font-semibold tracking-tight text-slate-800">
+            {title}
+          </h1>
+        </div>
         <SearchBar /> {/* Render the context-aware SearchBar */}
         {/* Settings button on the far right */}
         <IconButton
