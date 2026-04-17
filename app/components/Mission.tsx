@@ -62,13 +62,13 @@ export default function Mission({ mission }: MissionProps) {
 
   return (
     <div className={`flex w-full items-center ${done ? 'hidden' : ''}`}>
-      <div className="flex w-full flex-col rounded-xl border border-stone-300 bg-white px-4 py-3.5 shadow-sm transition hover:shadow-md">
+      <div className="app-card flex w-full flex-col px-4 py-3.5 transition hover:shadow-md">
         {/* Top row: status + title */}
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 align-middle">
               {statusTag && <Tag tag={statusTag} />}
-              <p className="truncate text-sm font-semibold text-slate-800">
+              <p className="text-primary truncate text-sm font-semibold">
                 {mission.title}
               </p>
             </div>
@@ -106,7 +106,7 @@ export default function Mission({ mission }: MissionProps) {
 
         {/* Date/time/priority row - always visible if present */}
         {(dateTag || timeTag || mission.priority) && (
-          <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
+          <div className="text-secondary mt-2 flex items-center gap-3 text-xs">
             {dateTag && (
               <span
                 className={`flex items-center gap-1 ${pastDue ? 'text-red-500' : ''}`}
@@ -146,19 +146,19 @@ export default function Mission({ mission }: MissionProps) {
             )}
 
             {mission.description ? (
-              <p className="text-xs leading-relaxed whitespace-pre-wrap text-slate-600">
+              <p className="text-secondary text-xs leading-relaxed whitespace-pre-wrap">
                 {mission.description}
               </p>
             ) : (
-              <p className="text-xs text-slate-400 italic">No description</p>
+              <p className="text-muted text-xs italic">No description</p>
             )}
 
             {mission.goals && mission.goals.length > 0 && (
               <div>
-                <p className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-500">
+                <p className="text-secondary mb-1 flex items-center gap-1 text-xs font-medium">
                   <Target className="h-3 w-3" /> Goals
                 </p>
-                <ul className="list-inside list-disc space-y-0.5 text-xs text-slate-600">
+                <ul className="text-secondary list-inside list-disc space-y-0.5 text-xs">
                   {mission.goals.map((goal, i) => (
                     <li key={i}>{goal}</li>
                   ))}
@@ -168,7 +168,7 @@ export default function Mission({ mission }: MissionProps) {
 
             {mission.resources && mission.resources.length > 0 && (
               <div>
-                <p className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-500">
+                <p className="text-secondary mb-1 flex items-center gap-1 text-xs font-medium">
                   <Link className="h-3 w-3" /> Resources
                 </p>
                 <ul className="space-y-0.5 text-xs">
@@ -178,7 +178,7 @@ export default function Mission({ mission }: MissionProps) {
                     return (
                       <li
                         key={i}
-                        className={isUrl ? 'text-violet-500' : 'text-slate-600'}
+                        className={isUrl ? 'text-violet-500' : 'text-secondary'}
                       >
                         {isUrl ? (
                           <a

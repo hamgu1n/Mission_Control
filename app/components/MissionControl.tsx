@@ -6,7 +6,6 @@ import Mission from './Mission';
 import FilterMenu from './FilterMenu';
 import AddMissionPopup from './AddMissionPopup';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
-import IconButton from './IconButton';
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
@@ -115,7 +114,7 @@ export default function MissionControl() {
     <button
       type="button"
       onClick={() => setCollapsed(!collapsed)}
-      className={`absolute top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-stone-300 bg-white text-slate-400 shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
+      className={`app-card text-muted absolute top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
         collapsed ? 'left-17' : 'left-100'
       }`}
     >
@@ -131,7 +130,7 @@ export default function MissionControl() {
     <>
       <div className="relative flex">
         <div
-          className={`relative h-[calc(100vh-57px)] overflow-hidden border-r border-stone-300 bg-white shadow-sm transition-all duration-300 ease-in-out ${
+          className={`app-card relative h-[calc(100vh-57px)] overflow-hidden rounded-none border-0 border-r transition-all duration-300 ease-in-out ${
             collapsed ? 'w-17' : 'w-100'
           }`}
         >

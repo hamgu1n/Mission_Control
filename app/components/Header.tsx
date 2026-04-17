@@ -21,7 +21,7 @@ export default function Header({ title = 'Mission Control' }: HeaderProps) {
             height={62}
             priority
           />
-          <h1 className="text-lg font-semibold tracking-tight text-slate-800">
+          <h1 className="text-primary text-lg font-semibold tracking-tight">
             {title}
           </h1>
         </div>

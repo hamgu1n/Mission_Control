@@ -47,7 +47,7 @@ export default function ButtonRow({
             className={`flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition ${
               isSelected
                 ? `${colors.border} ${colors.bg} ${colors.text}`
-                : 'border-stone-300 bg-white text-slate-400 hover:bg-stone-50'
+                : 'app-card text-muted hover:bg-stone-50'
             }`}
           >
             {label}

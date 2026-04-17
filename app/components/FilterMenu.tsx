@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { MissionContext, Tag } from '@/context/MissionContext';
 import isTagActive from '../helpers/isTagActive'; // Assuming you have these helpers
 import areTagsEqual from '../helpers/areTagsEqual'; // Assuming you have these helpers
@@ -27,7 +27,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
   } = state;
 
   // creates arrays for each user-relevant tag type to later seperate in ui
-  const { labelTags, statusTags, dateTags, timeTags } = useMemo(() => {
+  const { labelTags, statusTags } = useMemo(() => {
     const allTags = new Map<string, Tag>();
     currentMissions.forEach((mission) => {
       mission.tags?.forEach((tag) => {
@@ -93,8 +93,6 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
     dispatch({ type: 'SET_FILTER_LOGIC', payload: logic });
   };
 
-  // Placeholder for internal state for the label text input for suggestions
-  const [labelSearchTerm, setLabelSearchTerm] = useState('');
   // Placeholder for internal state for selected status tag from dropdown
   const [selectedStatusTag, setSelectedStatusTag] = useState<Tag | null>(null);
   // Placeholder for internal state for date range
@@ -102,9 +100,9 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-xl rounded-2xl border border-stone-200/70 bg-white p-6 shadow-xl">
+      <div className="app-card w-full max-w-xl p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-800">
+          <h2 className="text-primary text-lg font-semibold">
             Filter Missions
           </h2>
           <IconButton icon={X} onClick={onClose} />{' '}
@@ -113,15 +111,15 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Filter Logic (AND/OR) */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Filter Logic:
           </label>
-          <div className="flex gap-2 rounded-xl border border-stone-300 bg-white p-1.5 shadow-sm">
+          <div className="app-input flex gap-2 p-1.5">
             <label
               className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg text-sm transition-colors ${
                 currentFilterLogic === 'AND'
                   ? 'bg-black text-white'
-                  : 'text-slate-500 hover:bg-stone-100'
+                  : 'text-secondary hover:bg-stone-100'
               }`}
             >
               <input
@@ -138,7 +136,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
               className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg text-sm transition-colors ${
                 currentFilterLogic === 'OR'
                   ? 'bg-black text-white'
-                  : 'text-slate-500 hover:bg-stone-100'
+                  : 'text-secondary hover:bg-stone-100'
               }`}
             >
               <input
@@ -156,7 +154,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Label Tags (Text box with suggestions) - Placeholder */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Label Tags:
           </label>
           {/* For now, let's just show clickable label tags with updated styling. */}
@@ -168,20 +166,20 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
                 className={`rounded-full px-3 py-1 text-xs font-medium transition-colors duration-200 ${
                   isTagActive(tag, currentFilters) // Using currentFilters here
                     ? (tag.color || 'bg-blue-500') + ' text-white' // Keep tag's original color if active
-                    : 'bg-stone-100 text-slate-600 hover:bg-stone-200' // New style for inactive
+                    : 'bg-stone-100 text-secondary hover:bg-stone-200' // New style for inactive
                 }`}
               >
                 {tag.name}
               </button>
             ))}
           </div>
-          {/* Future: <input type="text" placeholder="Search label tags..." value={labelSearchTerm} onChange={(e) => setLabelSearchTerm(e.target.value)} className="rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-violet-300 focus:ring-2 focus:ring-violet-100" /> */}
-          {/* Future: Display suggested tags based on labelSearchTerm */}
+          {/* Future: <input type="text" placeholder="Search label tags..." className="app-input w-full" /> */}
+          {/* Future: Display suggested tags when label search is added */}
         </div>
 
         {/* Status Tags (Dropdown) - Placeholder */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Status Tags:
           </label>
           <select
@@ -217,13 +215,13 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Due Date Time Frame (Input) - Placeholder */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Due Date Range:
           </label>
-          <div className="flex w-full justify-start gap-4 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
+          <div className="app-input flex w-full justify-start gap-4">
             <input
               type="date"
-              className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent
+              className="text-primary flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent
               placeholder="Start Date"
               value={dateRange.startDate}
               onChange={(e) =>
@@ -232,7 +230,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
             />
             <input
               type="date"
-              className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent
+              className="text-primary flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400" // Inherit styling from parent, make transparent
               placeholder="End Date"
               value={dateRange.endDate}
               onChange={(e) =>

@@ -143,7 +143,7 @@ export default function MissionInput({
       <div>
         <div className="mb-1 flex items-center justify-between">
           <label
-            className={`block text-xs font-medium ${titleError ? 'text-red-500' : 'text-slate-500'}`}
+            className={`block text-xs font-medium ${titleError ? 'text-red-500' : 'text-secondary'}`}
           >
             Title <span className="text-red-400">*</span>
           </label>
@@ -175,7 +175,7 @@ export default function MissionInput({
 
       {showTags && (
         <div className="mb-2">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Tags
           </label>
           <input
@@ -189,7 +189,7 @@ export default function MissionInput({
       )}
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Description
         </label>
         <textarea
@@ -202,7 +202,7 @@ export default function MissionInput({
       </div>
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Priority
         </label>
         <ButtonRow
@@ -217,7 +217,7 @@ export default function MissionInput({
       </div>
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Goals
         </label>
         <ListInput
@@ -230,7 +230,7 @@ export default function MissionInput({
       </div>
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Resources & Links
         </label>
         <ListInput
@@ -243,20 +243,22 @@ export default function MissionInput({
       </div>
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Due Date & Time
         </label>
-        <div className="flex w-full justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
+        <div className="app-input flex w-full justify-start gap-6">
           <input
             type="date"
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
+            className="text-primary bg-transparent outline-none"
           />
 
           <input
             type="time"
             value={newTime}
             onChange={(e) => setNewTime(e.target.value)}
+            className="text-primary bg-transparent outline-none"
           />
         </div>
       </div>

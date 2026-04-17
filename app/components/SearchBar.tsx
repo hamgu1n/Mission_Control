@@ -13,12 +13,10 @@ export default function SearchBar() {
   }
 
   const { state, dispatch } = missionContext;
-  const { searchText, showFilterMenu } = state;
+  const { searchText } = state;
 
   return (
-    <div
-      className={`relative flex w-2/5 items-center rounded-xl border border-stone-300 bg-white px-4 py-2.5 shadow-sm transition outline-none focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100`}
-    >
+    <div className="app-input relative flex w-2/5 items-center">
       <input
         type="text"
         value={searchText}
@@ -26,7 +24,7 @@ export default function SearchBar() {
           dispatch({ type: 'SET_SEARCH_TEXT', payload: e.target.value })
         }
         placeholder="Search missions"
-        className="flex-1 bg-transparent pr-8 text-sm text-slate-800 outline-none placeholder:text-slate-400"
+        className="text-primary flex-1 bg-transparent pr-8 text-sm outline-none placeholder:text-slate-400"
       />
 
       {/* Filter Button positioned inside */}

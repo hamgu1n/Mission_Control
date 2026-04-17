@@ -15,7 +15,7 @@ const Calender = dynamic(() => import("./components/Calender"), {
 export default function Page() {
   return (
     <MissionProvider>
-      <main className="min-h-screen flex flex-col">
+      <main className="app-bg min-h-screen flex flex-col">
         <Header title="Mission Control" />
 
         <div className="flex flex-1 overflow-hidden">

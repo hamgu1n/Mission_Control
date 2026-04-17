@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-stone-50 text-slate-800 antialiased">{children}</body>
+      <body className="app-bg text-primary antialiased">{children}</body>
     </html>
   );
 }
