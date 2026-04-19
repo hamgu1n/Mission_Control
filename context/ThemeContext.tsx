@@ -12,9 +12,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  ); 
+  const [theme, setTheme] = useState<Theme>('light');
 
   function toggleTheme() {
     setTheme((currentTheme) =>
@@ -23,12 +21,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+  }, []);
+
+  useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={theme === 'dark' ? 'dark' : ''}>{children}</div>
+      <div>{children}</div>
     </ThemeContext.Provider>
   );
 }
