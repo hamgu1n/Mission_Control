@@ -154,7 +154,7 @@ export default function MissionInput({
         <div className="mb-1 flex items-center justify-between">
           <label
             className={`block text-xs font-medium ${
-              titleError ? 'text-red-500' : 'text-slate-500'
+              titleError ? 'text-red-500' : "text-secondary"
             }`}
           >
             Title <span className="text-red-400">*</span>
@@ -276,7 +276,7 @@ export default function MissionInput({
           Due Date & Time
         </label>
 
-        <div className="flex w-full justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
+        <div className="app-input flex w-full justify-start gap-6">
           <input
             type="date"
             value={newDate}

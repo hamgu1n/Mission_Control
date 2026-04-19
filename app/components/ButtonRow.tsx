@@ -11,28 +11,13 @@ interface ButtonRowProps {
   onSelect: (value: string) => void;
 }
 
-const buttonColorStyles: Record<
-  string,
-  { bg: string; text: string; border: string }
-> = {
-  red: { bg: 'bg-red-200', text: 'text-red-700', border: 'border-red-400' },
-  yellow: {
-    bg: 'bg-yellow-200',
-    text: 'text-yellow-700',
-    border: 'border-yellow-400',
-  },
-  green: {
-    bg: 'bg-green-200',
-    text: 'text-green-700',
-    border: 'border-green-400',
-  },
+const buttonColorStyles: Record<string, string> = {
+  red: 'priority-red',
+  yellow: 'priority-yellow',
+  green: 'priority-green',
 };
 
-const defaultStyles = {
-  bg: 'bg-stone-200',
-  text: 'text-stone-700',
-  border: 'border-stone-300',
-};
+const defaultStyle = 'btn-secondary';
 
 export default function ButtonRow({
   options,
@@ -45,11 +30,11 @@ export default function ButtonRow({
         const value = label.toLowerCase();
         const isSelected = selected === value;
 
-        const colors = buttonColorStyles[color] || defaultStyles;
+        const colorClass = buttonColorStyles[color] || defaultStyle;
 
         const className = isSelected
-          ? `flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition ${colors.border} ${colors.bg} ${colors.text}`
-          : 'flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition border-stone-300 bg-white text-slate-400 hover:bg-stone-50';
+          ? `flex-1 rounded-xl border px-3 py-2 text-sm font-medium transition ${colorClass}`
+          : 'btn-secondary flex-1 px-3';
 
         return (
           <button

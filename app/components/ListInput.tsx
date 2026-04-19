@@ -57,14 +57,14 @@ export default function ListInput({
               }
             }}
             placeholder={i === 0 ? placeholder : ''}
-            className="text-primary flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
+            className="text-primary flex-1 bg-transparent text-sm outline-none "
           />
         </div>
       ))}
       <button
         type="button"
         onClick={() => setItems(items.length === 0 ? [''] : [...items, ''])}
-        className={`text-muted w-full rounded-xl border border-dashed border-stone-300 px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} transition hover:border-violet-300 hover:text-violet-400`}
+        className={`text-muted w-full rounded-xl border border-dashed border-(--app-border) px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} transition hover:border-violet-300 hover:text-violet-400`}
       >
         + {items.length === 0 ? `Add a ${addLabel}` : `Add another ${addLabel}`}
       </button>
