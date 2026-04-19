@@ -8,7 +8,6 @@ import { X } from 'lucide-react';
 import { useGroupedTags } from '../hooks/useGroupTags';
 import { useFilterActions } from '../hooks/useFilterActions';
 import { isTagActive } from '../helpers/filterTags';
-import { colorMap } from './Tag';
 
 interface FilterMenuProps {
   onClose: () => void;
@@ -88,7 +87,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
                   onClick={() => toggleTag(tag)}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                     active
-                      ? colorMap[tag.color] || 'tag-none'
+                      ? tag.color || 'tag-none'
                       : 'tag-none hover:bg-(--btn-icon-hover-bg)'
                   }`}
                 >

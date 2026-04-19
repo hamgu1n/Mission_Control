@@ -160,8 +160,12 @@
 
   }
 
+  html,
   body {
     background-color: var(--app-bg);
+  }
+
+  body {
     color: var(--text-primary);
     @apply font-sans antialiased;
   }
