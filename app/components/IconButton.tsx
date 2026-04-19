@@ -5,7 +5,8 @@ import { type LucideIcon } from 'lucide-react';
 interface IconButtonProps {
   icon: LucideIcon;
   onClick: () => void;
-  hoverColor?: 'none' | 'slate' | 'red' | 'green' | 'violet' | 'blue';
+  size?: string;
+  hoverColor?: 'none' | 'slate' | 'red' | 'green' | 'yellow' | 'violet' | 'blue';
 }
 
 const hoverStyles: Record<
@@ -16,6 +17,7 @@ const hoverStyles: Record<
   slate: 'hover:text-slate-600',
   red: 'hover:text-red-500',
   green: 'hover:text-green-500',
+  yellow: 'hover:text-yellow-500',
   violet: 'hover:text-violet-600',
   blue: 'hover:text-blue-600',
 };
@@ -23,6 +25,7 @@ const hoverStyles: Record<
 export default function IconButton({
   icon: Icon,
   onClick,
+  size = 'h-4 w-4',
   hoverColor = 'slate',
 }: IconButtonProps) {
   const styles = hoverStyles[hoverColor] ?? hoverStyles.slate;
@@ -33,7 +36,7 @@ export default function IconButton({
       onClick={onClick}
       className={`btn-icon ${styles}`}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className={size} />
     </button>
   );
 }

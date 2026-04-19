@@ -64,7 +64,7 @@ export default function ListInput({
       <button
         type="button"
         onClick={() => setItems(items.length === 0 ? [''] : [...items, ''])}
-        className={`text-muted w-full rounded-xl border border-dashed border-(--app-border) px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} transition hover:border-violet-300 hover:text-violet-400`}
+        className={`text-muted w-full rounded-xl border border-dashed border-(--app-border) px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} transition hover:border-(--input-focus-border) hover:text-(--btn-icon-hover-text)`}
       >
         + {items.length === 0 ? `Add a ${addLabel}` : `Add another ${addLabel}`}
       </button>

@@ -121,10 +121,10 @@ export const missionReducer = (
             ...mission,
             tags: [
               ...filteredTags,
-              { name: 'Done', color: 'bg-green-400', type: 'status' as const },
+              { name: 'Done', color: 'tag-green', type: 'status' as const },
               {
                 name: `${action.timestamp?.date} ${action.timestamp?.time}`,
-                color: 'bg-black',
+                color: 'tag-none',
                 type: 'metadata' as const,
               },
             ],

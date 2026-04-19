@@ -7,16 +7,16 @@ import { Tag as TagIcon } from 'lucide-react';
 import ButtonRow from './ButtonRow';
 
 const tagColors = [
-  'bg-red',
-  'bg-yellow',
-  'bg-green',
-  'bg-blue',
-  'bg-purple',
-  'bg-pink',
-  'bg-amber',
-  'bg-teal',
-  'bg-orange',
-  'bg-violet',
+  'tag-red',
+  'tag-yellow',
+  'tag-green',
+  'tag-blue',
+  'tag-purple',
+  'tag-pink',
+  'tag-amber',
+  'tag-teal',
+  'tag-orange',
+  'tag-violet',
 ];
 
 interface MissionInputProps {
@@ -91,14 +91,14 @@ export default function MissionInput({
     const tagsArray: Tag[] = [
       existingStatus || {
         name: 'New',
-        color: 'bg-blue',
+        color: 'tag-blue',
         type: 'status' as const,
       },
       ...(newDate
-        ? [{ name: newDate, color: 'bg-slate', type: 'date' as const }]
+        ? [{ name: newDate, color: 'tag-slate', type: 'date' as const }]
         : []),
       ...(newTime
-        ? [{ name: newTime, color: 'bg-slate', type: 'time' as const }]
+        ? [{ name: newTime, color: 'tag-slate', type: 'time' as const }]
         : []),
       ...newTags
         .split(',')

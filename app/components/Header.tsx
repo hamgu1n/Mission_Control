@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Settings } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import SearchBar from './SearchBar';
 import IconButton from './IconButton';
 import { useTheme } from '@/context/ThemeContext';
@@ -31,7 +31,12 @@ export default function Header({ title = 'Mission Control' }: HeaderProps) {
 
         <SearchBar />
 
-        <IconButton icon={Settings} onClick={toggleTheme} />
+        <IconButton
+          icon={theme === 'dark' ? Sun : Moon}
+          onClick={toggleTheme}
+          size="h-6 w-6"
+          hoverColor={theme === 'dark' ? 'yellow' : 'blue'}
+        />
       </div>
     </header>
   );

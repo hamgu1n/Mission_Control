@@ -8,6 +8,7 @@
     --app-bg: #fafaf9;
     --app-card: #ffffff;
     --app-header: rgb(255 255 255 / 0.8);
+    --app-overlay: rgb(15 23 42 / 0.25);
     --app-border: #e7e5e4;
 
     /* Text */
@@ -24,8 +25,8 @@
     /* Buttons */
     --app-btn-primary-bg: #000000;
     --app-btn-primary-text: #ffffff;
-    --app-btn-primary-hover-bg: #e5e7eb;
-    --app-btn-primary-hover-text: #000000;
+    --app-btn-primary-hover-bg: #7a787b;
+    --app-btn-primary-hover-text: #fffffe;
     --app-btn-border: #d6d3d1;
     --app-btn-radius: 0.75rem;
     --app-btn-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -53,6 +54,30 @@
     --priority-none-bg: #e7e5e4;
     --priority-none-border: #d6d3d1;
     --priority-none-text: #334155;
+
+    /* Tag colors */
+    --tag-red-bg: #fecaca;
+    --tag-red-text: #b91c1c;
+    --tag-yellow-bg: #fef08a;
+    --tag-yellow-text: #a16207;
+    --tag-green-bg: #bbf7d0;
+    --tag-green-text: #15803d;
+    --tag-blue-bg: #bfdbfe;
+    --tag-blue-text: #1d4ed8;
+    --tag-purple-bg: #e9d5ff;
+    --tag-purple-text: #7e22ce;
+    --tag-pink-bg: #fbcfe8;
+    --tag-pink-text: #be185d;
+    --tag-amber-bg: #fde68a;
+    --tag-amber-text: #b45309;
+    --tag-teal-bg: #99f6e4;
+    --tag-teal-text: #0f766e;
+    --tag-orange-bg: #fed7aa;
+    --tag-orange-text: #c2410c;
+    --tag-violet-bg: #ddd6fe;
+    --tag-violet-text: #6d28d9;
+    --tag-slate-bg: #e2e8f0;
+    --tag-slate-text: #334155;
   }
 
   .dark {
@@ -62,6 +87,7 @@
     --app-bg: #0b1020;
     --app-card: #111827;
     --app-header: #111828;
+    --app-overlay: rgb(0 0 0 / 0.45);
     --app-border: #334155;
 
     /* Text */
@@ -107,6 +133,30 @@
     --priority-none-bg: #202831;
     --priority-none-border: #3e434d;
     --priority-none-text: #cbd5e1;
+
+    /* Tag colors */
+    --tag-red-bg: #7f1d1d;
+    --tag-red-text: #fecaca;
+    --tag-yellow-bg: #713f12;
+    --tag-yellow-text: #fef08a;
+    --tag-green-bg: #14532d;
+    --tag-green-text: #bbf7d0;
+    --tag-blue-bg: #1e3a8a;
+    --tag-blue-text: #bfdbfe;
+    --tag-purple-bg: #581c87;
+    --tag-purple-text: #e9d5ff;
+    --tag-pink-bg: #831843;
+    --tag-pink-text: #fbcfe8;
+    --tag-amber-bg: #78350f;
+    --tag-amber-text: #fde68a;
+    --tag-teal-bg: #134e4a;
+    --tag-teal-text: #99f6e4;
+    --tag-orange-bg: #7c2d12;
+    --tag-orange-text: #fed7aa;
+    --tag-violet-bg: #4c1d95;
+    --tag-violet-text: #ddd6fe;
+    --tag-slate-bg: #334155;
+    --tag-slate-text: #cbd5e1;
 
   }
 
@@ -221,6 +271,62 @@
     background-color: var(--priority-none-bg);
     border-color: var(--priority-none-border);
     color: var(--priority-none-text);
+  }
+
+  .tag-red {
+    background-color: var(--tag-red-bg);
+    color: var(--tag-red-text);
+  }
+
+  .tag-yellow {
+    background-color: var(--tag-yellow-bg);
+    color: var(--tag-yellow-text);
+  }
+
+  .tag-green {
+    background-color: var(--tag-green-bg);
+    color: var(--tag-green-text);
+  }
+
+  .tag-blue {
+    background-color: var(--tag-blue-bg);
+    color: var(--tag-blue-text);
+  }
+
+  .tag-purple {
+    background-color: var(--tag-purple-bg);
+    color: var(--tag-purple-text);
+  }
+
+  .tag-pink {
+    background-color: var(--tag-pink-bg);
+    color: var(--tag-pink-text);
+  }
+
+  .tag-amber {
+    background-color: var(--tag-amber-bg);
+    color: var(--tag-amber-text);
+  }
+
+  .tag-teal {
+    background-color: var(--tag-teal-bg);
+    color: var(--tag-teal-text);
+  }
+
+  .tag-orange {
+    background-color: var(--tag-orange-bg);
+    color: var(--tag-orange-text);
+  }
+
+  .tag-violet {
+    background-color: var(--tag-violet-bg);
+    color: var(--tag-violet-text);
+  }
+
+  .tag-slate,
+  .tag-none {
+    background-color: var(--tag-slate-bg);
+    color: var(--tag-slate-text);
   }
 
   .btn-icon {

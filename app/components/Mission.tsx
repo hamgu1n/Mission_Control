@@ -141,7 +141,7 @@ export default function Mission({ mission }: MissionProps) {
 
         {/* Expanded */}
         {expanded && (
-          <div className="mt-3 flex flex-col gap-2 border-t border-stone-200 pt-3">
+          <div className="mt-3 flex flex-col gap-2 border-t border-(--app-border) pt-3">
             {labelTags.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {labelTags.map((tag) => (
@@ -174,7 +174,7 @@ export default function Mission({ mission }: MissionProps) {
             {Array.isArray(mission.resources) &&
               mission.resources.length > 0 && (
                 <div>
-                  <p className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-500">
+                  <p className="text-secondary mb-1 flex items-center gap-1 text-xs font-medium">
                     <Link className="h-3 w-3" /> Resources
                   </p>
                   <ul className="space-y-0.5 text-xs">
@@ -188,7 +188,7 @@ export default function Mission({ mission }: MissionProps) {
                         <li
                           key={i}
                           className={
-                            isUrl ? 'text-violet-500' : 'text-slate-600'
+                            isUrl ? 'text-primary' : 'text-secondary'
                           }
                         >
                           {isUrl ? (
