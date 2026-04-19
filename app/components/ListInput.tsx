@@ -18,11 +18,8 @@ export default function ListInput({
   return (
     <div className="flex flex-col gap-1.5">
       {items.map((item, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2.5 shadow-sm transition focus-within:border-violet-300 focus-within:ring-2 focus-within:ring-violet-100"
-        >
-          <span className="text-sm text-slate-400 select-none">{icon}</span>
+        <div key={i} className="app-input flex items-center gap-2">
+          <span className="text-muted text-sm select-none">{icon}</span>
           <input
             type="text"
             value={item}
@@ -60,14 +57,14 @@ export default function ListInput({
               }
             }}
             placeholder={i === 0 ? placeholder : ''}
-            className="flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
+            className="text-primary flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
           />
         </div>
       ))}
       <button
         type="button"
         onClick={() => setItems(items.length === 0 ? [''] : [...items, ''])}
-        className={`w-full rounded-xl border border-dashed border-stone-300 px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} text-slate-400 transition hover:border-violet-300 hover:text-violet-400`}
+        className={`text-muted w-full rounded-xl border border-dashed border-stone-300 px-4 ${items.length === 0 ? 'py-2.5 text-sm' : 'py-1.5 text-xs'} transition hover:border-violet-300 hover:text-violet-400`}
       >
         + {items.length === 0 ? `Add a ${addLabel}` : `Add another ${addLabel}`}
       </button>

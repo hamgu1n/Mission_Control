@@ -23,15 +23,12 @@ export default function AddMissionPopup({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-xl rounded-2xl border border-stone-200/70 bg-white p-6 shadow-xl">
+      <div className="app-card w-full max-w-xl p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close modal"
-            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-stone-100 hover:text-slate-600"
-          >
+          <h2 className="text-primary text-lg font-semibold">
+            {editMission ? 'Edit Mission' : 'Add Mission'}
+          </h2>
+          <button type="button" onClick={onClose} className="btn-icon">
             <X className="h-4.5 w-4.5" />
           </button>
         </div>

@@ -194,7 +194,7 @@ export default function MissionInput({
       {/* Tags */}
       {showTags && (
         <div className="mb-2">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Tags
           </label>
 
@@ -210,7 +210,7 @@ export default function MissionInput({
 
       {/* Description */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Description
         </label>
 
@@ -225,7 +225,7 @@ export default function MissionInput({
 
       {/* Priority */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Priority
         </label>
 
@@ -242,7 +242,7 @@ export default function MissionInput({
 
       {/* Goals */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Goals
         </label>
 
@@ -257,7 +257,7 @@ export default function MissionInput({
 
       {/* Resources */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Resources & Links
         </label>
 
@@ -272,7 +272,7 @@ export default function MissionInput({
 
       {/* Date / Time */}
       <div>
-        <label className="mb-1 block text-xs font-medium text-slate-500">
+        <label className="text-secondary mb-1 block text-xs font-medium">
           Due Date & Time
         </label>
 
@@ -281,12 +281,14 @@ export default function MissionInput({
             type="date"
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
+            className="text-primary bg-transparent outline-none"
           />
 
           <input
             type="time"
             value={newTime}
             onChange={(e) => setNewTime(e.target.value)}
+            className="text-primary bg-transparent outline-none"
           />
         </div>
       </div>

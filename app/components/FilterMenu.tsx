@@ -35,9 +35,9 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-xl rounded-2xl border border-stone-200/70 bg-white p-6 shadow-xl">
+      <div className="app-card w-full max-w-xl p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-800">
+          <h2 className="text-primary text-lg font-semibold">
             Filter Missions
           </h2>
 
@@ -46,7 +46,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Filter Logic */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Filter Logic:
           </label>
 
@@ -74,7 +74,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Label Tags */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Label Tags:
           </label>
 
@@ -101,7 +101,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
 
         {/* Status Tags */}
         <div className="mb-4">
-          <label className="mb-1 block text-xs font-medium text-slate-500">
+          <label className="text-secondary mb-1 block text-xs font-medium">
             Status Tags:
           </label>
 

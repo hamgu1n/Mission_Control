@@ -71,7 +71,7 @@ export default function Mission({ mission }: MissionProps) {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               {statusTag && <Tag tag={statusTag} />}
-              <p className="truncate text-sm font-semibold text-slate-800">
+              <p className="text-primary truncate text-sm font-semibold">
                 {mission.title}
               </p>
             </div>
@@ -109,7 +109,7 @@ export default function Mission({ mission }: MissionProps) {
 
         {/* Meta */}
         {(dateTag || timeTag || mission.priority) && (
-          <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
+          <div className="text-secondary mt-2 flex items-center gap-3 text-xs">
             {dateTag && (
               <span
                 className={`flex items-center gap-1 ${pastDue ? 'text-red-500' : ''}`}
@@ -151,19 +151,19 @@ export default function Mission({ mission }: MissionProps) {
             )}
 
             {mission.description ? (
-              <p className="text-xs leading-relaxed whitespace-pre-wrap text-slate-600">
+              <p className="text-secondary text-xs leading-relaxed whitespace-pre-wrap">
                 {mission.description}
               </p>
             ) : (
-              <p className="text-xs text-slate-400 italic">No description</p>
+              <p className="text-muted text-xs italic">No description</p>
             )}
 
             {Array.isArray(mission.goals) && mission.goals.length > 0 && (
               <div>
-                <p className="mb-1 flex items-center gap-1 text-xs font-medium text-slate-500">
+                <p className="text-secondary mb-1 flex items-center gap-1 text-xs font-medium">
                   <Target className="h-3 w-3" /> Goals
                 </p>
-                <ul className="list-inside list-disc space-y-0.5 text-xs text-slate-600">
+                <ul className="text-secondary list-inside list-disc space-y-0.5 text-xs">
                   {mission.goals.map((goal, i) => (
                     <li key={i}>{goal}</li>
                   ))}

@@ -1,5 +1,12 @@
 import "./globals.css";
 
+export const metadata = {
+  title: "Mission Control",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -7,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-stone-50 text-slate-800 antialiased">{children}</body>
+      <body className="app-bg text-primary antialiased">{children}</body>
     </html>
   );
 }
