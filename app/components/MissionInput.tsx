@@ -33,6 +33,7 @@ export default function MissionInput({
   quickAddTitle,
 }: MissionInputProps) {
   const context = useContext(MissionContext);
+
   const [newTitle, setNewTitle] = useState(
     editMission?.title || quickAddTitle || ''
   );
@@ -42,27 +43,33 @@ export default function MissionInput({
   const [newPriority, setNewPriority] = useState<
     'high' | 'medium' | 'low' | ''
   >(editMission?.priority || '');
+
   const [newGoals, setNewGoals] = useState<string[]>(editMission?.goals || []);
   const [newResources, setNewResources] = useState<string[]>(
     editMission?.resources || []
   );
+
   const [showTags, setShowTags] = useState(() => {
     const labels = editMission?.tags?.filter((t) => t.type === 'label') || [];
     return labels.length > 0;
   });
+
   const [newTags, setNewTags] = useState(() => {
     const labels = editMission?.tags?.filter((t) => t.type === 'label') || [];
     return labels.map((t) => t.name).join(', ');
   });
+
   const [newDate, setNewDate] = useState(
     () => editMission?.tags?.find((t) => t.type === 'date')?.name || ''
   );
+
   const [newTime, setNewTime] = useState(
     () => editMission?.tags?.find((t) => t.type === 'time')?.name || ''
   );
+
   const [titleError, setTitleError] = useState(false);
 
-  if (!context) return null; // component outside MissionProvider
+  if (!context) return null;
 
   const { dispatch } = context;
 
@@ -73,12 +80,14 @@ export default function MissionInput({
       setTitleError(true);
       return;
     }
+
     setTitleError(false);
 
     const goalsArray = newGoals.map((g) => g.trim()).filter(Boolean);
     const resourcesArray = newResources.map((r) => r.trim()).filter(Boolean);
 
     const existingStatus = editMission?.tags?.find((t) => t.type === 'status');
+
     const tagsArray: Tag[] = [
       existingStatus || {
         name: 'New',
@@ -140,17 +149,22 @@ export default function MissionInput({
       onSubmit={handleAddMission}
       className="mb-4 flex max-h-[70vh] flex-col gap-4 overflow-y-auto pr-4"
     >
+      {/* Title */}
       <div>
         <div className="mb-1 flex items-center justify-between">
           <label
-            className={`block text-xs font-medium ${titleError ? 'text-red-500' : 'text-slate-500'}`}
+            className={`block text-xs font-medium ${
+              titleError ? 'text-red-500' : 'text-slate-500'
+            }`}
           >
             Title <span className="text-red-400">*</span>
           </label>
+
           {titleError && (
             <span className="text-xs text-red-400">Title is required</span>
           )}
         </div>
+
         <div className="flex gap-2">
           <input
             type="text"
@@ -160,12 +174,16 @@ export default function MissionInput({
               if (titleError) setTitleError(false);
             }}
             placeholder="Add a new mission"
-            className={`app-input flex-1 ${titleError ? 'border-red-400 focus:border-red-400 focus:ring-red-100' : ''}`}
+            className={`app-input flex-1 ${
+              titleError
+                ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                : ''
+            }`}
           />
 
           <button
             type="button"
-            onClick={() => setShowTags((prev) => !prev)}
+            onClick={() => setShowTags((p) => !p)}
             className="btn-primary"
           >
             <TagIcon className="h-5 w-6" />
@@ -173,11 +191,13 @@ export default function MissionInput({
         </div>
       </div>
 
+      {/* Tags */}
       {showTags && (
         <div className="mb-2">
           <label className="mb-1 block text-xs font-medium text-slate-500">
             Tags
           </label>
+
           <input
             type="text"
             value={newTags}
@@ -188,10 +208,12 @@ export default function MissionInput({
         </div>
       )}
 
+      {/* Description */}
       <div>
         <label className="mb-1 block text-xs font-medium text-slate-500">
           Description
         </label>
+
         <textarea
           value={newDescription}
           onChange={(e) => setNewDescription(e.target.value)}
@@ -201,10 +223,12 @@ export default function MissionInput({
         />
       </div>
 
+      {/* Priority */}
       <div>
         <label className="mb-1 block text-xs font-medium text-slate-500">
           Priority
         </label>
+
         <ButtonRow
           options={[
             { label: 'Low', color: 'green' },
@@ -216,10 +240,12 @@ export default function MissionInput({
         />
       </div>
 
+      {/* Goals */}
       <div>
         <label className="mb-1 block text-xs font-medium text-slate-500">
           Goals
         </label>
+
         <ListInput
           items={newGoals}
           setItems={setNewGoals}
@@ -229,10 +255,12 @@ export default function MissionInput({
         />
       </div>
 
+      {/* Resources */}
       <div>
         <label className="mb-1 block text-xs font-medium text-slate-500">
           Resources & Links
         </label>
+
         <ListInput
           items={newResources}
           setItems={setNewResources}
@@ -242,10 +270,12 @@ export default function MissionInput({
         />
       </div>
 
+      {/* Date / Time */}
       <div>
         <label className="mb-1 block text-xs font-medium text-slate-500">
           Due Date & Time
         </label>
+
         <div className="flex w-full justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
           <input
             type="date"
@@ -261,6 +291,7 @@ export default function MissionInput({
         </div>
       </div>
 
+      {/* Actions */}
       <div className="mt-3 flex justify-end gap-2">
         <button type="button" onClick={onClose} className="btn-secondary">
           Close

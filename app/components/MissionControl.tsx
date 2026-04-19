@@ -6,7 +6,6 @@ import Mission from './Mission';
 import FilterMenu from './FilterMenu';
 import AddMissionPopup from './AddMissionPopup';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
-import IconButton from './IconButton';
 
 export default function MissionControl() {
   const context = useContext(MissionContext);
@@ -14,96 +13,85 @@ export default function MissionControl() {
   const [showMissionPopup, setShowMissionPopup] = useState(false);
   const [quickAddTitle, setQuickAddTitle] = useState('');
 
-  const [collapsed, setCollapsed] = useState(false); // state for whether the sidebar is collapsed or not
+  const [collapsed, setCollapsed] = useState(false);
 
-  // animation states, for a smooth animation when collapsing the sidebar
   const [showSearchBar, setShowSearchBar] = useState(true);
   const [showMissions, setShowMissions] = useState(true);
 
   useEffect(() => {
     if (collapsed) {
-      setShowMissions(false); // hide missions instantly
-      const timer = setTimeout(() => setShowSearchBar(false), 300); // hide search bar after animation
+      setShowMissions(false);
+
+      const timer = setTimeout(() => setShowSearchBar(false), 300);
       return () => clearTimeout(timer);
     } else {
-      setShowSearchBar(true); // show search bar instantly on expand
-      const timer = setTimeout(() => setShowMissions(true), 300); // show missions after animation
+      setShowSearchBar(true);
+
+      const timer = setTimeout(() => setShowMissions(true), 300);
       return () => clearTimeout(timer);
     }
   }, [collapsed]);
 
-  if (!context) return null; // ensures component is inside MissionProvider
+  if (!context) return null;
 
   const { state, dispatch } = context;
   const { currentFilterLogic, currentFilters, searchText, showFilterMenu } =
     state;
 
-  // filter out missions depending on the searchText and on currentFilters by currentFilterLogic
   const filteredMissions = state.currentMissions.filter((mission) => {
-    // 1. Filter by search text (always applied)
     const matchesSearchText = mission.title
       .toLowerCase()
       .includes(searchText.toLowerCase());
-    if (!matchesSearchText) {
-      return false;
-    }
 
-    // 2. If no tags are selected in the filter, then all missions matching search text are included.
-    if (currentFilters.length === 0) {
-      return true;
-    }
+    if (!matchesSearchText) return false;
 
-    // 3. Check for tag matches based on filterLogic (AND/OR)
+    if (currentFilters.length === 0) return true;
+
     const missionTagNames = new Set(mission.tags?.map((tag) => tag.name) || []);
 
     if (currentFilterLogic === 'AND') {
-      // For "AND" logic, the mission must have ALL selected filter tags.
-      return currentFilters.every((filterTag) =>
-        missionTagNames.has(filterTag.name)
-      );
-    } else {
-      // filterLogic === "OR"
-      // For "OR" logic, the mission must have AT LEAST ONE selected filter tag.
-      return currentFilters.some((filterTag) =>
-        missionTagNames.has(filterTag.name)
-      );
+      return currentFilters.every((tag) => missionTagNames.has(tag.name));
     }
+
+    return currentFilters.some((tag) => missionTagNames.has(tag.name));
   });
 
-  const inputTextAndAddButtonRow = // row with search bar and add button and filter button
-    (
-      <div
-        className={`mb-4 flex min-h-10.5 items-center justify-end gap-2 ${!showSearchBar ? 'justify-center' : ''}`}
-      >
-        <input
-          type="text"
-          value={quickAddTitle}
-          onChange={(e) => setQuickAddTitle(e.target.value)}
-          onKeyDown={(e) => {
-            // Allows quick add on Enter
-            if (e.key === 'Enter' && quickAddTitle.trim() !== '') {
-              setShowMissionPopup(true);
-            }
-          }}
-          placeholder="New mission..."
-          className={`app-input transition-all duration-300 ease-in-out ${
-            collapsed ? 'w-0 overflow-hidden opacity-0' : 'w-full opacity-100'
-          }`}
-        />
+  const inputTextAndAddButtonRow = (
+    <div
+      className={`mb-4 flex min-h-10.5 items-center justify-end gap-2 ${
+        !showSearchBar ? 'justify-center' : ''
+      }`}
+    >
+      <input
+        type="text"
+        value={quickAddTitle}
+        onChange={(e) => setQuickAddTitle(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && quickAddTitle.trim() !== '') {
+            setShowMissionPopup(true);
+          }
+        }}
+        placeholder="New mission..."
+        className={`app-input transition-all duration-300 ease-in-out ${
+          collapsed ? 'w-0 overflow-hidden opacity-0' : 'w-full opacity-100'
+        }`}
+      />
 
-        <button
-          type="button"
-          onClick={() => setShowMissionPopup(true)}
-          className="btn-primary"
-        >
-          <Plus className="h-5 w-5"></Plus>
-        </button>
-      </div>
-    );
+      <button
+        type="button"
+        onClick={() => setShowMissionPopup(true)}
+        className="btn-primary"
+      >
+        <Plus className="h-5 w-5" />
+      </button>
+    </div>
+  );
 
   const missionList = (
     <div
-      className={`flex flex-1 flex-col gap-2 overflow-y-auto p-1 ${!showMissions ? 'hidden' : ''}`}
+      className={`flex flex-1 flex-col gap-2 overflow-y-auto p-1 ${
+        !showMissions ? 'hidden' : ''
+      }`}
     >
       {filteredMissions.map((mission, index) => (
         <Mission key={index} mission={mission} />
@@ -150,10 +138,9 @@ export default function MissionControl() {
           setShowMissionPopup(false);
           setQuickAddTitle('');
         }}
-        quickAddTitle={quickAddTitle}
+        initialTitle={quickAddTitle}
       />
 
-      {/* Conditional rendering for FilterMenu and AddMissionPopup */}
       {showFilterMenu && (
         <FilterMenu
           onClose={() =>
