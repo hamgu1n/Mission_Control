@@ -18,10 +18,12 @@ import {
   Link,
   Flag,
   Pencil,
+  TriangleDashed,
 } from 'lucide-react';
 import AddMissionPopup from './AddMissionPopup';
 import IconButton from './IconButton';
 import isPastDue from '../helpers/isPastDue';
+import { TriangleDashed } from 'lucide-react';
 
 interface MissionProps {
   mission: MissionType;
@@ -104,6 +106,7 @@ export default function Mission({ mission }: MissionProps) {
               onClick={deleteMission}
               hoverColor="red"
             />
+            <IconButton icon={TriangleDashed} onClick={console.log} />
           </div>
         </div>
 
@@ -187,9 +190,7 @@ export default function Mission({ mission }: MissionProps) {
                       return (
                         <li
                           key={i}
-                          className={
-                            isUrl ? 'text-primary' : 'text-secondary'
-                          }
+                          className={isUrl ? 'text-primary' : 'text-secondary'}
                         >
                           {isUrl ? (
                             <a
