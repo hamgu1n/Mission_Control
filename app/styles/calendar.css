@@ -1,0 +1,88 @@
+@layer components {
+  /* FullCalendar stuff */
+  .fc {
+    --fc-border-color: var(--app-border);
+    --fc-button-bg-color: var(--app-btn-primary-bg);
+    --fc-button-border-color: var(--app-btn-border);
+    --fc-button-text-color: var(--app-btn-primary-text);
+    --fc-button-hover-bg-color: var(--app-btn-primary-hover-bg);
+    --fc-button-hover-border-color: var(--app-btn-border);
+    --fc-button-active-bg-color: var(--app-btn-primary-bg);
+    --fc-button-active-border-color: var(--app-btn-border);
+  }
+
+  .fc .fc-toolbar-title,
+  .fc .fc-col-header-cell-cushion,
+  .fc .fc-daygrid-day-number {
+    color: var(--text-primary);
+  }
+
+  .fc .fc-day-other .fc-daygrid-day-number {
+    color: var(--text-secondary);
+  }
+
+  .fc .fc-toolbar .fc-button {
+    background-color: var(--app-btn-primary-bg) !important;
+    border-color: var(--app-btn-border) !important;
+    border-radius: var(--app-btn-radius) !important;
+    border-width: 1px !important;
+    box-shadow: var(--app-btn-shadow) !important;
+    color: var(--app-btn-primary-text) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    line-height: 1.25rem !important;
+    padding: 0.5rem !important;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter !important;
+    transition-duration: 150ms !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .fc .fc-toolbar .fc-button:hover {
+    background-color: var(--app-btn-primary-hover-bg) !important;
+    color: var(--app-btn-primary-hover-text) !important;
+  }
+
+  .fc .fc-button-group {
+    gap: 0.5rem !important;
+  }
+
+  .fc-direction-ltr .fc-button-group > .fc-button:not(:first-child),
+  .fc-direction-rtl .fc-button-group > .fc-button:not(:first-child) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .fc .fc-button:focus,
+  .fc .fc-button-primary:not(:disabled):active:focus,
+  .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+    box-shadow: var(--app-btn-shadow) !important;
+  }
+
+  .fc .fc-button-primary:disabled {
+    @apply opacity-50;
+  }
+}
+
+.fc .priority-red {
+  --fc-event-bg-color: var(--priority-red-bg);
+  --fc-event-border-color: var(--priority-red-border);
+  --fc-event-text-color: var(--priority-red-text);
+}
+
+.fc .priority-yellow {
+  --fc-event-bg-color: var(--priority-yellow-bg);
+  --fc-event-border-color: var(--priority-yellow-border);
+  --fc-event-text-color: var(--priority-yellow-text);
+}
+
+.fc .priority-green {
+  --fc-event-bg-color: var(--priority-green-bg);
+  --fc-event-border-color: var(--priority-green-border);
+  --fc-event-text-color: var(--priority-green-text);
+}
+
+.fc .priority-none {
+  --fc-event-bg-color: var(--priority-none-bg);
+  --fc-event-border-color: var(--priority-none-border);
+  --fc-event-text-color: var(--priority-none-text);
+}

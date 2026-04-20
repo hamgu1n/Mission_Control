@@ -103,7 +103,7 @@ export default function MissionControl() {
     <button
       type="button"
       onClick={() => setCollapsed(!collapsed)}
-      className={`app-card text-muted absolute top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-md transition-all duration-300 ease-in-out hover:bg-stone-50 hover:text-slate-600 ${
+      className={`app-card text-muted absolute top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-md transition-all duration-300 ease-in-out hover:bg-(--btn-icon-hover-bg) hover:text-(--btn-icon-hover-text) ${
         collapsed ? 'left-17' : 'left-100'
       }`}
     >

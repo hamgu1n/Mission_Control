@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Header from "./components/Header";
 import MissionControl from "./components/MissionControl";
 import { MissionProvider } from "@/context/MissionContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const Calender = dynamic(() => import("./components/Calender"), {
   ssr: false,
@@ -14,19 +15,21 @@ const Calender = dynamic(() => import("./components/Calender"), {
 
 export default function Page() {
   return (
-    <MissionProvider>
-      <main className="app-bg min-h-screen flex flex-col">
-        <Header title="Mission Control" />
+    <ThemeProvider>
+      <MissionProvider>
+        <main className="app-bg min-h-screen flex flex-col">
+          <Header title="Mission Control" />
 
-        <div className="flex flex-1 overflow-hidden">
-          <MissionControl />
+          <div className="flex flex-1 overflow-hidden">
+            <MissionControl />
 
-          {/* Main content area */}
-          <div className="flex-1 min-w-0 px-8 py-8">
-            <Calender />
+            {/* Main content area */}
+            <div className="flex-1 min-w-0 px-8 py-8">
+              <Calender />
+            </div>
           </div>
-        </div>
-      </main>
-    </MissionProvider>
+        </main>
+      </MissionProvider>
+    </ThemeProvider>
   );
 }

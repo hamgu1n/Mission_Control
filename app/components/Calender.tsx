@@ -13,34 +13,11 @@ import AddMissionPopup from './AddMissionPopup';
 
 type Priority = NonNullable<Mission['priority']>;
 
-const priorityEventColors: Record<
-  Priority | 'none',
-  {
-    backgroundColor: string;
-    borderColor: string;
-    textColor: string;
-  }
-> = {
-  high: {
-    backgroundColor: '#fecaca',
-    borderColor: '#f87171',
-    textColor: '#991b1b',
-  },
-  medium: {
-    backgroundColor: '#fef08a',
-    borderColor: '#facc15',
-    textColor: '#a16207',
-  },
-  low: {
-    backgroundColor: '#bbf7d0',
-    borderColor: '#4ade80',
-    textColor: '#15803d',
-  },
-  none: {
-    backgroundColor: '#e7e5e4',
-    borderColor: '#d6d3d1',
-    textColor: '#334155',
-  },
+const priorityEventClasses: Record<Priority | 'none', string> = {
+  high: 'priority-red',
+  medium: 'priority-yellow',
+  low: 'priority-green',
+  none: 'priority-none',
 };
 
 function formatMissionTime(date: Date | null) {
@@ -89,7 +66,7 @@ export default function Calender() {
 
   const datedMissions = useMemo<EventInput[]>(() => {
     return (missions ?? [])
-      .map((m) => missionToEvent(m, priorityEventColors))
+      .map((m) => missionToEvent(m, priorityEventClasses))
       .filter(Boolean) as EventInput[];
   }, [missions]);
 
@@ -161,7 +138,7 @@ export default function Calender() {
 
 function missionToEvent(
   mission: Mission,
-  priorityColors: typeof priorityEventColors
+  priorityClasses: typeof priorityEventClasses
 ): EventInput | null {
   const dateTag = mission.tags?.find((tag) => tag.type === 'date');
   const timeTag = mission.tags?.find((tag) => tag.type === 'time');
@@ -179,7 +156,6 @@ function missionToEvent(
     start: hasTime ? `${dateTag.name}T${timeTag.name}` : dateTag.name,
     allDay: !hasTime,
     extendedProps: { mission },
-    classNames: ['cursor-pointer'],
-    ...priorityColors[mission.priority ?? 'none'],
+    classNames: ['cursor-pointer', priorityClasses[mission.priority ?? 'none']],
   };
 }

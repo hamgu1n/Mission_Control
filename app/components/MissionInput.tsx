@@ -5,18 +5,19 @@ import { MissionContext, Mission, Tag } from '@/context/MissionContext';
 import ListInput from './ListInput';
 import { Tag as TagIcon } from 'lucide-react';
 import ButtonRow from './ButtonRow';
+import { areTagsDistinct } from '../helpers/areTagsDistinct';
 
 const tagColors = [
-  'bg-red',
-  'bg-yellow',
-  'bg-green',
-  'bg-blue',
-  'bg-purple',
-  'bg-pink',
-  'bg-amber',
-  'bg-teal',
-  'bg-orange',
-  'bg-violet',
+  'tag-red',
+  'tag-yellow',
+  'tag-green',
+  'tag-blue',
+  'tag-purple',
+  'tag-pink',
+  'tag-amber',
+  'tag-teal',
+  'tag-orange',
+  'tag-violet',
 ];
 
 interface MissionInputProps {
@@ -68,6 +69,7 @@ export default function MissionInput({
   );
 
   const [titleError, setTitleError] = useState(false);
+  const [tagsError, setTagsError] = useState(false);
 
   if (!context) return null;
 
@@ -76,12 +78,21 @@ export default function MissionInput({
   function handleAddMission(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!newTitle.trim()) {
-      setTitleError(true);
+    const labelTagNames = newTags
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+    const hasTitleError = !newTitle.trim();
+    const hasTagsError = !areTagsDistinct(labelTagNames);
+
+    setTitleError(hasTitleError);
+    setTagsError(hasTagsError);
+
+    if (hasTagsError) setShowTags(true);
+
+    if (hasTitleError || hasTagsError) {
       return;
     }
-
-    setTitleError(false);
 
     const goalsArray = newGoals.map((g) => g.trim()).filter(Boolean);
     const resourcesArray = newResources.map((r) => r.trim()).filter(Boolean);
@@ -91,24 +102,20 @@ export default function MissionInput({
     const tagsArray: Tag[] = [
       existingStatus || {
         name: 'New',
-        color: 'bg-blue',
+        color: 'tag-blue',
         type: 'status' as const,
       },
       ...(newDate
-        ? [{ name: newDate, color: 'bg-slate', type: 'date' as const }]
+        ? [{ name: newDate, color: 'tag-slate', type: 'date' as const }]
         : []),
       ...(newTime
-        ? [{ name: newTime, color: 'bg-slate', type: 'time' as const }]
+        ? [{ name: newTime, color: 'tag-slate', type: 'time' as const }]
         : []),
-      ...newTags
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter(Boolean)
-        .map((tag) => ({
-          name: tag,
-          color: tagColors[Math.floor(Math.random() * tagColors.length)],
-          type: 'label' as const,
-        })),
+      ...labelTagNames.map((tag) => ({
+        name: tag,
+        color: tagColors[Math.floor(Math.random() * tagColors.length)],
+        type: 'label' as const,
+      })),
     ];
 
     const newMission: Mission = {
@@ -140,6 +147,7 @@ export default function MissionInput({
     setNewTags('');
     setNewDate('');
     setNewTime('');
+    setTagsError(false);
 
     onSuccess?.();
   }
@@ -154,7 +162,7 @@ export default function MissionInput({
         <div className="mb-1 flex items-center justify-between">
           <label
             className={`block text-xs font-medium ${
-              titleError ? 'text-red-500' : 'text-slate-500'
+              titleError ? 'text-red-500' : "text-secondary"
             }`}
           >
             Title <span className="text-red-400">*</span>
@@ -194,16 +202,35 @@ export default function MissionInput({
       {/* Tags */}
       {showTags && (
         <div className="mb-2">
-          <label className="text-secondary mb-1 block text-xs font-medium">
-            Tags
-          </label>
+          <div className="mb-1 flex items-center justify-between">
+            <label
+              className={`block text-xs font-medium ${
+                tagsError ? 'text-red-500' : 'text-secondary'
+              }`}
+            >
+              Tags
+            </label>
+
+            {tagsError && (
+              <span className="text-xs text-red-400">
+                Tags must be unique
+              </span>
+            )}
+          </div>
 
           <input
             type="text"
             value={newTags}
-            onChange={(e) => setNewTags(e.target.value)}
+            onChange={(e) => {
+              setNewTags(e.target.value);
+              if (tagsError) setTagsError(false);
+            }}
             placeholder="Add tags separated by a comma..."
-            className="app-input w-full"
+            className={`app-input w-full ${
+              tagsError
+                ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+                : ''
+            }`}
           />
         </div>
       )}
@@ -276,7 +303,7 @@ export default function MissionInput({
           Due Date & Time
         </label>
 
-        <div className="flex w-full justify-start gap-6 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none">
+        <div className="app-input flex w-full justify-start gap-6">
           <input
             type="date"
             value={newDate}

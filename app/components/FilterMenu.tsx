@@ -8,7 +8,6 @@ import { X } from 'lucide-react';
 import { useGroupedTags } from '../hooks/useGroupTags';
 import { useFilterActions } from '../hooks/useFilterActions';
 import { isTagActive } from '../helpers/filterTags';
-import { colorMap } from './Tag';
 
 interface FilterMenuProps {
   onClose: () => void;
@@ -34,7 +33,7 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
   const [selectedStatusTag, setSelectedStatusTag] = useState<Tag | null>(null);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/25 px-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-(--app-overlay) px-4 backdrop-blur-sm">
       <div className="app-card w-full max-w-xl p-6 shadow-xl">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-primary text-lg font-semibold">
@@ -50,14 +49,14 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
             Filter Logic:
           </label>
 
-          <div className="flex gap-2 rounded-xl border border-stone-300 bg-white p-1.5 shadow-sm">
+          <div className="flex gap-2 rounded-xl border border-(--input-border) bg-(--input-bg) p-1.5 shadow-sm">
             {(['AND', 'OR'] as const).map((logic) => (
               <label
                 key={logic}
                 className={`flex flex-1 cursor-pointer items-center justify-center rounded-lg text-sm transition-colors ${
                   currentFilterLogic === logic
-                    ? 'bg-black text-white'
-                    : 'text-slate-500 hover:bg-stone-100'
+                    ? 'bg-(--app-btn-primary-bg) text-(--app-btn-primary-text)'
+                    : 'text-secondary hover:bg-(--btn-icon-hover-bg)'
                 }`}
               >
                 <input
@@ -88,8 +87,8 @@ export default function FilterMenu({ onClose }: FilterMenuProps) {
                   onClick={() => toggleTag(tag)}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                     active
-                      ? `${colorMap[tag.color]?.bg || 'bg-blue-200'} ${colorMap[tag.color]?.text || 'text-blue-700'}`
-                      : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
+                      ? tag.color || 'tag-none'
+                      : 'tag-none hover:bg-(--btn-icon-hover-bg)'
                   }`}
                 >
                   {tag.name}
