@@ -15,7 +15,11 @@ const buttonColorStyles: Record<
   string,
   { bg: string; text: string; border: string }
 > = {
-  red: { bg: 'bg-red-200', text: 'text-red-700', border: 'border-red-400' },
+  red: {
+    bg: 'bg-red-200',
+    text: 'text-red-700',
+    border: 'border-red-400',
+  },
   yellow: {
     bg: 'bg-yellow-200',
     text: 'text-yellow-700',
