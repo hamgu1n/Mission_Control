@@ -1,0 +1,111 @@
+@layer components {
+  /* Layout Defaults */
+  .app-bg {
+    background-color: var(--app-bg);
+  }
+
+  .app-card {
+    background-color: var(--app-card);
+    border-color: var(--app-border);
+    @apply rounded-xl border shadow-sm;
+  }
+
+  .app-header {
+    background-color: var(--app-header);
+    border-color: var(--app-border);
+  }
+
+  /* Text Defaults */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  /* Input Fields */
+  .app-input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--text-primary);
+    @apply rounded-xl border px-4 py-2.5 text-sm shadow-sm outline-none transition;
+  }
+
+  .app-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .app-input:focus {
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 2px var(--input-focus-ring);
+  }
+
+  /* Buttons */
+  .btn-primary,
+  .fc .fc-button-primary,
+  .fc .fc-button-primary:not(:disabled).fc-button-active,
+  .fc .fc-button-primary:not(:disabled):active {
+    @apply rounded-xl border px-2 py-2 text-sm font-medium transition;
+    background-color: var(--app-btn-primary-bg);
+    border-color: var(--app-btn-border);
+    box-shadow: var(--app-btn-shadow);
+    color: var(--app-btn-primary-text);
+  }
+
+  .btn-primary:hover,
+  .fc .fc-button-primary:hover {
+    background-color: var(--app-btn-primary-hover-bg);
+    color: var(--app-btn-primary-hover-text);
+  }
+
+  .btn-secondary {
+    @apply rounded-xl border px-2 py-2 text-sm font-medium transition shadow-sm;
+    background-color: var(--btn-secondary-bg);
+    border-color: var(--app-border);
+    color: var(--btn-secondary-text);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--btn-secondary-hover-bg);
+    color: var(--btn-secondary-hover-text);
+  }
+
+  .priority-red {
+    background-color: var(--priority-red-bg);
+    border-color: var(--priority-red-border);
+    color: var(--priority-red-text);
+  }
+
+  .priority-yellow {
+    background-color: var(--priority-yellow-bg);
+    border-color: var(--priority-yellow-border);
+    color: var(--priority-yellow-text);
+  }
+
+  .priority-green {
+    background-color: var(--priority-green-bg);
+    border-color: var(--priority-green-border);
+    color: var(--priority-green-text);
+  }
+
+  .priority-none {
+    background-color: var(--priority-none-bg);
+    border-color: var(--priority-none-border);
+    color: var(--priority-none-text);
+  }
+
+  .btn-icon {
+    @apply rounded-lg p-1.5 transition;
+    color: var(--btn-icon-text);
+  }
+
+  .btn-icon:hover {
+    background-color: var(--btn-icon-hover-bg);
+    color: var(--btn-icon-hover-text);
+  }
+}
