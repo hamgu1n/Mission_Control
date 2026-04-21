@@ -30,7 +30,7 @@ function formatMissionTime(date: Date | null) {
   });
 }
 
-export default function Calender() {
+export default function Calendar() {
   const missions = useContext(MissionContext)?.state.currentMissions;
   const calendarRef = useRef<FullCalendar | null>(null);
   const calendarFrameRef = useRef<HTMLDivElement | null>(null);

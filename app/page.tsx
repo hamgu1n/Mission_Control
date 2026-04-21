@@ -6,7 +6,7 @@ import MissionControl from "./components/MissionControl";
 import { MissionProvider } from "@/context/MissionContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 
-const Calender = dynamic(() => import("./components/Calender"), {
+const Calendar = dynamic(() => import("./components/Calendar"), {
   ssr: false,
   loading: () => (
     <div className="app-card min-h-[calc(100vh-121px)] animate-pulse" />
@@ -25,7 +25,7 @@ export default function Page() {
 
             {/* Main content area */}
             <div className="flex-1 min-w-0 px-8 py-8">
-              <Calender />
+              <Calendar />
             </div>
           </div>
         </main>
