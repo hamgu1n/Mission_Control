@@ -53,7 +53,7 @@ interface MissionStateType {
 }
 
 // Defines the structure of the context of the application
-interface MissionContextType {
+export interface MissionContextType {
   state: MissionStateType;
   dispatch: React.Dispatch<MissionAction>;
 }
