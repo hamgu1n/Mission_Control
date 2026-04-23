@@ -7,6 +7,7 @@ import {
   ReactNode,
 } from 'react';
 import { missionSweeper } from '@/app/helpers/missionSweeper';
+import Mission from '@/app/components/Mission';
 
 // Defines the structure of tag
 // A tag can be a label (just some grouping), status ("todo, in progress", etc) or a date.
@@ -24,6 +25,7 @@ export interface Mission {
   goals?: string[];
   resources?: string[];
   tags?: Tag[];
+  progress?: 0 | 1 | 2;
 }
 
 // Defines the structure of a mission action - this will contain add, delete, completions etc.
@@ -34,6 +36,11 @@ type MissionAction =
   | { type: 'EDIT_MISSION'; payload: { original: Mission; updated: Mission } }
   | {
       type: 'MARK_DONE';
+      payload: Mission;
+      timestamp?: { date: string; time: string };
+    }
+  | {
+      type: 'MARK_IN_PROGRESS';
       payload: Mission;
       timestamp?: { date: string; time: string };
     }
@@ -132,6 +139,34 @@ export const missionReducer = (
         }),
       };
 
+    case 'MARK_IN_PROGRESS':
+      return {
+        ...state,
+        currentMissions: state.currentMissions.map((mission) => {
+          if (mission !== action.payload) return mission;
+
+          const filteredTags = (mission.tags || []).filter(
+            (tag) => tag.type !== 'status'
+          );
+
+          return {
+            ...mission,
+            tags: [
+              ...filteredTags,
+              {
+                name: 'In Progress',
+                color: 'tag-yellow',
+                type: 'status' as const,
+              },
+              {
+                name: `${action.timestamp?.date} ${action.timestamp?.time}`,
+                color: 'tag-none',
+                type: 'metadata' as const,
+              },
+            ],
+          };
+        }),
+      };
     case 'CLEAN_DONE':
       return {
         ...state,
