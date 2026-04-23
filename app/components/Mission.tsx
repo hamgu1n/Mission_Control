@@ -52,10 +52,6 @@ export default function Mission({ mission }: MissionProps) {
   const statusTag = mission.tags?.find((tag) => tag.type === 'status');
   const labelTags = mission.tags?.filter((tag) => tag.type === 'label') || [];
 
-  const isInProgress = mission.tags?.some(
-    (tag) => tag.type === 'status' && tag.name === 'In Progress'
-  );
-
   const pastDue = isPastDue({
     date: dateTag?.name,
     time: timeTag?.name,
@@ -65,14 +61,6 @@ export default function Mission({ mission }: MissionProps) {
     dispatch({
       type: 'DELETE_MISSION',
       payload: mission,
-    });
-  }
-
-  function toggleInProgress() {
-    dispatch({
-      type: 'MARK_IN_PROGRESS',
-      payload: mission,
-      timestamp: getCurrentDateTime(),
     });
   }
 
@@ -114,7 +102,6 @@ export default function Mission({ mission }: MissionProps) {
                 dispatch({
                   type: 'MARK_IN_PROGRESS',
                   payload: mission,
-                  timestamp: getCurrentDateTime(),
                 })
               }
               hoverColor="yellow"

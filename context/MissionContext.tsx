@@ -42,7 +42,6 @@ type MissionAction =
   | {
       type: 'MARK_IN_PROGRESS';
       payload: Mission;
-      timestamp?: { date: string; time: string };
     }
   | { type: 'CLEAN_DONE' }
   | { type: 'SET_FILTERS'; payload: Tag[] } // takes an array of tags to filter by intersection or union
@@ -157,11 +156,6 @@ export const missionReducer = (
                 name: 'In Progress',
                 color: 'tag-yellow',
                 type: 'status' as const,
-              },
-              {
-                name: `${action.timestamp?.date} ${action.timestamp?.time}`,
-                color: 'tag-none',
-                type: 'metadata' as const,
               },
             ],
           };

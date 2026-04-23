@@ -21,13 +21,19 @@ jest.mock('../components/Tag', () => {
 // AddMissionPopup
 jest.mock('../components/AddMissionPopup', () => ({
   __esModule: true,
-  default: (): JSX.Element => <div data-testid="popup" />,
+  default: ({ isOpen }: { isOpen: boolean }): JSX.Element =>
+    isOpen ? <div data-testid="popup" /> : <></>,
 }));
 
-// IconButton (NO any)
+// IconButton (with test id support)
 jest.mock('../components/IconButton', () => {
-  const MockIconButton = ({ onClick }: IconButtonProps): JSX.Element => (
-    <button onClick={onClick}>icon</button>
+  const MockIconButton = ({
+    onClick,
+    icon,
+  }: IconButtonProps & { icon: { name?: string } }): JSX.Element => (
+    <button onClick={onClick} data-testid={icon?.name || 'icon'}>
+      icon
+    </button>
   );
 
   MockIconButton.displayName = 'MockIconButton';
@@ -98,7 +104,8 @@ describe('Mission', () => {
   test('toggles expansion and shows content', async () => {
     renderComponent();
 
-    await userEvent.click(screen.getAllByText('icon')[0]);
+    const buttons = screen.getAllByRole('button');
+    await userEvent.click(buttons[0]); // expand
 
     expect(screen.getByText('No description')).toBeInTheDocument();
   });
@@ -106,7 +113,8 @@ describe('Mission', () => {
   test('dispatches DELETE_MISSION when trash clicked', async () => {
     renderComponent();
 
-    await userEvent.click(screen.getAllByText('icon')[3]);
+    const buttons = screen.getAllByRole('button');
+    await userEvent.click(buttons[4]); // trash
 
     expect(dispatch).toHaveBeenCalledWith({
       type: 'DELETE_MISSION',
@@ -117,7 +125,8 @@ describe('Mission', () => {
   test('opens edit popup when pencil clicked', async () => {
     renderComponent();
 
-    await userEvent.click(screen.getAllByText('icon')[2]);
+    const buttons = screen.getAllByRole('button');
+    await userEvent.click(buttons[3]); // pencil
 
     expect(screen.getByTestId('popup')).toBeInTheDocument();
   });
@@ -125,7 +134,8 @@ describe('Mission', () => {
   test('marks mission as done', async () => {
     renderComponent();
 
-    await userEvent.click(screen.getAllByText('icon')[1]);
+    const buttons = screen.getAllByRole('button');
+    await userEvent.click(buttons[1]); // check
 
     expect(dispatch).toHaveBeenCalledWith(
       expect.objectContaining({
